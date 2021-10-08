@@ -1,0 +1,119 @@
+table tr:hover {
+  background-color: blue;
+  color: white;
+  font-weight: bolder;
+}
+
+table tr td small {
+  opacity: 0.2;
+}
+
+table tr:hover td small {
+  opacity: 1;
+}
+
+
+
+.table .thead-dark th {
+  background-color: currentColor !important;
+}
+tbody {
+  background: white;
+}
+
+
+
+::ng-deep .md-class .modal-dialog {
+  max-width: 80%;
+  width: 80%;
+}
+
+
+
+
+
+
+.numberCircle {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 8px;
+
+  background: #039aff;
+  border: 2px solid #666;
+  color: white;
+  text-align: center;
+
+  font: 25px Arial, sans-serif;
+}
+
+
+
+
+.btn-primary {
+  font-family: Raleway-SemiBold;
+  font-size: 13px;
+  color: rgba(58, 133, 191, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(58, 133, 191, 0.75);
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+*  STYLE 8
+*/
+
+#style-8::-webkit-scrollbar-track
+{
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   background-color: #F5F5F5;
+   border-radius: 10px;
+}
+
+#style-8::-webkit-scrollbar
+{
+   width: 10px;
+   background-color: #F5F5F5;
+}
+
+#style-8::-webkit-scrollbar-thumb
+{
+   border-radius: 10px;
+   background-image: -webkit-gradient(linear,
+                                      left bottom,
+                                      left top,
+                                      color-stop(0.44, rgb(122,153,217)),
+                                      color-stop(0.72, rgb(73,125,189)),
+                                      color-stop(0.86, rgb(28,58,148)));
+}
+
+
+
+.colorBorder{
+  border:5px solid blue;
+
+
+}
+
+.bordesRedondos{
+  border-bottom-left-radius: 20px!important;
+  border-bottom-right-radius: 20px!important;
+}

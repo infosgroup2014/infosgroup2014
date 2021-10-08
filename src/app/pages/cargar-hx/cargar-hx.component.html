@@ -1,0 +1,146 @@
+<div class="card">
+    <div class="card-body">
+        <h6 class="card-title text-uppercase">Carga de horas extras</h6>
+        <div class="row">
+            <div class="col-xl-12 col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-body" style="background-color: rgb(208, 208, 208);">
+                        <h3 class="text-on-pannel text-primary"><strong class="text-uppercase">
+                                <h6></h6>
+                            </strong></h3>
+                        <form class="form-inline">
+
+                            <div class="form-group col-xl-6 col-md-6">
+                                <label class="mr-2 col-form-label-sm">Tipo Planilla:&nbsp;</label>
+
+
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete [data]="listadoTipoPlanilla" [searchKeyword]="keyword"
+                                        [itemTemplate]="itemTemplate" (selected)='selectEvent($event)'
+                                        (clear)='deleteEvent($event)' [notFoundTemplate]="notFoundTemplate">
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.nomTipopla"></a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+
+
+
+
+
+                            </div>
+
+                            <div class="form-group col-xl-6 col-md-6">
+                                <label class="mr-2 col-form-label-sm">Programacion Planilla:&nbsp;</label>
+
+
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete [data]="listadoPrograPla" [searchKeyword]="keywordPla"
+                                        (selected)='selectProgramacionPlaEvent($event)'
+                                        (inputCleared)='deshabilitaUpload()'
+                                        [itemTemplate]="itemTemplatePro" [notFoundTemplate]="notFoundTemplate2">
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplatePro let-itemPro>
+                                        <a [innerHTML]="itemPro.stringProgramacionPla"></a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate2 let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="form-group col-xl-6 col-md-6 my-2">
+                                <label>Planta:&nbsp;</label>
+                                <ng-select style="width: 200px;" [(ngModel)]="selectedPlanta" name="anyName">
+                                    <ng-option *ngFor="let planta of listadoPlanta" [value]="planta.valor">
+                                        {{planta.label}}</ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="form-group col-xl-6 col-md-6 my-2">
+
+
+                                <div class="fileUpload btn btn-primary">
+                                    <span> <i class="fa fa-cloud-upload fa-2x" aria-hidden="true"></i> &nbsp;Cargar HX</span>
+                                    <input [disabled]="habilitarUpload"  type="file" id="file" class="upload" aria-label="File browser example"
+                                        name="fileHx" (change)="handleUpload($event)"
+                                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+
+                                </div>
+                            </div>
+
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-xl-12 col-md-12 my-5">
+
+            </div>
+        </div>
+
+        <div class="row my-2 " id="style-8">
+            <div class="col-xl-12 col-md-12 table-responsive">
+                <table class="table table-hover">
+                    <thead>
+
+                        <th class="autollenado">Empleado</th>
+                        <th class="autollenado">Simples Autorizadas</th>
+                        <th class="autollenado">Simples Cargadas</th>
+                        <th class="autollenado">Dobles</th>
+                        <th class="autollenado">Dobles Cargada</th>
+                        <th class="autollenado">Medicas Simples</th>
+                        <th class="autollenado">Medicas Simples Cargada</th>
+                        <th class="autollenado">Medicas Dobles</th>
+                        <th class="autollenado">Medicas Dobles Cargada</th>
+                        <th class="autollenado">Cap. Carg</th>
+                        <th class="autollenado">Cap. Autorizadas</th>
+                        <th class="autollenado">Fecha</th>
+                        <th class="autollenado">Estado</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listadoHX">
+                            <td style=" white-space: nowrap;width: 1%;">{{item.empleados.empleadosPK.codEmp}}
+                                {{item.empleados.nombres}} {{item.empleados.apellidos}}
+                            </td>
+                            <td>{{item.hxsencillas}}</td>
+                            <td>{{item.hxsencillasC}}</td>
+                            <td>{{item.hxdobles}}</td>
+                            <td>{{item.hxdoblesC}}</td>
+                            <td>{{item.hxf150}}</td>
+                            <td>{{item.hxf150C}}</td>
+                            <td>{{item.hxf250}}</td>
+                            <td>{{item.hxf250C}}</td>
+                            <td>{{item.hnocturnidadC}}</td>
+                            <td>{{item.hxnocturnas}}</td>
+                            <td>{{item.horasExtrasPK.fecha}}</td>
+                            <td>
+                                <span *ngIf="item.hxnocturnas=='N'">Registrado</span>
+                                <span *ngIf="item.hxnocturnas=='S'">Autorizado</span>
+                                <span *ngIf="item.hxnocturnas=='V'">Validado</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,336 @@
+<div class="container">
+  <div class="card my-2">
+    <div class="card-body">
+      <h5 class="card-title">Contratación Directa</h5>
+
+      <table
+        class="table table-hover table-responsive"
+        *ngIf="!banderaElementos"
+      >
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Seleccionar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listaCandidato">
+            <td>{{ item.candidatoPK.codCandidato }}</td>
+            <td>{{ item.nombreCompleto | uppercase }}</td>
+            <td style="text-align: center">
+              <button class="btn btn-primary sm" (click)="mostrar(item)">
+                <i class="fas fa-check-circle fa-sm"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <form
+        [formGroup]="contratacionForm"
+        *ngIf="banderaElementos"
+        class="shadow-lg p-3 mb-5 bg-white rounded form-floating"
+      >
+        <div class="row">
+          <div class="form-group col-md-6 col-xs-6">
+            <button
+              class="btn btn-primary sm"
+              data-toggle="modal"
+              data-target="#plazasModal"
+            >
+              <i class="fas fa-book fa-sm"></i>
+            </button>
+
+            <label for="plaza">
+              <h3>
+                {{ plazaSeleccion?.plaza?.plazaPK?.codPlaza }}
+                {{ plazaSeleccion?.plaza?.nombrePlaza }}
+              </h3></label
+            >
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Clasificacion</label>
+            <select
+              formControlName="clasificacionEmp"
+              class="form-control"
+              id="plaza"
+              name="plaza"
+            >
+              <option
+                *ngFor="let clasifica of listaClasificacionEmpleado"
+                [value]="clasifica.clasificacionEmpleadoPK.codClasificacion"
+              >
+                {{ clasifica.descripcion }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Dirección</label>
+            <select
+              formControlName="codGerencia"
+              class="form-control"
+              id="plaza"
+              name="plaza"
+            >
+              <option
+                *ngFor="let direccion of listaGerencias"
+                [value]="direccion.codGerencia"
+              >
+                {{ direccion.nomGerencia | uppercase }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Departamento</label>
+            <select
+              formControlName="codDepartamento"
+              class="form-control"
+              id="plaza"
+              name="plaza"
+            >
+              <option *ngFor="let depto of listaDepto" [value]="depto.codDepto">
+                {{ depto.nomDepto }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Agencia</label>
+            <select
+              formControlName="codAgencia"
+              class="form-control"
+              id="plaza"
+              name="plaza"
+            >
+              <option
+                *ngFor="let agencia of listaAgencia"
+                [value]="agencia.codAgencia"
+              >
+                {{ agencia.nomAgencia | uppercase }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-sm-4">
+            <label for="password">Fecha Inicio</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                name="dp"
+                [(ngModel)]="fechaInicio"
+                ngbDatepicker
+                #d11="ngbDatepicker"
+                [ngModelOptions]="{ standalone: true }"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="d11.toggle()"
+                  type="button"
+                >
+                  <i class="fas fa-calendar-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4 col-sm-4">
+            <label for="password">Fecha Fin</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                name="dp"
+                [(ngModel)]="fechaFin"
+                ngbDatepicker
+                #d2="ngbDatepicker"
+                [ngModelOptions]="{ standalone: true }"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="d2.toggle()"
+                  type="button"
+                >
+                  <i class="fas fa-calendar-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Representante Patronal</label>
+            <select
+              formControlName="representantePatronal"
+              class="form-control"
+              id="plaza"
+              name="plaza"
+            >
+              <option disabled selected>---Seleccionar---</option>
+              <option
+                title="{{ patron?.nombres }}  {{ patron?.apellidos }}"
+                *ngFor="let patron of listadoRepresentantesPatronal"
+                [value]="patron.empleadosPK.codEmp"
+              >
+                {{ patron?.nombres }} {{ patron?.apellidos }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Tipo del Contrato</label>
+            <select
+              formControlName="tipo"
+              class="form-control"
+              id="contra"
+              name="contra"
+            >
+              <option
+                title="{{ contrato.label }}"
+                *ngFor="let contrato of listaTiposContrato"
+                [value]="contrato.valor"
+              >
+                {{ contrato.label | uppercase }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Estado del Contrato</label>
+            <select class="form-control" id="contra" name="contra">
+              <option
+                title="{{ contrato.label }}"
+                *ngFor="let contrato of listaEstadoContrato"
+                [value]="contrato.valor"
+              >
+                {{ contrato.label | uppercase }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Tipo Planilla</label>
+            <select
+              formControlName="tipoPlanilla"
+              class="form-control"
+              id="contra"
+              name="contra"
+            >
+              <option
+                title="{{ tipo.nomTipopla }}"
+                *ngFor="let tipo of listaTiposPlanilla"
+                [value]="tipo.tiposPlanillaPK.codTipopla"
+              >
+                {{ tipo.nomTipopla }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="plaza">Puesto</label>
+            <select
+              formControlName="puesto"
+              class="form-control"
+              id="contra"
+              name="contra"
+            >
+              <option
+                title="{{ puesto.nomPuesto }}"
+                *ngFor="let puesto of listaPuesto"
+                [value]="puesto.codPuesto"
+              >
+                {{ puesto.nomPuesto }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="salario">Salario Aprobado</label>
+            <input
+              formControlName="salario"
+              type="text"
+              class="form-control"
+              name="salario"
+              id="salario"
+            />
+          </div>
+
+          <div class="form-group col-md-4 col-xs-4">
+            <label for="bono">Bono Decreto</label>
+            <input
+              formControlName="bono"
+              type="text"
+              name="bono"
+              class="form-control"
+              id="bono"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4 col-xs-4">
+            <button class="btn btn-primary" (click)="contratar()">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!---modales-->
+
+<div class="modal" tabindex="-1" id="plazasModal" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Plazas</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table" id="gridSummary">
+            <thead>
+              <th>Codigo plaza</th>
+              <th>Puesto</th>
+              <th>Plaza</th>
+            </thead>
+            <tr
+              *ngFor="
+                let item of plazas
+                  | paginate: { itemsPerPage: 5, currentPage: p }
+              "
+              (click)="seleccionarPlaza(item)"
+              data-dismiss="modal"
+              data-target="#plazasModal"
+            >
+              <td>{{ item.plaza.plazaPK.codPlaza }}</td>
+              <td>{{ item.puestos.nomPuesto }}</td>
+              <td>{{ item.plaza.nombrePlaza }}</td>
+            </tr>
+          </table>
+
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---fin modales-->

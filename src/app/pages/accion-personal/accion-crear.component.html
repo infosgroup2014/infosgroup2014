@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="card">
+    <div class="col-xl-12 my-2">
+      <button class="btn btn-primary" (click)="regresar()"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        &nbsp;Regresar
+      </button>
+      <form class="form-inline my-2">
+        <div class="form-group mb-2">
+          <label for="">Seleccione Accion de Personal</label>&nbsp;
+          <button type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#tipoAccionModal"><strong>Seleccionar</strong></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!--Dialogo-->
+
+<!-- Modal -->
+<div class="modal fade" id="tipoAccionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Seleccionar Tipo de Accion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input class="form-control bg-secondary text-white" [(ngModel)]="palabraClaveListadoTipoAccion" (keyup)="buscarTiposAcciones()" id="myInput" type="text">
+        <br>
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Tipo Accion</th>
+              </tr>
+            </thead>
+            <tbody id="myTable">
+              <tr class="table-secondary"  *ngFor="let item of listaTipoAccion   | paginate: { itemsPerPage: 5, currentPage: p } ; index as i  "
+                (click)="seleccionAccion(item)" data-dismiss="modal">
+                <th scope="row">{{i+1}}</th>
+                <td>{{item.tipoAccionPK.codTipoaccion}}-{{item.nomTipoaccion}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <pagination-controls class="my-pagination" (pageChange)="p = $event" autoHide="true" responsive="true" previousLabel="Anterior"
+            nextLabel="Siguiente"></pagination-controls>
+
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--fin de dialogo-->

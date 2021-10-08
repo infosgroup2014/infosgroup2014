@@ -1,0 +1,81 @@
+<div class="row my-4">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#modalCapac">
+    Agregar
+    </button>
+    </div>
+
+    <div class="row my-2">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Capacitación</th>
+                <th scope="col">Institución</th>
+                <th scope="col">Periodo</th>
+                <th scope="col">Fecha Capacitación</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listaCapacitaciones">
+                <th scope="row">{{item.nombre}}</th>
+                <td>{{item.institucion}}</td>
+                <td>{{item.periodo}}</td>
+                <td>{{item.fecha}}</td>
+            <td>
+                <button class="btn btn-danger">
+                    Eliminar
+                </button>
+            </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+
+
+
+    <!-- modal de agregar -->
+    <div id="modalCapac"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Agregar Capacitación </h6>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                      <label for="capacitaciones">Tipo</label>
+                      <select class="form-control"  >
+                        <option value="item.valor" *ngFor="let item of listaTipoCapac" >{{item.tipo}}</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="capacitaciones">Descripción</label>
+                      <input class="form-control" type="text" placeholder="Ingresar descripción">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="capacitaciones">Institución</label>
+                      <input class="form-control" type="text" placeholder="Ingresar nombre de institución">
+                    </div>
+                    <div class="form-row"><div class="col-md-6 mb-3">
+                    <div class="form-group">
+                      <label for="capacitaciones">Periodo</label>
+                      <input class="form-control" type="text" placeholder="Ingresar periodo">
+                    </div>
+                    </div><div class="col-md-6 mb-3">
+                    <div class="form-group">
+                      <label for="capacitaciones">Fecha Capacitación</label>
+                      <input class="form-control" type="date" >
+                    </div>
+                    </div></div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--fin modal agregar-->

@@ -1,0 +1,294 @@
+<div class="row">
+
+
+  <div class="col-xs-12 col-md-12">
+    <button type="button" class="btn btn-outline-primary" (click)="regresar()">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Regresar
+    </button>
+  </div>
+
+
+
+
+  <div class="col-xs-12 col-md-12 my-2">
+    <div class="card shadow-lg bg-light p-3 mb-5">
+      <h5 class="card-header fondoAzul">{{planillaService.leyenda}}</h5>
+      <div class="card-body">
+        <div class="alert alert-primary">
+          <span>
+            <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Campos Marcados <span style="color: red;">*</span>
+            Son Requeridos.
+          </span>
+        </div>
+        <form [formGroup]="plantillaCincoForm">
+          <div class="row">
+
+            <div class="form-group col-xs-4 col-md-4">
+              <label for="email">Fecha Solicitud:</label>
+              <div class="input-group">
+                <input class="form-control" [(ngModel)]="fechaSolicitud" ngbDatepicker #d2="ngbDatepicker"
+                  [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary fa fa-calendar" (click)="d2.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-xs-4 col-md-4">
+              <label for="email">Fecha Inicio:</label>
+              <div class="input-group">
+                <input class="form-control" [(ngModel)]="fechaInicial" ngbDatepicker #d3="ngbDatepicker"
+                  [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary fa fa-calendar" (click)="d3.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-xs-4 col-md-4">
+              <label for="email">Fecha Fin:</label>
+              <div class="input-group">
+                <input class="form-control" [(ngModel)]="fechaFin" ngbDatepicker #d4="ngbDatepicker"
+                  [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary fa fa-calendar" (click)="d4.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="form-group col-xs-4 col-md-4"  *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 41">
+              <label for="email">Fecha Inicio Real:</label>
+              <div class="input-group">
+                <input class="form-control" [(ngModel)]="fechaInicioReal" ngbDatepicker #d7="ngbDatepicker"
+                  [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary fa fa-calendar" (click)="d7.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4"  *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 41">
+              <label for="email">Fecha Fin Real:</label>
+              <div class="input-group">
+                <input class="form-control" [(ngModel)]="fechaFinReal" ngbDatepicker #d8="ngbDatepicker"
+                  [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary fa fa-calendar" (click)="d8.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-xs-4 col-md-4" *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion != 18">
+              <label for="email">Dias:</label>
+              <div class="input-group">
+                <input type="number" formControlName="dias" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4" *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 41" >
+              <label for="email">Horas:</label>
+              <div class="input-group">
+                <input type="number" formControlName="horas" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4" *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 41">
+              <label for="email">Minutos:</label>
+              <div class="input-group">
+                <input type="number" formControlName="minutos" class="form-control" />
+              </div>
+            </div>
+
+
+            <div class="form-group col-xs-6 col-md-6">
+              <label for="email">Detalle Accion:&nbsp;</label>
+              <div class="input-group-append">
+                <textarea formControlName="detalle" style="overflow: hidden; resize: none;"
+                  class="form-control"></textarea>
+              </div>
+
+            </div>
+
+            <div class="form-group col-xs-6 col-md-6">
+              <label for="email">Observacion:&nbsp;</label>
+              <div class="input-group-append">
+                <textarea formControlName="observacion" style="overflow: hidden; resize: none;"
+                  class="form-control"></textarea>
+              </div>
+
+            </div>
+
+
+            <div class="form-group col-xs-4 col-md-4"  *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion != 18">
+              <label for="email">Criterio a aplicar:&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" [(ngModel)]="criterioAplicado"
+                  (change)="mostrarCriterio($event.target.value)" [ngModelOptions]="{standalone: true}">
+                  <option value="0">Seleccione</option>
+                  <option value="1">APLICAR POR DEPARTAMENTO</option>
+                  <option value="2">APLICAR POR TIPO DE PLANILLA</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4"  *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 18">
+              <label for="email">Criterio a aplicar:&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" [(ngModel)]="criterioAplicado"
+                  (change)="mostrarCriterio($event.target.value)" [ngModelOptions]="{standalone: true}">
+                  <option value="0">Seleccione</option>
+                  <option value="4">APLICAR POR RANGOS DE SALARIOS</option>
+                  <option value="3">APLICAR POR DEPARTAMENTO</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group col-xs-2 col-md-2">
+              <label for="email">Descontar Planilla:&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" [(ngModel)]="descontarPlanilla" [ngModelOptions]="{standalone: true}">
+                  <option value="0">Seleccione</option>
+                  <option value="1">No</option>
+                  <option value="2">Si</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="form-group col-xs-4 col-md-4" *ngIf="mostrarDeptoCriterios">
+              <label for="email">Departamento:&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" formControlName="departamento"
+                  (change)="callAfectados($event.target.value)">
+                  <option *ngFor="let item of listaDepartamentos" [value]="item.codDepto">{{item.nomDepto}}</option>
+                </select>
+              </div>
+
+            </div>
+
+
+            <div class="form-group col-xs-4 col-md-4" *ngIf="mostrarDeptoCriterios">
+              <label for="email">Tipo Planilla:&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" formControlName="cambioPlanilla"
+                  (change)="obtenerProgramaciones($event.target.value)">
+                  <option value="undefined">Seleccionar</option>
+                  <option *ngFor="let item of listaTiposPlanilla" [value]="item.tiposPlanillaPK.codTipopla"
+                    [title]="item.nomTipopla">{{item.nomTipopla}}</option>
+                </select>
+              </div>
+
+            </div>
+
+
+
+            <div class="form-group col-xs-4 col-md-4" *ngIf="mostrarDeptoCriterios">
+              <label for="email">Planilla:&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" [(ngModel)]="programacionSeleccionada"
+                  [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let item of listadoProgramaciones" [value]="item"
+                    [title]="item.anio+'---'+item.mes+'---'+item.numPlanilla">
+                    {{item.anio}}---{{item.mes}}---{{item.numPlanilla}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4" *ngIf="mostrarDeptoCriterios">
+              <label>Total de Empleados Afectados:&nbsp;</label>
+              <label style="color:blue;font-weight: bolder;">{{cantidadEmpleadosAfectados}}&nbsp;</label>
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4" *ngIf="mostrarDeptoCriterios">
+              <button type="button" class="btn btn-primary  btn-lg" data-toggle="modal" data-target="#empleadosDepto">
+                Seleccionar
+              </button>
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4" >
+              <button type="button" class="btn btn-primary  btn-lg">
+               Guardar
+              </button>
+            </div>
+
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!--MODALES-->
+
+
+<div id="empleadosDepto" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Empleados</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Select</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listadoEmpleadosByDepto">
+                <td>{{item?.empleadosPK?.codEmp}}</td>
+                <td>{{item?.nombres}} {{item?.apellidos}}</td>
+                <td>
+                  <input type="checkbox"  (change)="checkValueEmpleado($event,item)" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--FIN MODALES-->

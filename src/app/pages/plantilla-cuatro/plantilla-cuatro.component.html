@@ -1,0 +1,288 @@
+<div class="row">
+
+  <div class="col-xs-12 col-md-12">
+    <button type="button" class="btn btn-outline-primary" (click)="regresar()">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Regresar
+    </button>
+  </div>
+
+
+  <div class="col-xs-12 col-md-12 my-2">
+    <div class="card shadow-lg bg-light p-3 mb-5">
+      <h5 class="card-header fondoAzul">{{planillaService.leyenda}}</h5>
+      <div class="card-body">
+        <div class="alert alert-primary">
+          <span>
+            <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Campos Marcados <span style="color: red;">*</span>
+            Son Requeridos.
+          </span>
+        </div>
+        <form [formGroup]="plantillaCuatroForm">
+          <div class="row">
+
+            <div class="form-group col-xs-4 col-md-4">
+              <label for="email">Fecha Solicitud:</label>
+              <div class="input-group">
+                <input class="form-control" [(ngModel)]="fechaSolicitud" ngbDatepicker #d2="ngbDatepicker"
+                  [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary fa fa-calendar" (click)="d2.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-xs-6 col-md-6">
+              <label for="email">Empleado:&nbsp;<span style="color: blue;">{{empleado?.empleadosPK?.codEmp}}
+                  {{empleado?.nombres}}
+                  {{empleado?.apellidos}}</span> </label>
+              <div class="input-group-append">
+                <button *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion !=30" type="button"
+                  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                  data-whatever="@mdo">Seleccionar Empleado</button>
+                <button *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion ===30" type="button"
+                  class="btn btn-primary" data-toggle="modal" data-target="#empleadosInactivosModal"
+                  data-whatever="@mdo">Seleccionar Empleado</button>
+              </div>
+
+            </div>
+
+
+            <div class="form-group col-xs-4 col-md-4">
+              <label for="email">Jefe </label>
+              <div class="input-group-append">
+                <label style="color: blue;">{{depenciaEmpleado?.jefe}}</label>
+              </div>
+
+            </div>
+
+
+            <div class="form-group col-xs-6 col-md-6">
+              <label for="email">Departamento:&nbsp;</label>
+              <div class="input-group-append">
+                <label style="color: blue;">{{depenciaEmpleado?.departamento?.nomDepto}}</label>
+              </div>
+
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4">
+              <label for="email">Puesto:&nbsp;</label>
+              <div class="input-group-append">
+                <label style="color: blue;">{{depenciaEmpleado?.puesto?.nomPuesto}}</label>
+              </div>
+
+            </div>
+
+            <div class="form-group col-xs-4 col-md-4">
+              <label for="email">Plaza:&nbsp;</label>
+              <div class="input-group-append">
+                <label style="color: blue;">{{depenciaEmpleado?.plaza?.nombrePlaza}}</label>
+              </div>
+
+            </div>
+
+
+            <div class="form-group col-xs-6 col-md-6">
+              <label for="email">Detalle Accion:&nbsp;</label>
+              <div class="input-group-append">
+                <textarea formControlName="detalle" style="overflow: hidden; resize: none;"
+                  class="form-control"></textarea>
+              </div>
+
+            </div>
+
+            <div class="form-group col-xs-6 col-md-6">
+              <label for="email">Observacion:&nbsp;</label>
+              <div class="input-group-append">
+                <textarea formControlName="observacion" style="overflow: hidden; resize: none;"
+                  class="form-control"></textarea>
+              </div>
+
+            </div>
+
+
+
+            <div class="form-group col-xs-4 col-md-4"
+              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 19">
+              <label for="email">Fecha retiro:&nbsp;</label>
+              <div class="input-group-append">
+                <input class="form-control" [(ngModel)]="fechaRetiro" ngbDatepicker #d46="ngbDatepicker"
+                  [ngModelOptions]="{standalone: true}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary fa fa-calendar" (click)="d46.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="form-group col-xs-6 col-md-6"
+              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 19 ">
+              <label for="email">Tipo Accion&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" formControlName="retiroAccion"
+                  (change)="llenarCausas($event.target.value)">
+                  <option [value]="item?.tipoAccionPK?.codTipoaccion" *ngFor="let item of  listarTipoAccionRetiro">
+                    {{item?.nomTipoaccion}}</option>
+                </select>
+              </div>
+            </div>
+
+
+
+            <div class="form-group col-xs-6 col-md-6"
+              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 19 ">
+              <label for="email">Motivo:&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" formControlName="motivoRenuncia">
+                  <option [value]="item?.causasRenunciaPK?.codTiporenuncia" *ngFor="let item of  listadoCausas">
+                    {{item?.descripcion}}</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="form-group col-xs-6 col-md-6"
+              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 19 ">
+              <label for="email">Tipo Planilla&nbsp;</label>
+              <div class="input-group-append">
+                <select class="form-control" formControlName="cambioPlanilla">
+                  <option [value]="item?.tiposPlanillaPK?.codTipopla" *ngFor="let item of  listaTiposPlanilla">
+                    {{item?.nomTipopla}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group col-xs-6 col-md-6">
+              <label for="formFileSm" class="form-label">Adjuntar</label>
+              <div class="input-group-append">
+                <input
+                  class="form-control"
+                  (change)="handleUpload($event)"
+                  id="formFileSm"
+                  type="file"
+                />
+              </div>
+            </div>
+
+
+
+            <div class="form-group col-xs-12 col-md-12">
+              <button class="btn btn-primary" (click)="guardarAccionTemplate4()">
+                Guardar
+              </button>
+
+            </div>
+
+
+
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<!---modal de empleados-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog  modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Empleados</h4>
+        <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
+            aria-hidden="true"></i></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="container">
+          <form class="form-emp" [formGroup]="formEmpleado">
+
+            <div class="form-group">
+              <label for="empName" class="col-sm-2 col-form-label">Cod Emp &nbsp;</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="codEmp" name="codEmp" class="form-control" id="codEmp">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="empDesgn" class="col-sm-2 col-form-label">Nombre &nbsp;</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="nombre" name="nombre" class="form-control" id="nombre">
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label for="empDesgn" class="col-sm-2 col-form-label">Dui &nbsp;</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="numDui" name="numDui" class="form-control" id="numDui">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-primary float-left" (click)="Buscar()">
+                <i class="fa fa-eye" aria-hidden="true"></i> &nbsp; Buscar
+              </button>
+
+              <button class="btn btn-info float-right" (click)="limpiar()">
+                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Restablecer
+              </button>
+
+            </div>
+
+
+          </form>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered my-4">
+            <thead>
+              <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Empleado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of listadoEmpleado | paginate: { id: 'pagination1' ,itemsPerPage: 5, currentPage: p }"
+                data-dismiss="modal" data-target="#empleadoModal"
+                (click)="obtenerEmpleado(item.empleadosPK.codCia,item.empleadosPK.codEmp)">
+                <td>{{item.empleadosPK.codEmp}}</td>
+                <td>{{item.nombres}} {{item.apellidos}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls id="pagination1" (pageChange)="p = $event"></pagination-controls>
+        </div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!--fin de empleados-->

@@ -1,0 +1,1164 @@
+<div class="container-fluid">
+
+    <div id="style-7" class="row my-2 expendiente">
+        <h5 class="alert alert-primary drawer__name">Expediente Empleado</h5>
+        <div class="col-md-12 ">
+            <div class="float-right mx-2" *ngIf="empleadoSelecionado?.empleadosPK">
+                <img *ngIf="empleadoSelecionado?.archivoFoto" [src]='urlFoto' alt="" class="img-thumbnail float-right" style=" height: auto;"
+                    width="180px">
+                <img *ngIf="!empleadoSelecionado?.archivoFoto" src='../../../assets/images//foto-default.jpg' alt=""
+                    class="img-thumbnail float-right" style=" height: auto;" width="180px">
+                <h5>Codigo <strong style="color: blue;">{{codigoEmpleado}}</strong></h5>
+                <div class="custom-file float-right">
+                    <label class="upload"> Cargar Foto &nbsp;<i class="fa fa-upload" aria-hidden="true"></i>
+                        <input (change)="cambiarFotoEmpleado($event)" style="width: 50px;" type="file"
+                        class="float-right" accept="image/*" >
+                    </label>
+
+                </div>
+            </div>
+
+            <button class="btn btn-primary float-right mx-2 btn-round-lg " data-toggle="modal"
+                data-target="#empleadoModal">
+                <strong><i class="fa fa-male" aria-hidden="true"></i> &nbsp; Editar Empleado</strong>
+            </button>
+
+            <button class="btn btn-primary float-right mx-2 btn-round-lg " data-toggle="modal" data-target="#menuModal">
+                <strong><i class="fa fa-list-ol" aria-hidden="true"></i> &nbsp; Menu</strong>
+            </button>
+
+        </div>
+
+
+
+
+        <div id="pills" style=" margin-left: 0px;" class="container my-2">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a style="text-decoration:none" class="nav-link" href="#A" data-toggle="pill">Ficha Empleado &nbsp;</a></li>
+                <li class="nav-item"><a style="text-decoration:none" class="nav-link" href="#B" data-toggle="pill">Acciones&nbsp;</a></li>
+                <li class="nav-item"><a style="text-decoration:none"  class="nav-link" href="#C" data-toggle="pill">Beneficios&nbsp;</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="A">
+
+                    <div class="container">
+                        <form [formGroup]="empForm">
+                            <!-- User's Credentials  -->
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Empleado</legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center" for="username">
+                                                Nombre
+                                            </label>
+
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right"
+                                                    formControlName="nombres" />
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Apellido</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" id="email"
+                                                    name="email" formControlName="apellidos">
+
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Apellido Casada</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control password" id="password"
+                                                    name="password" formControlName="apCasada">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Fecha Solicitud</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp" [(ngModel)]="fechaSolicitud"
+                                                    ngbDatepicker #d="ngbDatepicker"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Sexo</label>
+                                            <div class="input-group">
+
+                                                <ng-select style="width: 200px;" [items]="listaSexo" bindLabel="label"
+                                                    bindValue="valor" [(ngModel)]="sexoEmpleado" name="sexo"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Estado Civil</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listadoEstadoCivil"
+                                                    bindLabel="nombreEstadoCivil" bindValue="codEstadoCivil"
+                                                    formControlName="estadoCivil" name="estadoCivil">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Empresa</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listarEmpresas"
+                                                    bindLabel="nomArea" bindValue="codArea" name="emp"
+                                                    formControlName="empresa">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Planta</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200PX;" [items]="listadoPlantas"
+                                                    bindLabel="nomAgencia" bindValue="codAgencia" name="planta"
+                                                    formControlName="planta">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Dirección</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listadoDireccion"
+                                                    bindLabel="nomGerencia" bindValue="codGerencia"
+                                                    formControlName="direccion" name="direccion">
+
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.nomGerencia}}">{{item.nomGerencia}}</div>
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Departamento</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listadoDepartamento"
+                                                    bindLabel="nomDepto" bindValue="codDepto"
+                                                    formControlName="departamento" name="departamento">
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.nomDepto}}">{{item.nomDepto}}</div>
+                                                    </ng-template>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Puesto</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listadoPuestos"
+                                                    bindLabel="nomPuesto" bindValue="codPuesto" formControlName="puesto"
+                                                    name="puesto">
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.nomPuesto}}">{{item.nomPuesto}}</div>
+                                                    </ng-template>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Plaza</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listadoPlaza"
+                                                    bindLabel="nombrePlaza" bindValue="plazaPK.codPlaza"
+                                                    formControlName="plaza" name="plaza">
+
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.nombrePlaza}}">{{item.nombrePlaza}}</div>
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Clasificación</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listaClasificacionEmp"
+                                                    bindLabel="descripcion"
+                                                    bindValue="clasificacionEmpleadoPK.codClasificacion"
+                                                    formControlName="clasificacion" name="clasificacion">
+
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.descripcion}}">{{item.descripcion}}</div>
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Planilla</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="planilla" style="width: 300px;"
+                                                    [items]="listadoTipoPlanilla" bindLabel="nomTipopla"
+                                                    bindValue="tiposPlanillaPK.codTipopla">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Forma Pago</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="formaPago" [items]="listaFormaPago"
+                                                    bindLabel="label" bindValue="valor">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Jubilado</label>
+                                            <div class="input-group">
+                                                <ng-select [items]="listaJubilado" formControlName="jubilado"
+                                                    bindLabel="label" bindValue="valor" name="jubil" [clearable]=false>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Pensionado</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 100px;" formControlName="pensionado"
+                                                    [items]="listaPensionado" bindLabel="label" bindValue="valor"
+                                                    name="pen">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Discapacidad</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listadoIncapacidad"
+                                                    bindLabel="descripcion"
+                                                    bindValue="tiposDiscapacidadPK.codTipoDiscpacidad"
+                                                    formControlName="incapacidad" name="incapacidad">
+
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.descripcion}}">{{item.descripcion}}</div>
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Ocupación</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="ocupaciones" style="max-width: 300px;"
+                                                    class="ng-select-wrap" [items]="listaOcupacionEmpleado"
+                                                    bindLabel="nomOcupacion" bindValue="ocupacionesPK.codOcupacion"
+                                                    name="cop" placeholder="Seleccione">
+
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.nomOcupacion}}">{{item.nomOcupacion}}</div>
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Fecha Inicio Labores</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp" [(ngModel)]="fechaLabores"
+                                                    ngbDatepicker #d5="ngbDatepicker"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d5.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Fecha Planilla</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp2" [(ngModel)]="fechaPlanilla"
+                                                    ngbDatepicker #d6="ngbDatepicker"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d6.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Fecha Fin Labores</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp2" [(ngModel)]="fechaFinLabo"
+                                                    ngbDatepicker #d7="ngbDatepicker"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d7.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="pagoDolares">Pago en Dolares</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listaPagoDolares"
+                                                    bindLabel="label" bindValue="valor" formControlName="pagoDolares"
+                                                    name="pagoDolares">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Salario Aprobado</label>
+                                            <div class="input-group">
+                                                <input disabled formControlName="salario" type="text"
+                                                    class="form-control" name="sal">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Bonificación</label>
+                                            <div class="input-group">
+                                                <input disabled formControlName="bonificacion" type="text"
+                                                    class="form-control" name="sal">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Total Ingresos</label>
+                                            <div class="input-group">
+                                                <input disabled formControlName="ingreso" type="text"
+                                                    class="form-control" name="sal">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Control Entrada</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="controlEntrada" style="width: 200px;"
+                                                    [items]="listaControlEntrada" bindLabel="label" bindValue="valor">
+                                                </ng-select>
+
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Estado</label>
+                                            <div class="input-group">
+                                                <input disabled formControlName="estadoEmp" type="text"
+                                                    class="form-control" name="sal">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- User's Preferences  -->
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Datos Generales/Domicilio</legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Pais</label>
+                                            <div class="input-group">
+
+
+                                                <ng-select formControlName="paisDomicilio" style="width: 200px;"
+                                                    [items]="listadoPaises" bindLabel="nombPais" bindValue="codPais"
+                                                    (change)="obtenerDepto($event)">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Departamento</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="deptoDomicilio"
+                                                    (change)="obtenerMunicicipio($event)">
+                                                    <ng-option *ngFor="let car of listadoDepartamentos"
+                                                        [value]="car.deptosPK.codDepto">{{car.nomDepto}}</ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Municipio</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="muniDomicilio">
+                                                    <ng-option *ngFor="let car of listaMunicipio"
+                                                        [value]="car.municipiosPK.codMuni">{{car.nomMuni}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Telefono</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="telefonoEmp" mask="0000-0000">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Celular</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="celularEmp" mask="0000-0000">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Etnia</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="etnia" style="width: 200px;"
+                                                    [items]="listarEtnia" bindLabel="nombre" bindValue="etniaPK.codigo">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-12 col-sm-12">
+                                            <label class="my-1 d-flex align-items-center">Dirección</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="direccionGral">
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Datos Generales/Datos Nacimiento
+                                    </legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>País</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="paisNacimimiento" style="width: 200px;"
+                                                    [items]="listadoPaises" bindLabel="nombPais" bindValue="codPais"
+                                                    (change)='obtenerDeptoNac($event)' [multiple]='false'>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Departamento</label>
+                                            <div class="input-group">
+
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="deptoNacimimiento"
+                                                    (change)="obtenerMunicicipioNac($event)">
+                                                    <ng-option *ngFor="let car of listadoDepartamentosNac"
+                                                        [value]="car.deptosPK.codDepto">{{car.nomDepto}}</ng-option>
+                                                </ng-select>
+
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Municipio</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="muniNacimimiento">
+                                                    <ng-option *ngFor="let muni of listaMunicipioNac"
+                                                        [value]="muni.municipiosPK.codMuni">{{muni.nomMuni}}
+                                                    </ng-option>
+                                                </ng-select>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Fecha Nacimiento</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp" [(ngModel)]="fechaNacimiento"
+                                                    ngbDatepicker #d11="ngbDatepicker"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d11.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Grupo Sanguíneo</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="sangre">
+                                                    <ng-option *ngFor="let muni of listaSangre"
+                                                        [value]="muni.tipoSangre">{{muni.nomTipoSangre}}
+                                                    </ng-option>
+                                                </ng-select>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Nombre de la Madre</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="madreNombre">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Ocupación Madre</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="madreOcupacion">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Lugar Trabajo Madre</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="madreTrabajo">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Nombre del padre</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="padreNombre">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Ocupación Padre</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="ocupacionPadre">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Lugar Trabajo Padre</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="trabajoPadre">
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Datos Generales/ <br> Documentos
+                                    </legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>País Nacionalidad</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="paisNacionadlidad" style="width: 200px;"
+                                                    [items]="listaPaisesNacionalidad" bindLabel="nombPais"
+                                                    bindValue="codPais" (change)="obtenerDeptoNacionalidad($event)">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Depto.Exp.DPI</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="departamentoNacionalidad"
+                                                    (change)="obtenerMunicicipioNacionalidad($event)">
+                                                    <ng-option *ngFor="let muni of listaDepartamentosNacionalidad"
+                                                        [value]="muni.deptosPK.codDepto">{{muni.nomDepto}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>DPI</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="documentoIdentidad">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Munic.Exp.Docto.</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="muniNacional">
+                                                    <ng-option *ngFor="let muni of listaMunicipioNacionalidad"
+                                                        [value]="muni.municipiosPK.codMuni">{{muni.nomMuni}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Fecha Exp. DPI</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp" [(ngModel)]="fechaExpedicionDoc"
+                                                    ngbDatepicker #d12="ngbDatepicker"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d12.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Dirección Documento</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="direccionDui">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-8 col-sm-8">
+                                            <label>Si tiene familiares o amigos en la empresa de nombres y relación</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control float-right" name="tel"
+                                                    formControlName="tieneFamiliares" cols="45" rows="3">
+
+                                            </textarea>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Pasaporte</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="passaporte">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>IGSS</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="IGSS">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Nombre según IGSS</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="IGSSNombre">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>IRTRA</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="ITRA">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>NIT</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="NIT">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-6 col-sm-6">
+                                            <label>Nombre Segun NIT</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="NITNombre">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Banco</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="banco" style="width: 300px;"
+                                                    [items]="listaBancos" bindLabel="nomBanco"
+                                                    bindValue="bancosPK.codBanco">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>No.Cuenta</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="noCuenta">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Nombre Cta. Bancaria</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="nombreCta">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Licencia</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="licencia">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Transporte que usa para trabajar</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="transporteTrabajar">
+                                            </textarea>
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Conocimientos y
+                                        habilidades especiales <br>
+                                    </legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-6 col-sm-6">
+                                            <label>Conocimientos, habilidades especiales y destrezas técnicas</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="destrezasTecnicas">
+                                            </textarea>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-6 col-sm-6">
+                                            <label>Tipo de Vehículo</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="tipoVehiculoManeja">
+                                            </textarea>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Computación</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="computacion" style="width: 200px;"
+                                                    [items]="listaComputacion" bindLabel="label" bindValue="valor">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+
+                            <!-- Submit Button  -->
+                            <div class="form-group row">
+                                <div class="col-md-9 offset-md-3">
+                                    <button type="button" class="btn btn-primary" (click)="editarEmpleado()"
+                                        [disabled]="!empleadoSelecionado?.empleadosPK">
+                                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>&nbsp;Guardar</button>
+                                    <button type="button" data-toggle="modal" data-target="#modalReportesExp"
+                                        class="btn btn-primary ml-2">
+                                        <i class="fa fa-print fa-lg" aria-hidden="true"></i>&nbsp;Imprimir
+                                        Reportes</button>
+                                    <button type="button" class="btn btn-primary ml-2" (click)="limpiarForm()"
+                                        *ngIf="empleadoSelecionado?.empleadosPK">
+                                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>&nbsp;Limpiar
+                                    </button>
+
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+
+                </div>
+                <div class="tab-pane fade" id="B">Content inside tab B</div>
+                <div class="tab-pane fade" id="C">Content inside tab C</div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+
+<!--menu -->
+
+<!-- Modal -->
+<div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: blue;">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: white;">MENU EXPEDIENTE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="style-8" class="modal-body menuLateral">
+
+                <!--Grid column-->
+                <div class="col-md-9">
+                    <ul class="list-group list-group-hover" style="list-style-type:none;">
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irPreparacionAcademica()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Preparacion Academica</a></li>
+                        <li class="text-muted">Expediente Digital</li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irEmergencias()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Emergencias</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irCapacitaciones()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Capacitaciones</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irIdiomas()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Idiomas</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irDocumentos()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Documentos</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irEquipoOficina()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Equipo de Oficina</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irEquipoTrabajo()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Equipo de Trabajo</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irObservaciones()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Observaciones</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irDatosEconomicos()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Datos Economicos</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irMotivaciones()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Motivaciones y Proyecciones</a></li>
+
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irGenerales()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Generales</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irPreparacionAcademica()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Preparacion Academica</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irExpedienteDigital()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Expediente Digital</a></li>
+                        <li class="text-muted">Emergencias</li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irExperienciaLaboral()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Experiencia Laboral</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irReferencias()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Referencias</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irDependientes()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Dependientes</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irBeneficiario()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Beneficiarios</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irPruebas()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Pruebas</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irPuestosEntrevistas()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Puestos/entrevistas</a></li>
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irDatosAfiliacion()"><i
+                                    class="fa fa-globe text-primary mx-2"></i>Datos Afiliacion</a></li>
+                    </ul>
+
+                </div>
+                <!--Grid column-->
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--fin menu-->
+
+
+
+
+
+<div class="modal" id="empleadoModal">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Empleados</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
+                        aria-hidden="true"></i></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <form class="form-emp" [formGroup]="formEmpleado">
+
+                        <div class="form-group">
+                            <label for="empName" class="col-sm-3 col-form-label">Código Empleado &nbsp;</label>
+                            <div class="col-sm-10">
+                                <input type="text" formControlName="codEmp" name="codEmp" class="form-control"
+                                    id="codEmp">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="empDesgn" class="col-sm-2 col-form-label">Nombre &nbsp;</label>
+                            <div class="col-sm-10">
+                                <input type="text" formControlName="nombre" name="nombre" class="form-control"
+                                    id="nombre">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="empDesgn" class="col-sm-2 col-form-label">DPI &nbsp;</label>
+                            <div class="col-sm-10">
+                                <input type="text" formControlName="numDui" name="numDui" class="form-control"
+                                    id="numDui">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary float-left" (click)="Buscar()">
+                                <i class="fa fa-eye" aria-hidden="true"></i> &nbsp; Buscar
+                            </button>
+
+                            <button class="btn btn-info float-right" (click)="limpiar()">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Restablecer
+                            </button>
+
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered my-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">Codigo</th>
+                                <th scope="col">Empleado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listaEmpleados | paginate: { id: 'pagination1' ,itemsPerPage: 5, currentPage: p }"
+                                data-dismiss="modal" data-target="#empleadoModal"
+                                (click)="obtenerEmpleado(item.empleadosPK.codCia,item.empleadosPK.codEmp)">
+                                <td>{{item.empleadosPK.codEmp}}</td>
+                                <td>{{item.nombres}} {{item.apellidos}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls id="pagination1" (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!---Modal de Reportes expediente-->
+<div class="modal fade bd-example-modal-lg" id="modalReportesExp" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalReportesExpLabel">Generar Reportes</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form [formGroup]="formReporteExp" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="tipoRepo">Tipo Reporte</label>
+                        <ng-select id="tipoRepo" name="tipoRepo" [items]="listaTipoReportes"
+                            (change)="obtenerFormato($event)" bindLabel="nombreReporte"
+                            bindValue="paTiposFormatoPK.codTipoFormato" formControlName="tipoReporte">
+                        </ng-select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fm">Formato</label>
+                        <ng-select id="fm" name="fm" [items]="listaFormato" (change)="mostrarAnio($event)"
+                            bindLabel="label" bindValue="valor" formControlName="formatoReporte">
+                        </ng-select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ff">Firma</label>
+                        <ng-select id="ff" name="ff" [items]="listaFirmas" bindLabel="nombre" bindValue="posicion"
+                            formControlName="firma">
+                        </ng-select>
+                    </div>
+
+
+                    <div class="form-group" *ngIf="mostrarAnioReporte">
+                        <label for="anio">Año</label>
+                        <input type="text" id="anio" name="anio" formControlName="anio" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" (click)="impresionReportes()">
+                            Imprimir
+                        </button>
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<!---fin -->

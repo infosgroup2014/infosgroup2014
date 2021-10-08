@@ -1,0 +1,22 @@
+table tr:hover {
+    background-color: blue;
+    color: white;
+    font-weight: bolder;
+  }
+
+  table tr td small {
+    opacity: 0.2;
+  }
+
+  table tr:hover td small {
+    opacity: 1;
+  }
+
+
+
+  .table .thead-dark th {
+    background-color: currentColor !important;
+  }
+  tbody {
+    background: white;
+  }

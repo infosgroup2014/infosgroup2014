@@ -1,0 +1,79 @@
+<div class="row my-4">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#modalIdiomas">
+    Agregar
+    </button>
+    </div>
+
+    <div class="row my-2">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Idioma</th>
+                <th scope="col">Lee</th>
+                <th scope="col">Escribe</th>
+                <th scope="col">Nivel</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listaIdiomas">
+                <th scope="row">{{item.idioma}}</th>
+                <td>{{item.lee}}</td>
+                <td>{{item.escribe}}</td>
+                <td>{{item.nivel}}</td>
+            <td>
+                <button class="btn btn-danger">
+                    Eliminar
+                </button>
+            </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+
+
+
+    <!-- modal de agregar -->
+    <div id="modalIdiomas"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Agregar Idiomas </h6>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="emergencias">Idioma</label>
+                            <input class="form-control" type="text" placeholder="Ingresar idioma">
+                        </div>
+                        <div class="form-row"><div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="emergencias">Lee</label>
+                            <input class="form-control" type="text" placeholder="">
+                        </div>
+                        </div><div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="emergencias">Escribe</label>
+                            <input class="form-control" type="text" placeholder="">
+                        </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group">
+                                <label for="emergencias">Nivel</label>
+                                <input class="form-control" type="text" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--fin modal agregar-->

@@ -1,0 +1,468 @@
+<div class="card">
+    <div class="card-body">
+        <h6 class="card-title text-uppercase">Carga Manual</h6>
+        <div class="row">
+            <div class="col-xl-12 col-md-12">
+                <button class="btn btn-primary" (click)="verFormulario()"  title="Ver Resultados">
+                    <i class="fa fa-database" aria-hidden="true"></i>&nbsp;
+                    <span *ngIf="ver"  >Ver Registros</span>
+                    <span *ngIf="!ver" >Formulario</span>
+                </button>
+            </div>
+
+            <div class="col-xl-12 col-md-12 my-2" *ngIf="ver" >
+                <div class="panel panel-primary">
+                    <div class="panel-body" style="background-color: rgb(208, 208, 208);">
+                        <form class="form-horizontal" [formGroup]="cargaManualForm">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button (click)="guardar()" [disabled]="habilitarGuardado" class="btn btn-primary my-2 float-right">
+                                       Guardar&nbsp;<i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="FirstName">Empleado</label>
+                                <div class="col-sm-8">
+                                    <button data-toggle="modal" data-target="#empleadoModal"
+                                        class="btn btn-sm btn-secondary">
+                                        <i class="fa fa-address-card"></i>
+                                    </button>
+
+                                    <span
+                                        style="font-weight: bolder; color: blue; font-weight: bolder;">{{empleadoSeleccion.nombres}}
+                                        {{empleadoSeleccion.apellidos}} </span>
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="LastName">Prestacion</label>
+                                <div class="col-sm-8">
+                                    <button data-toggle="modal" data-target="#prestaciones"
+                                        class="btn btn-sm btn-secondary">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span style="font-weight: bolder; color: blue; font-weight: bolder;"
+                                        *ngIf="prestacionOjb">{{prestacionOjb.desDp}}</span>
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="Birthday">Deduccion</label>
+                                <div class="col-sm-8">
+                                    <button data-toggle="modal" data-target="#deducciones"
+                                        class="btn btn-sm btn-secondary">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span style="font-weight: bolder; color: blue; font-weight: bolder;"
+                                        *ngIf="deduccionObj">{{deduccionObj.desDp}}</span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="valor">Valor</label>
+                                <div class="col-sm-8">
+                                    <input formControlName="valor"  class="form-control input-sm" id="valor" name="valor"
+                                        type="text" value="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="PhoneNumber">Año</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control input-sm" formControlName="anio" id="phoneNumber" name="PhoneNumber" type="text"
+                                        value="">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="PhoneNumber">Observacion</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control input-sm" formControlName="descripcion" id="phoneNumber" name="PhoneNumber" type="text"
+                                        value="">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="customFile">Adjuntar</label>
+                                <div class="col-sm-8">
+                                    <input type="file" id="file" class="upload" aria-label="File browser example"
+                                        name="fileHx" (change)="handleUpload($event)" accept=".csv,application/pdf ">
+                                </div>
+
+                            </div>
+                            <div class="form-group  mt-5">&nbsp;</div>
+                            <div class="form-group"></div>
+
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-12 col-md-12">
+                    <iframe class="col-12" height="500" [src]="pdf" frameborder="0"></iframe>
+                </div>
+            </div>
+
+            <div class="col-xl-12 col-md-12 my-2" *ngIf="!ver" >
+                <div class="table-responsive">
+                  <form>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th scope="col">Empleado</th>
+                              <th scope="col">Valor</th>
+                              <th scope="col">Observacion</th>
+                              <th scope="col">Descargar</th>
+                              <th scope="col">Ver</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            <tr *ngFor="let item of listaHistoricoMovDp">
+                              <th scope="row">{{item.empleado.empleadosPK.codEmp}}  {{item.empleado.nombres}} {{item.empleado.apellidos}}</th>
+                              <td>{{item.valor | currency:'USD' }}</td>
+                              <td>{{item.observacion}}</td>
+                              <td>
+
+                                  <button type="button"  *ngIf="item.archivoBase64 && item.archivoBase64.length > 0 " class="btn btn-primary" (click)='descargar(item.archivoBase64)'>
+                                    <i class="fa fa-file-pdf-o " aria-hidden="true"></i>
+                                  </button>
+
+                              </td>
+
+                              <td>
+
+                                  <button type="button"  *ngIf="item.archivoBase64 && item.archivoBase64.length > 0 " class="btn btn-primary" (click)='verAdjunto(item.archivoBase64)' data-toggle="modal" data-target="#myAdjunto" >
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                  </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                    </table>
+
+                  </form>
+                  </div>
+            </div>
+
+
+            <div class="col-xl-12 col-md-12 my-5">
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+<!--modales-->
+
+<!-- The Modal -->
+<div class="modal" id="empleadoModal">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Empleados</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
+                        aria-hidden="true"></i></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <form class="form-emp" [formGroup]="formEmpleado">
+
+                        <div class="form-group">
+                            <label for="empName" class="col-sm-2 col-form-label">Cod Emp &nbsp;</label>
+                            <div class="col-sm-10">
+                                <input type="text" formControlName="codEmp" name="codEmp" class="form-control"
+                                    id="codEmp">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="empDesgn" class="col-sm-2 col-form-label">Nombre &nbsp;</label>
+                            <div class="col-sm-10">
+                                <input type="text" formControlName="nombre" name="nombre" class="form-control"
+                                    id="nombre">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="empDesgn" class="col-sm-2 col-form-label">Dui &nbsp;</label>
+                            <div class="col-sm-10">
+                                <input type="text" formControlName="numDui" name="numDui" class="form-control"
+                                    id="numDui">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary float-left" (click)="Buscar()">
+                                <i class="fa fa-eye" aria-hidden="true"></i> &nbsp; Buscar
+                            </button>
+
+                            <button class="btn btn-info float-right" (click)="limpiar()">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Restablecer
+                            </button>
+
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered my-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">Codigo</th>
+                                <th scope="col">Empleado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listaEmpleados | paginate: { id: 'pagination1' ,itemsPerPage: 5, currentPage: p }"
+                                data-dismiss="modal" data-target="#empleadoModal" (click)="llenarEmpleado(item)">
+                                <td>{{item.empleadosPK.codEmp}}</td>
+                                <td>{{item.nombres}} {{item.apellidos}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls id="pagination1" (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="prestaciones" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Listado Prestaciones</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
+                        aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cod Prestacion</th>
+                                <th scope="col">Descripcion</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let prestacion of listaPrestaciones | paginate: { id: 'pagination2',itemsPerPage: 5, currentPage: p  }"
+                                data-dismiss="modal" data-target="#prestaciones"
+                                (click)="asignarPrestaciones(prestacion)">
+                                <td>{{prestacion.deducPrestaPK.codDp}}</td>
+                                <td>{{prestacion.desDp}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <pagination-controls id="pagination2" (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Modales -->
+<div class="modal fade" id="prestaciones" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Listado Prestaciones</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
+                        aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cod Prestacion</th>
+                                <th scope="col">Descripcion</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let prestacion of listaPrestaciones | paginate: { id: 'pagination2',itemsPerPage: 5, currentPage: p  }"
+                                data-dismiss="modal" data-target="#prestaciones"
+                                (click)="asignarPrestaciones(prestacion)">
+                                <td>{{prestacion.deducPrestaPK.codDp}}</td>
+                                <td>{{prestacion.desDp}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <pagination-controls id="pagination2" (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- Modales -->
+<div class="modal fade" id="deducciones" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Listado Deducciones</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
+                        aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cod Deduccion</th>
+                                <th scope="col">Descripcion</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let deduccion of listadoDeducciones | paginate: { id: 'pagination3',itemsPerPage: 5, currentPage: p  }"
+                                data-dismiss="modal" data-target="#deducciones" (click)="asignarDeduccion(deduccion)">
+                                <td>{{deduccion.deducPrestaPK.codDp}}</td>
+                                <td>{{deduccion.desDp}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <pagination-controls id="pagination3" (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!--Visor de Pdf-->
+
+<div class="modal fade" id="viewerCertificado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-light">Certificado</h5>
+                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe class="col-12" height="500" [src]="pdf" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn button-blue" data-dismiss="modal"><i class="fa fa-times"></i>
+                    Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+  <!-- The Modal  visor de archivos-->
+  <div class="modal fade" id="myAdjunto">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Archivo Adjuntado</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            <iframe class="col-12" #iframe height="500" [src]="pdfAdjuntado" allowfullscreen></iframe>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+<!---Fin modales-->

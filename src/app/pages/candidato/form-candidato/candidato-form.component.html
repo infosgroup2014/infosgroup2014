@@ -1,0 +1,714 @@
+
+<div class="container">
+
+
+    <div id="style-7" class="row my-2 expendiente">
+
+        <div class="col-md-12">
+
+            <div class="float-left mx-2 my-2">
+              <img class="img-thumbnail" [src]="urlFoto" alt="PERFIL" *ngIf="urlFoto">
+            </div>
+
+            <div class="float-right mx-2 my-2">
+
+                <div class="custom-file float-right">
+                    <label class="upload"> Cargar Foto &nbsp;<i class="fa fa-upload" aria-hidden="true"></i>
+                        <input (change)="cambiarFotoEmpleado($event)" style="width: 50px;" type="file"
+                        class="float-right" accept="image/png" >
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <button class="btn btn-primary float-right mx-2 btn-round-lg my-2" data-toggle="modal"
+                data-target="#candidatoModal">
+                <strong><i class="fa fa-male" aria-hidden="true"></i> &nbsp; Editar Candidato</strong>
+            </button>
+
+
+
+        </div>
+
+
+        <div id="pills" style=" margin-left: 0px;" class="container my-2 ">
+            <ul class="nav nav-pills">
+                <li class="nav-item active"><a class="nav-link" style="text-decoration:none" href="#A" data-toggle="pill">
+                      <strong>Registro Candidato</strong></a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="A">
+
+                    <div class="container">
+                        <form [formGroup]="empForm">
+                            <!-- User's Credentials  -->
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Candidato</legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="nombre" class="my-1 d-flex align-items-center">
+                                                Nombre
+                                            </label>
+
+                                            <div class="input-group">
+                                                <input id="nombre" name="nombre" type="text"
+                                                    class="form-control float-right" formControlName="nombres" />
+                                            </div>
+                                            <div *ngIf="this.empForm.controls['nombres'].errors?.required && (this.empForm.controls['nombres'].dirty || this.empForm.controls['nombres'].touched)">
+                                                <span class="text-danger"><strong>*Campo Requerido</strong></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="apellidos"
+                                                class="my-1 d-flex align-items-center">Apellido</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" id="apellidos"
+                                                    name="apellidos" formControlName="apellidos">
+
+                                            </div>
+
+                                            <div *ngIf="this.empForm.controls['apellidos'].errors?.required && (this.empForm.controls['apellidos'].dirty || this.empForm.controls['apellidos'].touched)">
+                                                <span class="text-danger"><strong>*Campo Requerido</strong></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Apellido Casada</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control password" id="password"
+                                                    name="password" formControlName="apCasada">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="dp">Fecha Nombramiento/Contrato</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp" [(ngModel)]="fechaSolicitud"
+                                                    ngbDatepicker #d="ngbDatepicker" id="dp"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="sexo">Sexo</label>
+                                            <div class="input-group">
+                                                <select  formControlName="sexo" class="form-control" id="sexo" name="sexo" >
+                                                    <option value="1" disabled>Selecccione&hellip;</option>
+                                                    <option *ngFor="let item of listaSexo" [value]="item.valor" [selected]="item.valor==candidatoSeleccionado?.sexo">{{item.label}}</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="estadoCivil">Estado Cívil</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listadoEstadoCivil"
+                                                    bindLabel="nombreEstadoCivil" bindValue="codEstadoCivil"
+                                                    formControlName="estadoCivil" id="estadoCivil" name="estadoCivil">
+                                                </ng-select>
+                                            </div>
+
+                                            <div *ngIf="this.empForm.controls['estadoCivil'].errors?.required && (this.empForm.controls['estadoCivil'].dirty || this.empForm.controls['estadoCivil'].touched)">
+                                                <span class="text-danger"><strong>*Campo Requerido</strong></span>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Discapacidad</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [items]="listadoIncapacidad"
+                                                    bindLabel="descripcion"
+                                                    bindValue="tiposDiscapacidadPK.codTipoDiscpacidad"
+                                                    formControlName="incapacidad" name="incapacidad">
+
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.descripcion}}">{{item.descripcion}}</div>
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Ocupación</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="ocupaciones" style="width: 250px;"
+                                                    [items]="listaOcupacionEmpleado" bindLabel="nomOcupacion"
+                                                    bindValue="ocupacionesPK.codOcupacion" name="cop"
+                                                    placeholder="Seleccione">
+
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        <div title="{{item.nomOcupacion}}">{{item.nomOcupacion}}</div>
+                                                    </ng-template>
+
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="correo">Correo Electrónico</label>
+                                            <input id="correo" name="correo" type="text" class="form-control"
+                                                formControlName="email">
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- User's Preferences  -->
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Datos Generales/Domicilio</legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Pais</label>
+                                            <div class="input-group">
+
+
+                                                <ng-select formControlName="paisDomicilio" style="width: 200px;"
+                                                    [items]="listadoPaises" bindLabel="nombPais" bindValue="codPais"
+                                                    (change)="obtenerDepto($event)">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Departamento</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="deptoDomicilio"
+                                                    (change)="obtenerMunicicipio($event)">
+                                                    <ng-option *ngFor="let car of listadoDepartamentos"
+                                                        [value]="car.deptosPK.codDepto">{{car.nomDepto}}</ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Municipio</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="muniDomicilio">
+                                                    <ng-option *ngFor="let car of listaMunicipio"
+                                                        [value]="car.municipiosPK.codMuni">{{car.nomMuni}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Teléfono</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="telefonoEmp" mask="0000-0000">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Celular</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="celularEmp" mask="0000-0000">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-12 col-sm-12">
+                                            <label class="my-1 d-flex align-items-center">Dirección</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="direccionGral">
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Datos Generales/Datos Nacimiento
+                                    </legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Pais</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="paisNacimimiento" style="width: 200px;"
+                                                    [items]="listadoPaises" bindLabel="nombPais" bindValue="codPais"
+                                                    (change)='obtenerDeptoNac($event)' [multiple]='false'>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Departamento</label>
+                                            <div class="input-group">
+
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="deptoNacimimiento"
+                                                    (change)="obtenerMunicicipioNac($event)">
+                                                    <ng-option *ngFor="let car of listadoDepartamentosNac"
+                                                        [value]="car.deptosPK.codDepto">{{car.nomDepto}}</ng-option>
+                                                </ng-select>
+
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Municipio</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="muniNacimimiento">
+                                                    <ng-option *ngFor="let muni of listaMunicipioNac"
+                                                        [value]="muni.municipiosPK.codMuni">{{muni.nomMuni}}
+                                                    </ng-option>
+                                                </ng-select>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Fecha Nacimiento</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp" [(ngModel)]="fechaNacimiento"
+                                                    ngbDatepicker #d11="ngbDatepicker"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d11.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Etnia</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="etnia" style="width: 200px;"
+                                                    [items]="listarEtnia" bindLabel="nombre" bindValue="etniaPK.codigo">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Nombre de la Madre</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="madreNombre">
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label class="my-1 d-flex align-items-center">Nombre del Padre</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="padreNombre">
+
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Datos Generales/ <br> Documentos
+                                    </legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>País Nacionalidad</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="paisNacionadlidad" style="width: 200px;"
+                                                    [items]="listaPaisesNacionalidad" bindLabel="nombPais"
+                                                    bindValue="codPais" (change)="obtenerDeptoNacionalidad($event)">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Depto.Exp.DPI</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="departamentoNacionalidad"
+                                                    (change)="obtenerMunicicipioNacionalidad($event)">
+                                                    <ng-option *ngFor="let muni of listaDepartamentosNacionalidad"
+                                                        [value]="muni.deptosPK.codDepto">{{muni.nomDepto}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Munic.Exp.Doc.</label>
+                                            <div class="input-group">
+                                                <ng-select style="width: 200px;" [multiple]="false"
+                                                    formControlName="muniNacional">
+                                                    <ng-option *ngFor="let muni of listaMunicipioNacionalidad"
+                                                        [value]="muni.municipiosPK.codMuni">{{muni.nomMuni}}
+                                                    </ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>DPI</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="tel"
+                                                    formControlName="documentoIdentidad">
+
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label for="password">Fecha Exp. DPI</label>
+                                            <div class="input-group">
+                                                <input class="form-control" name="dp" [(ngModel)]="fechaExpedicionDoc"
+                                                    ngbDatepicker #d12="ngbDatepicker"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary fa fa-calendar"
+                                                        (click)="d12.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Si tiene Familiares o amigos en la empresa de nombres y relación</label>
+                                            <div class="input-group">
+                                                <textarea  type="text" class="form-control float-right" name="tel"
+                                                    formControlName="direccionDui" cols="45" rows="3" >
+                                                </textarea>
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Passaporte</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="passaporte">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>IGSS</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="IGSS">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Nombre según IGSS</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="IGSSNombre">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>IRTRA</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="ITRA">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>NIT</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="NIT">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-6 col-sm-6">
+                                            <label>Nombre Segun NIT</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="NITNombre">
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Licencia</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="licencia">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Transporte Que usa para Trabajar</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="transporteTrabajar">
+                                        </textarea>
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-md-2 col-form-label pt-0">Conocimientos y
+                                        habilidades especiales <br>
+                                    </legend>
+                                    <div class="form-row col-md-10">
+                                        <div class="form-group col-md-6 col-sm-6">
+                                            <label>Conocimientos, habilidades especiales y destrezas tecnicas</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="destrezasTecnicas">
+                                        </textarea>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-6 col-sm-6">
+                                            <label>Tipo de vehículo</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control float-right" name="passaporte"
+                                                    formControlName="tipoVehiculoManeja">
+                                        </textarea>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 col-sm-4">
+                                            <label>Computación</label>
+                                            <div class="input-group">
+                                                <ng-select formControlName="computacion" style="width: 200px;"
+                                                    [items]="listaComputacion" bindLabel="label" bindValue="valor">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+
+                            <!-- Submit Button  -->
+                            <div class="form-group row">
+                                <div class="col-md-9 offset-md-3">
+                                    <button type="button" class="btn btn-primary"
+                                    [disabled]="!empForm.valid"
+                                    (click)="!candidatoSeleccionado?.candidatoPK ? guardarCandidato():  editarCandidato()">
+                                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>&nbsp;
+                                        {{!candidatoSeleccionado?.candidatoPK ? 'GUARDAR': 'EDITAR'}}
+
+                                    </button>
+
+                                    <button type="button" class="btn btn-primary ml-2" (click)="limpiarForm()"
+                                        *ngIf="candidatoSeleccionado?.candidatoPK">
+                                        <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>&nbsp;Limpiar
+                                    </button>
+
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal" id="candidatoModal">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Candidatos</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
+                        aria-hidden="true"></i></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <form class="form-emp" [formGroup]="formCandidato">
+
+                        <div class="form-group">
+                            <label for="empName" class="col-sm-3 col-form-label">Nombre&nbsp;</label>
+                            <div class="col-sm-10">
+                                <input type="text" formControlName="nombre" name="nombre" class="form-control"
+                                    id="nombre">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="empDesgn" class="col-sm-2 col-form-label">Apellido &nbsp;</label>
+                            <div class="col-sm-10">
+                                <input type="text" formControlName="apellido" name="apellido" class="form-control"
+                                    id="apellido">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary float-left" (click)="Buscar()">
+                                <i class="fa fa-eye" aria-hidden="true"></i> &nbsp; Buscar
+                            </button>
+
+                            <button class="btn btn-info float-right" (click)="limpiar()">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Restablecer
+                            </button>
+
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered my-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">Codigo</th>
+                                <th scope="col">Candidato</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listaCandidatos | paginate: { id: 'pagination1' ,itemsPerPage: 5, currentPage: p }"
+                                data-dismiss="modal" data-target="#candidatoModal"
+                                (click)="obtenerCandidato(item.candidatoPK)">
+                                <td>{{item.candidatoPK.codCandidato}}</td>
+                                <td>{{item.nombre}} {{item.apellido}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls id="pagination1" (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

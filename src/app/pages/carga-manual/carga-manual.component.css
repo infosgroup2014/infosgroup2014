@@ -1,0 +1,41 @@
+table tr:hover {
+    background-color: blue;
+    color: white;
+    font-weight: bolder;
+  }
+
+  table tr td small {
+    opacity: 0.2;
+  }
+
+  table tr:hover td small {
+    opacity: 1;
+  }
+
+
+
+  .table .thead-dark th {
+    background-color: currentColor !important;
+  }
+
+
+
+
+
+
+
+
+
+label{
+    font-weight: bolder;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+
+a {                             /* Select all <a> elements (HTML links), */
+    color: orange;              /* change their text color to orange, */
+    background-color: blue;     /* their background color to pink, */
+    text-decoration: none;
+    color: white;      /* and remove text decorations like underlines. */
+}

@@ -1,0 +1,15 @@
+.the-legend {
+    border:blue 5px solid;
+    margin-bottom: 0;
+    color: blue;
+    font-size: medium;
+    font-weight: bolder;
+}
+.field_set{
+    border:blue 5px solid;
+  }
+
+
+  label {
+      font-weight: bolder;
+  }

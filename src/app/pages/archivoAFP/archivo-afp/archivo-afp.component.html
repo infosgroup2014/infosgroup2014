@@ -1,0 +1,68 @@
+<div class="card my-2">
+    <h5 class="card-header text-white bg-primary">Generar Planilla AFP</h5>
+    <div class="card-body">
+        <h5 class="card-title"></h5>
+        <form class="form-inline" [formGroup]="afpForm" >
+            <div class="form-group mb-3">
+                <label for="staticEmail2">Año &nbsp;</label>
+                <input type="text" formControlName="anio" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;"  class="form-control" id="staticEmail2" >
+            </div>
+            <div class="form-group mb-3 pl-2">
+                <label for="staticEmail1">Mes&nbsp; </label>
+                <input type="text" formControlName="mes" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;"  class="form-control" id="staticEmail1" >
+            </div>
+            <div class="form-group  pl-2">
+                <button type="button" [disabled]="!afpForm.valid"  class="btn btn-primary mb-2" (click)="buscarPlanillas()"> <i class="fa fa-binoculars" aria-hidden="true"></i>&nbsp;Buscar</button>
+            </div>
+
+            <div class="form-group pl-2">
+                <ui-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="generarIsss" (valueChange)="cambiarArchivo($event)" checkedLabel="Generar AFP" uncheckedLabel="Generar ISSS"></ui-switch>
+            </div>
+
+            <div class="form-group  pl-2" *ngIf="listaPlanilla?.length > 0">
+                <button type="button" class="btn btn-primary mb-2" (click)="generarAFP()"> <i class="fa fa-check-circle-o" aria-hidden="true"></i>&nbsp;{{generarIsss ?  'Generar Planilla AFP' :'Generar Planilla ISSS'}} </button>
+            </div>
+
+        </form>
+
+        <div class="table-responsive my-2">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Seleccionar</th>
+                        <th scope="col">Tipo Planilla</th>
+                        <th scope="col">Num. Planilla</th>
+                        <th scope="col">Año</th>
+                        <th scope="col">Mes</th>
+                        <th scope="col">Periodo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listaPlanilla | paginate: { itemsPerPage: 6, currentPage: p }; index as i">
+                        <td class="text-center">
+                            <input type="checkbox" id="rowcheckedbookstore"
+                                (change)="seleccionarPlanilla($event,item)">
+                        </td>
+                        <td>{{item.tiposPlanilla.nomTipopla}}</td>
+                        <td>{{item.numPlanilla}}</td>
+                        <td>{{item.programacionPlaPK.periodo}}</td>
+                        <td>{{item.mes}}</td>
+                        <td>
+
+                        <span *ngIf="item.quincena===1" class="text-primary">Quincena Uno</span>
+                        <span *ngIf="item.quincena===2" class="text-primary">Quincena Dos</span>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event"
+            responsive="true"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            ></pagination-controls>
+
+        </div>
+    </div>
+</div>

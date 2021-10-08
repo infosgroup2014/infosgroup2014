@@ -1,0 +1,170 @@
+<div class="card">
+    <div class="card-body">
+        <h6 class="card-title text-uppercase">Deduccion Prestacion</h6>
+        <div class="row">
+            <div class="col-xl-12 col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-body" style="background-color: rgb(208, 208, 208);">
+                        <h3 class="text-on-pannel text-primary"><strong class="text-uppercase">
+                                <h6></h6>
+                            </strong></h3>
+                        <form class="form-inline">
+
+                            <div class="form-group col-xl-6 col-md-6">
+                                <label class="mr-2 col-form-label-sm">Tipo Planilla:&nbsp;</label>
+
+
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete [data]="listadoTipoPlanilla" [searchKeyword]="keyword"
+                                        [itemTemplate]="itemTemplate" (selected)='selectEvent($event)'
+                                        (clear)='deleteEvent($event)' [notFoundTemplate]="notFoundTemplate">
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.nomTipopla"></a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+
+
+
+
+
+                            </div>
+
+                            <div class="form-group col-xl-6 col-md-6">
+                                <label class="mr-2 col-form-label-sm">Programacion Planilla:&nbsp;</label>
+
+
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete [data]="listadoPrograPla" [searchKeyword]="keywordPla"
+                                        (selected)='selectProgramacionPlaEvent($event)'
+                                        (inputCleared)='deshabilitaUpload()' [itemTemplate]="itemTemplatePro"
+                                        [notFoundTemplate]="notFoundTemplate2">
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplatePro let-itemPro>
+                                        <a [innerHTML]="itemPro.stringProgramacionPla"></a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate2 let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+
+
+
+                            </div>
+
+
+
+                            <div class="form-group col-xl-6 col-md-6 my-2">
+
+
+                                <div class="fileUpload btn btn-primary">
+                                    <span> <i class="fa fa-cloud-upload fa-2x" aria-hidden="true"></i> &nbsp;Cargar
+                                        Archivo</span>
+                                    <input [disabled]="habilitarUpload" type="file" id="file" class="upload"
+                                        aria-label="File browser example" name="fileHx" (change)="handleUpload($event)"
+                                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+
+                                </div>
+                            </div>
+
+
+
+
+                        </form>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-xl-12 col-md-12 my-5">
+                <div class="row my-2 " id="style-8">
+                    <div class="col-xl-12 col-md-12 table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead
+                                style="background-color: blue;color: white;font-family: 'Times New Roman', Times, serif;">
+
+                                <th class="autollenado">Cod Dp</th>
+                                <th class="autollenado">Descripcion</th>
+                                <th class="autollenado">Cantidad</th>
+                                <th class="autollenado">Monto</th>
+                                <th class="autollenado">&nbsp;</th>
+
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listaResumenByProgramacion">
+                                    <td style=" white-space: nowrap;width: 1%;"> {{item.codDp}} </td>
+                                    <td>{{item.descripcion}}</td>
+                                    <td style="text-align: right;">{{item.cantidad}}</td>
+                                    <td style="text-align: right;">{{item.monto | currency }}</td>
+                                    <td style="text-align: center;">
+                                        <button class="btn btn-primary" (click)="obtenerDetalleDeducciones(item)"
+                                            data-toggle="modal" data-target="#detalleDeduc">
+                                            <i class="fa fa-check-circle fa-2x fontAwesomeconcolor"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!--MODALES-->
+
+
+<div class="modal fade bs-example-modal-lg custom-modal" tabindex="-1" role="dialog" aria-labelledby="myModal"
+    aria-hidden="true" id="detalleDeduc">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
+            <div class="modal-header modal-lg">
+                <h4 class="modal-title">Deducciones</h4>
+            </div>
+            <div class="modal-body modal-lg">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">nombre</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listadoDeducPresta | paginate: { itemsPerPage: 10, currentPage: p }">
+                                <td class="autollenado">{{item.nombre}}</td>
+                                <td>{{item.valor}}</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--fin Modales-->

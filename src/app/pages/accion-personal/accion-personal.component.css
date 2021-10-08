@@ -1,0 +1,93 @@
+table tr:hover {
+    background-color: blue;
+    color: white;
+    font-weight: bolder;
+  }
+
+  table tr td small {
+    opacity: 0.2;
+  }
+
+  table tr:hover td small {
+    opacity: 1;
+  }
+
+
+
+  .table .thead-dark th {
+    background-color: currentColor !important;
+  }
+  tbody {
+    background: white;
+  }
+
+
+
+  ::ng-deep .md-class .modal-dialog {
+    max-width: 80%;
+    width: 80%;
+}
+
+
+
+
+
+
+.numberCircle {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 8px;
+
+    background: blue;
+    border: 2px solid #666;
+    color: white;
+    text-align: center;
+
+    font: 32px Arial, sans-serif;
+}
+
+
+
+
+.btn-primary {
+    font-family: Raleway-SemiBold;
+    font-size: 13px;
+    color: rgba(58, 133, 191, 0.75);
+    letter-spacing: 1px;
+    line-height: 15px;
+    border: 2px solid rgba(58, 133, 191, 0.75);
+    border-radius: 40px;
+    background: transparent;
+    transition: all 0.3s ease 0s;
+  }
+
+
+  label{
+    font-weight: bolder;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+
+
+.fondoAzul{
+background-color: blue;
+color: white;
+}
+
+
+
+.colorBorder{
+    border:5px solid blue;
+
+
+ }
+
+
+
+
+ .my-pagination /deep/ .ngx-pagination .current {
+  background: blue;
+
+}

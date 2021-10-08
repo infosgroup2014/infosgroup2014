@@ -1,0 +1,71 @@
+<div class="row my-4">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#modalEmergencias">
+    Agregar
+    </button>
+    </div>
+
+    <div class="row my-2">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Parentesco</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listaEmergencias">
+                <th scope="row">{{item.nombre}}</th>
+                <td>{{item.telefono}}</td>
+                <td>{{item.parentesco}}</td>
+            <td>
+                <button class="btn btn-danger">
+                    Eliminar
+                </button>
+            </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+
+
+
+    <!-- modal de agregar -->
+    <div id="modalEmergencias"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Formulario </h6>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="emergencias">Nombre</label>
+                            <input class="form-control" type="text" placeholder="Ingresar nombre">
+                        </div>
+                        <div class="form-row"><div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="emergencias">Telefono</label>
+                            <input class="form-control" type="text" placeholder="Ingresar telefono">
+                        </div>
+                        </div><div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="emergencias">Parentesco</label>
+                            <input class="form-control" type="text" placeholder="Seleccione">
+                        </div>
+                        </div></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--fin modal agregar-->
+

@@ -1,0 +1,95 @@
+
+<div class="row my-4">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
+      Agregar
+    </button>
+  </div>
+  
+  
+  <div class="row my-2">
+    <table class="table">
+      <thead style="background-color: blue; color: white;">
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Parentesco</th>
+          <th scope="col">Porcentaje</th>
+          <th scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listaBeneficiario">
+          <th scope="row">{{item.nombreBeneficiario}}</th>
+          <td>{{item.parentescoBeneficiario}}</td>
+          <td>{{item.porcentajeBeneficiario}}</td>
+          <td>
+            <button class="btn btn-danger">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  
+  
+  <!-- modal de agregar -->
+  <div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Datos del beneficiario</h6>
+          <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="beneficiarioForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+  
+            <div class="form-group" [ngClass]="{'has-error' :formErrors.nombre}">
+              <label class="col-sm-2 control-label" for="nombre">Nombre</label>
+              <div class="col-sm-8">
+                <input id="nombre" formControlName="nombre" type="text" class="form-control "
+                  (blur)="logValidationError()">
+  
+                <div *ngIf="formErrors.nombre" class="alert alert-danger">{{ formErrors.nombre}}
+                </div>
+  
+              </div>
+            </div>
+  
+  
+            <div class="form-group">
+              <div class="col-sm-8">
+                <label for="parentescoDependiente">Parentesco</label>
+                <select class="form-control" formControlName="codParentesco" (blur)="logValidationError()">
+                  <option value="{{item.codigoParentesco}}" *ngFor="let item of listaParentescos">
+                    {{item.nombreParentesco}}
+                  </option>
+  
+                </select>
+                <div *ngIf="formErrors.codParentesco" class="alert alert-danger">{{ formErrors.codParentesco}}
+                </div>
+              </div>
+            </div>
+  
+            <div class="form-group" [ngClass]="{'has-error' :formErrors.porcentaje}">
+                <label class="col-sm-2 control-label" for="nombre">Porcentaje</label>
+                <div class="col-sm-8">
+                  <input id="porcentaje" formControlName="porcentaje" type="text" class="form-control "
+                    (blur)="logValidationError()">
+    
+                  <div *ngIf="formErrors.porcentaje" class="alert alert-danger">{{ formErrors.porcentaje}}
+                  </div>
+    
+                </div>
+              </div>
+  
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!--fin modal agregar-->
