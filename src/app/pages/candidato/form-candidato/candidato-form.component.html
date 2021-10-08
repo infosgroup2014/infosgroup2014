@@ -50,17 +50,18 @@
                                 <div class="row">
                                     <legend class="col-md-2 col-form-label pt-0">Candidato</legend>
                                     <div class="form-row col-md-10">
-                                        <div class="form-group col-md-4 col-sm-4">
-                                            <label for="nombre" class="my-1 d-flex align-items-center">
+                                        <div class="form-group col-md-4 col-sm-4" [ngClass]="{'has-error' : formErrors.nombres}">
+                                            <label for="nombres" class="my-1 d-flex align-items-center control-label">
                                                 Nombre
                                             </label>
 
                                             <div class="input-group">
                                                 <input id="nombre" name="nombre" type="text"
-                                                    class="form-control float-right" formControlName="nombres" />
-                                            </div>
-                                            <div *ngIf="this.empForm.controls['nombres'].errors?.required && (this.empForm.controls['nombres'].dirty || this.empForm.controls['nombres'].touched)">
-                                                <span class="text-danger"><strong>*Campo Requerido</strong></span>
+                                                    class="form-control float-right" formControlName="nombres"
+                                                    (blur)="logValidationErrors()" />
+                                                    <span class="text-danger" *ngIf="formErrors.nombres">
+                                                      {{formErrors.nombres}}
+                                                    </span>
                                             </div>
 
                                         </div>
@@ -69,12 +70,10 @@
                                                 class="my-1 d-flex align-items-center">Apellido</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control float-right" id="apellidos"
-                                                    name="apellidos" formControlName="apellidos">
-
-                                            </div>
-
-                                            <div *ngIf="this.empForm.controls['apellidos'].errors?.required && (this.empForm.controls['apellidos'].dirty || this.empForm.controls['apellidos'].touched)">
-                                                <span class="text-danger"><strong>*Campo Requerido</strong></span>
+                                                    name="apellidos" formControlName="apellidos" (blur)="logValidationErrors()" />
+                                                    <span class="text-danger" *ngIf="formErrors.apellidos">
+                                                      {{formErrors.apellidos}}
+                                                    </span>
                                             </div>
 
                                         </div>
@@ -119,18 +118,16 @@
                                                 <ng-select style="width: 200px;" [items]="listadoEstadoCivil"
                                                     bindLabel="nombreEstadoCivil" bindValue="codEstadoCivil"
                                                     formControlName="estadoCivil" id="estadoCivil" name="estadoCivil">
+                                                    (blur)="logValidationErrors()"
                                                 </ng-select>
+                                                    <span class="text-danger" *ngIf="formErrors.nombres">
+                                                      {{formErrors.nombres}}
+                                                    </span>
                                             </div>
-
-                                            <div *ngIf="this.empForm.controls['estadoCivil'].errors?.required && (this.empForm.controls['estadoCivil'].dirty || this.empForm.controls['estadoCivil'].touched)">
-                                                <span class="text-danger"><strong>*Campo Requerido</strong></span>
-                                            </div>
-
-
                                         </div>
 
                                         <div class="form-group col-md-4 col-sm-4">
-                                            <label for="password">Discapacidad</label>
+                                            <label for="discapcidad">Discapacidad</label>
                                             <div class="input-group">
                                                 <ng-select style="width: 200px;" [items]="listadoIncapacidad"
                                                     bindLabel="descripcion"
@@ -148,7 +145,7 @@
 
 
                                         <div class="form-group col-md-4 col-sm-4">
-                                            <label for="password">Ocupación</label>
+                                            <label for="ocupacion">Ocupación</label>
                                             <div class="input-group">
                                                 <ng-select formControlName="ocupaciones" style="width: 250px;"
                                                     [items]="listaOcupacionEmpleado" bindLabel="nomOcupacion"
@@ -166,8 +163,8 @@
 
                                         <div class="form-group col-md-4 col-sm-4">
                                             <label for="correo">Correo Electrónico</label>
-                                            <input id="correo" name="correo" type="text" class="form-control"
-                                                formControlName="email">
+                                            <input id="correo" name="correo" type="email" class="form-control"
+                                                formControlName="email" ngModel="email.text">
                                         </div>
 
 
@@ -456,9 +453,11 @@
                                         <div class="form-group col-md-4 col-sm-4">
                                             <label>IGSS</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control float-right" name="passaporte"
-                                                    formControlName="IGSS">
-
+                                                <input type="text" class="form-control float-right" name="igss"
+                                                    formControlName="IGSS" (blur)="logValidationErrors()" >
+                                                    <span class="help-block" *ngIf="formErrors.igss">
+                                                      {{formErrors.igss}}
+                                                  </span>
                                             </div>
 
                                         </div>
@@ -466,7 +465,7 @@
                                         <div class="form-group col-md-4 col-sm-4">
                                             <label>Nombre según IGSS</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control float-right" name="passaporte"
+                                                <input type="text" class="form-control float-right" name="igssNombre"
                                                     formControlName="IGSSNombre">
 
                                             </div>
@@ -584,7 +583,7 @@
                                     [disabled]="!empForm.valid"
                                     (click)="!candidatoSeleccionado?.candidatoPK ? guardarCandidato():  editarCandidato()">
                                         <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>&nbsp;
-                                        {{!candidatoSeleccionado?.candidatoPK ? 'GUARDAR': 'EDITAR'}}
+                                        {{!candidatoSeleccionado?.candidatoPK ? 'CREA CANDIDATO': 'GUARDAR CAMBIOS'}}
 
                                     </button>
 

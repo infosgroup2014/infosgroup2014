@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, AbstractControl, Validators } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
+import { CustomValidators } from "../../../shared/custom.validator";
 import { BuscarCandidatoModel } from "../../modelo/BuscarCandidato";
 import { Empleado } from "../../modelo/Empleado";
 import { FormEmpleadoModel } from "../../modelo/formEmpleadoModel";
@@ -27,6 +28,31 @@ import { CustomDateParserFormatter } from "./modelo/FormatFecha";
 
 export class CandidatoComponent implements OnInit {
 
+  validationMessages = {
+    'nombres' : {
+      'required' : 'Ingrese el nombre, por favor.'
+    },
+    'apellidos' : {
+      'required' : 'Ingrese el nombre, por favor.'
+    },
+    'estadoCivil' : {
+      'required' : 'Ingrese el nombre, por favor.'
+    },
+    'igss': {
+      'maxlength': 'igss sobrepasa los 12 caracteres',
+    },
+    'email': {
+      'validoCorreo': 'el formato no corresponde a un correo, verifique por favor.'
+    },
+  };
+
+  formErrors = {
+    'nombres':'',
+    'apellidos' :'',
+    'estadoCivil' : '',
+    'igss': '',
+    'email': ''
+  };
 
   mostrarAnioReporte: boolean = false;
   cargoFoto: boolean = false;
@@ -134,6 +160,8 @@ export class CandidatoComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+
     this.servicioPlanilla.obtenerFirmas(3).subscribe(
       (firmas) => {
         this.listaFirmas = firmas;
@@ -149,6 +177,12 @@ export class CandidatoComponent implements OnInit {
       },
       (error) => {
         console.log('ERROR CAPTURADO API FORMATOS TIPOS' + JSON.stringify(error));
+      }
+    );
+
+    this.empForm.valueChanges.subscribe(
+      (data) => {
+           this.logValidationErrors(this.empForm);
       }
     );
   }
@@ -210,7 +244,7 @@ export class CandidatoComponent implements OnInit {
       direccionDoc: [''],
       tieneFamiliares: [''],
       passaporte: [''],
-      IGSS: [''],
+      IGSS: ['',Validators.maxLength(10) ],
       IGSSNombre: [''],
       ITRA: [''],
       NIT: [''],
@@ -227,12 +261,12 @@ export class CandidatoComponent implements OnInit {
       ocupaciones: [''],
       formaPago: [''],
       direccionDui: [''],
-      email: [''],
+      email: ['', CustomValidators.validoCorreo('@')],
       sexo: [''],
     });
   }
 
-  createForm() {
+   createForm() {
     this.formEmpleado = this.fb.group({
       codEmp: [''],
       nombre: [''],
@@ -470,6 +504,7 @@ export class CandidatoComponent implements OnInit {
     };
 
     this.listaCandidatos = [];
+    this.urlFoto = '';
 
     this.servicioPlanilla.obtenerCandidatos(objeto).subscribe((data: Candidato[]) => {
       this.listaCandidatos = data;
@@ -1056,6 +1091,7 @@ export class CandidatoComponent implements OnInit {
     this.fechaLabores = null;
     this.sexoEmpleado = null;
     this.candidatoSeleccionado = null;
+    this.urlFoto = '';
   }
 
 
@@ -1390,6 +1426,11 @@ export class CandidatoComponent implements OnInit {
     if (this.candidatoSeleccionado.archivoFoto) {
       candidato.archivoFoto = this.candidatoSeleccionado.archivoFoto;
     }
+    else
+//  no adjuntaron foto
+    {
+      candidato.archivoFoto = '';
+    }
 
 
 
@@ -1406,6 +1447,8 @@ export class CandidatoComponent implements OnInit {
             'Datos Guardados con exito!',
             'success');
 
+
+
         } else {
           Swal.fire('Guardar Candidato',
             'Error al Guardar',
@@ -1417,6 +1460,42 @@ export class CandidatoComponent implements OnInit {
 
 
 
+
+  }
+
+  logValidationErrors(group: FormGroup = this.empForm): void {
+
+    Object.keys(group.controls).forEach((key: string) => {
+
+      const abstractControl = group.get(key);
+
+      this.formErrors[key] = '';
+      if (abstractControl && !abstractControl.valid) {
+        const messages = this.validationMessages[key];
+        console.log('Validaciones...')
+        console.log(messages);
+        console.log(abstractControl.errors);
+        for (const errorKey in abstractControl.errors) {
+          if (errorKey) {
+            this.formErrors[key] += messages[errorKey] + ' ';
+          }
+        }
+      }
+
+      if (abstractControl instanceof FormGroup) {
+        this.logValidationErrors(abstractControl);
+      }
+
+      if (abstractControl instanceof FormArray) {
+        for (const control of abstractControl.controls) {
+          if (control instanceof FormGroup) {
+            this.logValidationErrors(control);
+          }
+        }
+
+      }
+
+    });
 
   }
 
