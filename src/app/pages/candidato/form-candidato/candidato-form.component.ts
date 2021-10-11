@@ -28,6 +28,7 @@ import { CustomDateParserFormatter } from "./modelo/FormatFecha";
 
 
 // se ha agregado informacion para el manejo del candidato
+// 11 10 21 se agrego la validacion de email
 
 export class CandidatoComponent implements OnInit {
 
