@@ -164,7 +164,11 @@
                                         <div class="form-group col-md-4 col-sm-4">
                                             <label for="correo">Correo Electrónico</label>
                                             <input id="correo" name="correo" type="email" class="form-control"
-                                                formControlName="email" ngModel="email.text">
+                                                formControlName="email"
+                                                (blur)="logValidationErrors()" />
+                                                <span class="text-danger" *ngIf="formErrors.email">
+                                                  {{formErrors.email}}
+                                                </span>
                                         </div>
 
 
@@ -583,7 +587,7 @@
                                     [disabled]="!empForm.valid"
                                     (click)="!candidatoSeleccionado?.candidatoPK ? guardarCandidato():  editarCandidato()">
                                         <i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>&nbsp;
-                                        {{!candidatoSeleccionado?.candidatoPK ? 'CREA CANDIDATO': 'GUARDAR CAMBIOS'}}
+                                        {{!candidatoSeleccionado?.candidatoPK ? 'Crear Candidato': 'Guardar Cambios'}}
 
                                     </button>
 

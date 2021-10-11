@@ -264,7 +264,7 @@ export class CandidatoComponent implements OnInit {
       ocupaciones: [''],
       formaPago: [''],
       direccionDui: [''],
-      email: ['', CustomValidators.validoCorreo('@')],
+      email: ['',CustomValidators.validoCorreo('@')],
       sexo: [''],
     });
   }
@@ -1103,7 +1103,6 @@ export class CandidatoComponent implements OnInit {
 
 
 
-
     let candidato: Candidato = new Candidato();
 
     candidato.candidatoPK = new CandidatoPK();
@@ -1473,7 +1472,8 @@ export class CandidatoComponent implements OnInit {
       const abstractControl = group.get(key);
 
       this.formErrors[key] = '';
-      if (abstractControl && !abstractControl.valid) {
+      if (abstractControl && !abstractControl.valid &&
+        (abstractControl.touched || abstractControl.dirty)) {
         const messages = this.validationMessages[key];
         console.log('Validaciones...')
         console.log(messages);
