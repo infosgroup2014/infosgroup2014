@@ -1,6 +1,8 @@
 
 import { AbstractControl, Validators } from '@angular/forms';
 
+// validaciones comunes
+// jfong
 export class CustomValidators {
     static validoCorreo(dominioValidar:string) {
         return (control : AbstractControl) : { [key: string] : any} | null => {
