@@ -18,6 +18,7 @@ import { PlanillaService } from '../servicio/planilla.service';
 import { ReportesService } from '../servicio/reportes.service';
 import { CustomDateParserFormatter } from '../candidato/form-candidato/modelo/FormatFecha';
 
+
 @Component({
     selector: 'app-expediente-empleado',
     templateUrl: './expediente-empleado.component.html',
@@ -339,8 +340,12 @@ export class ExpedienteEmpleadoComponent implements OnInit {
     irPreparacionAcademica() {
         this.router.navigate(['preparacion-academica']);
     }
-    irCapacitaciones() {
-        this.router.navigate(['capacitaciones']);
+    irCapacitaciones(codCia : number, codEmp : number) {
+      console.log('va a capacitaciones..');
+      console.log('cia:'+codCia);
+      console.log('emp:'+codEmp);
+
+      this.router.navigate(['/pages/capacitaciones', codCia, codEmp]);
     }
     irEmergencias() {
         this.router.navigate(['emergencias']);
@@ -371,8 +376,12 @@ export class ExpedienteEmpleadoComponent implements OnInit {
         this.router.navigate(['dependientes']);
     }
 
-    irBeneficiario() {
-        this.router.navigate(['beneficiario']);
+    irBeneficiario(cia : number, codemp : number) {
+        console.log('va a beneficiarios..');
+        console.log('cia:'+cia);
+        console.log('emp:'+codemp);
+
+        this.router.navigate(['/pages/beneficiario', cia, codemp]);
     }
 
     irDatosAfiliacion() {

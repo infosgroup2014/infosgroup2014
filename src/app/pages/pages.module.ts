@@ -34,6 +34,8 @@ import { PlantillaSieteComponent } from './plantilla-siete/plantilla-siete.compo
 import { PlantillaCuatroComponent } from './plantilla-cuatro/plantilla-cuatro.component';
 import { PlantillaSeisComponent } from './plantilla-seis/plantilla-seis.component';
 import { PlantillaCincoComponent } from './plantilla-cinco/plantilla-cinco.component';
+import { BeneficiarioComponent } from './expediente-empleado/beneficiario/beneficiario.component';
+import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/capacitaciones.component';
 
 @NgModule({
   imports: [
@@ -64,8 +66,10 @@ import { PlantillaCincoComponent } from './plantilla-cinco/plantilla-cinco.compo
     EditarPlanillaComponent,
     FormPlanillaComponent,
     CandidatoComponent,
+    CapacitacionesComponent,
     ContratacionDirectaComponent,
     ExpedienteEmpleadoComponent,
+    BeneficiarioComponent,
     ArchivoAfpComponent,
     AccionCrearComponent,
     AccionNoAfectaPlanillaComponent,

@@ -32,6 +32,7 @@ export class Candidato {
     numPasaporte: string;
     expedicionDui: string;
     email:string;
+    estado:string;
     discapacidad:string;
     codOcupacion:number;
     celular:string;

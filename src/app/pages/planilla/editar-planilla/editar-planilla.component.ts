@@ -1,18 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { ProgramacionPla } from '../../modelo/ProgramacionPla';
 import { ProgramacionPlaPK } from '../../modelo/ProgramacionPlaPK';
 import { TiposPlanilla } from '../../modelo/TiposPlanilla';
 import { TiposPlanillaPK } from '../../modelo/TiposPlanillaPK';
 import { PlanillaService } from '../../servicio/planilla.service';
+import { CustomDateParserFormatter } from "./FormatFecha";
 
 @Component({
   selector: 'app-editar-planilla',
   templateUrl: './editar-planilla.component.html',
-  styleUrls: ['./editar-planilla.component.css']
+  styleUrls: ['./editar-planilla.component.css'],
+  providers: [
+    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
+  ]
 })
 export class EditarPlanillaComponent implements OnInit {
 
@@ -73,7 +77,8 @@ export class EditarPlanillaComponent implements OnInit {
       mesPrestamo: [''],
       factorCambiario: [''],
       nota: [''],
-
+      anioIsss: [''],
+      mesIsss: ['']
     });
     //console.log('Entro en edicion');
   }
@@ -90,6 +95,8 @@ export class EditarPlanillaComponent implements OnInit {
     this.planillaForm.get('anio').setValue(data.anio);
     this.planillaForm.get('mese').setValue(data.mes);
     this.planillaForm.get('periodo').setValue(data.quincena);
+    this.planillaForm.get('anioIsss').setValue(data.anioIsss);
+    this.planillaForm.get('mesIsss').setValue(data.mesIsss);
     this.statusPlanilla = data.status;
     this.numPlanilla = data.numPlanilla;
     console.log('----------------------------------------->');
@@ -236,7 +243,8 @@ export class EditarPlanillaComponent implements OnInit {
     /// objetoPlanilla.status='G';
     objetoPlanilla.anio = Number(this.planillaForm.get('anio').value);
     objetoPlanilla.mes = Number(this.planillaForm.get('mese').value);
-
+    objetoPlanilla.anioIsss = Number(this.planillaForm.get('anioIsss').value);
+    objetoPlanilla.mesIsss = Number(this.planillaForm.get('mesIsss').value);
 
     if (this.fechaInicialAlimento) {
       const fechaConstDateInitial = this.fechaInicialAlimento;

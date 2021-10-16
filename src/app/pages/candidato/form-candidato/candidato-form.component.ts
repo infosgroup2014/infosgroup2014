@@ -18,7 +18,7 @@ import { CandidatoPK } from "./modelo/CandidatoPK";
 import { CustomDateParserFormatter } from "./modelo/FormatFecha";
 
 @Component({
-  selector: 'carga-manual',
+  selector: 'app-Candidato',
   templateUrl: './candidato-form.component.html',
   styleUrls: ['./candidato-form.component.css'],
   providers: [
@@ -57,6 +57,8 @@ export class CandidatoComponent implements OnInit {
     'igss': '',
     'email': ''
   };
+
+  titulo :string = 'Registrando Candidato';
 
   mostrarAnioReporte: boolean = false;
   cargoFoto: boolean = false;
@@ -145,7 +147,11 @@ export class CandidatoComponent implements OnInit {
   requestReporteExpediente: RequestParamReporteEmp = new RequestParamReporteEmp();
   urlFoto: any;
   codigoEmpleado: number;
+  servicioReportes: any;
 
+  // para el reporte
+  certificado: any;
+  pdfSolicitud: any;
 
   constructor(
     private router: Router,
@@ -267,6 +273,7 @@ export class CandidatoComponent implements OnInit {
       direccionDui: [''],
       email: ['',CustomValidators.validoCorreo('@')],
       sexo: [''],
+      estado : ['']
     });
   }
 
@@ -509,10 +516,18 @@ export class CandidatoComponent implements OnInit {
 
     this.listaCandidatos = [];
     this.urlFoto = '';
+    this.titulo = 'Registrando Candidato';
+
+    this.listaCandidatos = [];
 
     this.servicioPlanilla.obtenerCandidatos(objeto).subscribe((data: Candidato[]) => {
       this.listaCandidatos = data;
     });
+
+    this.formCandidato.reset();
+    // this.servicioPlanilla.obtenerCandidatos(objeto).subscribe((data: Candidato[]) => {
+    //   this.listaCandidatos = data;
+    // });
   }
 
   obtenerCandidato(candidato: CandidatoPK) {
@@ -522,6 +537,7 @@ export class CandidatoComponent implements OnInit {
       console.log('-------------------------------------------');
       this.asignarCandidato(data);
     });
+    this.titulo = 'Editando Candidato';
   }
 
   asignarCandidato(emp: Candidato) {
@@ -540,6 +556,7 @@ export class CandidatoComponent implements OnInit {
     this.empForm.get('incapacidad').setValue(this.candidatoSeleccionado.discapacidad);
     this.empForm.get('ocupaciones').setValue(this.candidatoSeleccionado.codOcupacion);
     this.empForm.get('sexo').setValue(1);
+    this.empForm.get('estado').setValue(this.candidatoSeleccionado.estado);
 
 
 
@@ -764,7 +781,7 @@ export class CandidatoComponent implements OnInit {
   }
 
   public cambiarFotoEmpleado(event) {
-    this.cargoFoto = true;
+
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -778,6 +795,8 @@ export class CandidatoComponent implements OnInit {
 
       this.candidatoSeleccionado.archivoFoto = archivo;
       this.visualizarBase64URL(archivo);
+      this.cargoFoto = true;
+
     };
   }
 
@@ -1072,10 +1091,11 @@ export class CandidatoComponent implements OnInit {
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: `EMPLEADO  ${data.nombres}-${data.apellidos} MODIFICADO EXITOSAMENTE`,
+          title: `EMPLEADO  ${data.nombres}-${data.apellidos} Modificaco Exitosamente.`,
           showConfirmButton: false,
           timer: 1500
         })
+        this.limpiar();
       }, error => {
         console.log('error api' + JSON.stringify(error));
       }
@@ -1110,6 +1130,8 @@ export class CandidatoComponent implements OnInit {
     candidato.candidatoPK = this.candidatoSeleccionado.candidatoPK;
     candidato.nombre = this.empForm.get('nombres').value;
     candidato.apellido = this.empForm.get('apellidos').value;
+    candidato.estado = this.empForm.get('estado').value;
+
     if (this.empForm.get('apCasada').value) {
       candidato.apCasada = this.empForm.get('apCasada').value;
     }
@@ -1426,14 +1448,17 @@ export class CandidatoComponent implements OnInit {
     candidato.peso = 0;
     candidato.estatura = 0;
 
-    if (this.candidatoSeleccionado.archivoFoto) {
+    if (this.cargoFoto) {
+
+    // }
+    // if (this.candidatoSeleccionado.archivoFoto ) {
       candidato.archivoFoto = this.candidatoSeleccionado.archivoFoto;
     }
-    else
-//  no adjuntaron foto
-    {
-      candidato.archivoFoto = '';
-    }
+//     else
+// //  no adjuntaron foto
+//     {
+//       candidato.archivoFoto = null;
+//     }
 
 
 
@@ -1501,6 +1526,59 @@ export class CandidatoComponent implements OnInit {
 
     });
 
+  }
+
+
+  imprimirSolicitud() {
+
+
+    this.servicioReportes.generarReporteSolicitud(this.candidatoSeleccionado.candidatoPK.codCia,
+                                                  this.candidatoSeleccionado.candidatoPK.codCandidato).subscribe(
+        data => {
+          console.log('Respuesta blobUrl:' + JSON.stringify(data));
+          this.mostrarSolicitud(data.archivo);
+        }
+      );
+
+  }
+  mostrarSolicitud(datos: string) {
+    this.certificado = datos;
+    let resultado: string = datos;
+
+    atob(resultado);
+
+    const b64toBlob = (b64Data, contentType = "", sliceSize = 512) => {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+
+      for (
+        let offset = 0;
+        offset < byteCharacters.length;
+        offset += sliceSize
+      ) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+
+      const blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+    };
+
+    const contentType = "application/pdf";
+    const b64Data = resultado;
+
+    const blob = b64toBlob(b64Data, contentType);
+    const blobUrl = URL.createObjectURL(blob);
+    this.pdfSolicitud = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      blobUrl
+    );
   }
 
 

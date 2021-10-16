@@ -521,19 +521,24 @@ export class PlanillaService {
 
 
 
-  obtenerEmpleadosAfectadosDepto(cia: any,depto:any): Observable<any> {
+  obtenerEmpleadosAfectadosDepto(cia: any, depto: any): Observable<any> {
 
 
     return this.http
-      .get(this.baseUrlEmpleados + 'total-emp-afectado-depto-filter/'+cia+'/'+depto)
+      .get(this.baseUrlEmpleados + 'total-emp-afectado-depto-filter/' + cia + '/' + depto)
       .pipe(catchError(this.handleError));
   }
 
-  obtenerEmpleadosByDepto(cia: any,depto:any): Observable<any> {
-
-
+  obtenerEmpleadosByDepto(cia: any, depto: any): Observable<any> {
     return this.http
-      .get(this.baseUrlEmpleados + 'obtener-empleado-by-depto/'+cia+'/'+depto)
+      .get(this.baseUrlEmpleados + 'obtener-empleado-by-depto/' + cia + '/' + depto)
+      .pipe(catchError(this.handleError));
+  }
+
+
+  obtenerEmpleadosByRango(cia: any, si: number, sf: number): Observable<any> {
+    return this.http
+      .get(this.baseUrlEmpleados + 'obtener-empleado-by-rango-salario/' + cia + '/' + si + '/' + sf)
       .pipe(catchError(this.handleError));
   }
 

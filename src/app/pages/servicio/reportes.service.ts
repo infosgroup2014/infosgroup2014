@@ -68,6 +68,11 @@ export class ReportesService {
   }
 
 
+  generarReporteSolicitud(cia:any,candidato:any):Observable<any>{
+    return this.http.get(this.baseUrl+'reportes/generar-rep-solicitud/'+cia+'/'+candidato).pipe(catchError(this.handleError));
+  }
+
+
 
 
 }

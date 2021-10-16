@@ -41,6 +41,8 @@ import { TiposPlanilla } from './TiposPlanilla';
     stringProgramacionPlaHx: string;
     stringQuincena: string;
     fecEnded:string;
+    anioIsss: number;
+    mesIsss: number;
 
 
     constructor(){

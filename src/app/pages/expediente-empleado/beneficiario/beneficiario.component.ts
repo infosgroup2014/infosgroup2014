@@ -1,30 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, EmailValidator, FormArray } from '@angular/forms';
-import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+
+
+
 @Component({
   selector: 'app-beneficiario',
   templateUrl: './beneficiario.component.html',
   styleUrls: ['./beneficiario.component.css']
 })
+
 export class BeneficiarioComponent implements OnInit {
 
-  beneficiarioForm!: FormGroup;
-
-
-  listaBeneficiario = [{ nombreBeneficiario: 'Francisco Gonzalez', parentescoBeneficiario: 'Padre', porcentajeBeneficiario : '50'},
-  { nombreBeneficiario: 'Maria Gonzalez', parentescoBeneficiario: 'Madre', porcentajeBeneficiario : '50'},
-  ];
-
-  listaParentescos = [
-    { nombreParentesco: '--Seleccione--', codigoParentesco: '' },
-    { nombreParentesco: 'hijo(a)', codigoParentesco: '1' },
-    { nombreParentesco: 'padre', codigoParentesco: '2' },
-    { nombreParentesco: 'madre', codigoParentesco: '3' },
-    { nombreParentesco: 'esposo', codigoParentesco: '4' },
-    { nombreParentesco: 'esposa', codigoParentesco: '5' }
-  ];
-
-  constructor(private fb: FormBuilder) { }
+  beneficiarioForm : FormGroup;
 
   validationMessages: { [x: string]: any; } = {
     'nombre': {
@@ -46,7 +35,23 @@ export class BeneficiarioComponent implements OnInit {
     'codParentesco': ''
   };
 
-  ngOnInit(): void {
+  listaBeneficiario = [{ nombreBeneficiario: 'Francisco Gonzalez', parentescoBeneficiario: 'Padre', porcentajeBeneficiario : '50'},
+  { nombreBeneficiario: 'Maria Gonzalez', parentescoBeneficiario: 'Madre', porcentajeBeneficiario : '50'},
+  ];
+
+  listaParentescos = [
+    { nombreParentesco: '--Seleccione--', codigoParentesco: '' },
+    { nombreParentesco: 'hijo(a)', codigoParentesco: '1' },
+    { nombreParentesco: 'padre', codigoParentesco: '2' },
+    { nombreParentesco: 'madre', codigoParentesco: '3' },
+    { nombreParentesco: 'esposo', codigoParentesco: '4' },
+    { nombreParentesco: 'esposa', codigoParentesco: '5' }
+  ];
+
+  constructor(private fb: FormBuilder,
+              private route: ActivatedRoute,
+              private router : Router) {
+
     this.beneficiarioForm = this.fb.group({
       codCia: [''],
       codEmp: [''],
@@ -57,8 +62,21 @@ export class BeneficiarioComponent implements OnInit {
       codEmpAnterior: [''],
       identidad: [''],
       numIgss: ['']
-    })
-  }
+    });
+
+   }
+
+
+   ngOnInit(): void {
+
+    this.route.paramMap.subscribe( params => {
+      console.log('Parametros que llegan.');
+      console.log(params);
+  //    const ProspectoId = +params.get('codProspecto');
+  //    console.log('Codigo prospecto:'+ProspectoId);
+    });
+
+   }
 
   get codCia() { return this.beneficiarioForm.get('codCia'); }
   get codEmp() { return this.beneficiarioForm.get('codEmp'); }
@@ -111,4 +129,10 @@ export class BeneficiarioComponent implements OnInit {
     });
   }
 
+
+
+
+  guardarBeneficiario () {
+
+  }
 }

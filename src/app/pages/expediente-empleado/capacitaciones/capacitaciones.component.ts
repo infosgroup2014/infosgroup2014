@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { AcademicaService } from '../../servicio/prepAcademica.service'
+import { Capacitaciones } from '../modelo/Capacitaciones';
 
 @Component({
   selector: 'app-capacitaciones',
@@ -7,11 +12,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CapacitacionesComponent implements OnInit {
 
-  listaCapacitaciones=[
-    {nombre:'capacitación prueba 1',institucion:'Institucion 1',periodo:2021,fecha:'01/01/2021'},
-    {nombre:'capacitación prueba 2',institucion:'Institucion 2',periodo:2021,fecha:'01/02/2021'},
-    {nombre:'capacitación prueba 3',institucion:'Institucion 3',periodo:2021,fecha:'01/03/2021'}
-  ];
+
+  listaCapacitaciones : Capacitaciones[] = [];
 
   listaTipoCapac=[
     {tipo:'Taller',valor:'TA'}, {tipo:'Charla',valor:'CH'},
@@ -19,9 +21,33 @@ export class CapacitacionesComponent implements OnInit {
     {tipo:'Pasantia',valor:'PA'}, {tipo:'Diplomado',valor:'DP'}
   ];
 
-  constructor() { }
+  constructor(
+    private router: ActivatedRoute,
+    private fb: FormBuilder,
+    private serviciosExpediente : AcademicaService )
+   {
+    this.router.paramMap.subscribe( params => {
+      console.log('Parametros que llegan.');
+      console.log(params);
+      const CodCia = +params.get('codCia');
+      const CodEmp = +params.get('codEmp');
+      console.log('Empleado:'+CodCia+'-'+CodEmp);
+
+      this.serviciosExpediente.obtenerCapacitaciones(CodCia, CodEmp).subscribe((data) => {
+       this.listaCapacitaciones = data;
+    //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
+       });
+
+    });
+
+
+
+   }
 
   ngOnInit(): void {
   }
+
+
+
 
 }

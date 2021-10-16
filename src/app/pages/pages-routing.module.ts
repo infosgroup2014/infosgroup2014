@@ -24,6 +24,8 @@ import { PlantillaSieteComponent } from './plantilla-siete/plantilla-siete.compo
 import { PlantillaCuatroComponent } from './plantilla-cuatro/plantilla-cuatro.component';
 import { PlantillaCincoComponent } from './plantilla-cinco/plantilla-cinco.component';
 import { DeduccionesComponent } from './deduccion/deducciones.component';
+import { BeneficiarioComponent } from './expediente-empleado/beneficiario/beneficiario.component';
+import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/capacitaciones.component';
 
 const routes: Routes = [{
   path: '',
@@ -104,6 +106,14 @@ const routes: Routes = [{
     {
       path:'contratacion',
       component:ContratacionDirectaComponent, canActivate: [AuthGuard]
+    },
+    {
+      path: 'beneficiario/:ciaCia/:codEmp',
+      component:BeneficiarioComponent, canActivate: [AuthGuard]
+    },
+    {
+      path: 'capacitaciones/:codCia/:codEmp',
+      component:CapacitacionesComponent, canActivate: [AuthGuard]
     },
     {
       path: 'iot-dashboard',

@@ -28,7 +28,8 @@ import { PuestosPK } from '../modelo/PuestosPK';
 export class PlantillaTresComponent implements OnInit {
 
 
-  p: number = 1;
+  pagina: number = 1;
+  pagina2: number = 1;
   fechaSolicitud: NgbDateStruct;
   fechaInicial: NgbDateStruct;
   empleado: Empleado = new Empleado();
@@ -46,10 +47,10 @@ export class PlantillaTresComponent implements OnInit {
   fechaInicioContrato: NgbDateStruct;
   fechaFinContrato: NgbDateStruct;
   listadoEmpresas: Array<any> = [];
-  criterioSalario:string='V';
-  porcentaje:number=0;
-  listadoProgramaciones:Array<any>=[];
-  programacionSeleccion:any;
+  criterioSalario: string = 'V';
+  porcentaje: number = 0;
+  listadoProgramaciones: Array<any> = [];
+  programacionSeleccion: any;
   archivo: string;
 
 
@@ -96,8 +97,8 @@ export class PlantillaTresComponent implements OnInit {
       puesto: [''],
       cambioPlanilla: [''],
       empresa: [''],
-      nuevoSalario:[''],
-      nuevaBonificacion:[]
+      nuevoSalario: [''],
+      nuevaBonificacion: []
 
     });
   }
@@ -125,7 +126,7 @@ export class PlantillaTresComponent implements OnInit {
 
 
   Buscar() {
-    this.p = 1;
+    this.pagina = 1;
     let formEmpleado = new FormEmpleadoModel();
 
     formEmpleado.empresa = 3;
@@ -157,18 +158,10 @@ export class PlantillaTresComponent implements OnInit {
       });
 
     }
-
-
-
-
     this.listaEmpleadosInactivos = [];
     this.planillaService.obtenerEmpleadosInactivos(formEmpleado).subscribe((data) => {
       this.listaEmpleadosInactivos = data;
     });
-
-
-
-
   }
 
 
@@ -281,16 +274,16 @@ export class PlantillaTresComponent implements OnInit {
     accionPersonal.fecha = String(this.fechaSolicitud.day) + '-' + cero + String(this.fechaSolicitud.month) + '-' + String(this.fechaSolicitud.year) + ' ' + '00:00:00';
 
     if (this.fechaInicial) {
-      let ceroDay:string;
-      ceroDay='';
-      if(this.fechaInicial.day<=9){
-        ceroDay='0';
+      let ceroDay: string;
+      ceroDay = '';
+      if (this.fechaInicial.day <= 9) {
+        ceroDay = '0';
       }
-      accionPersonal.fechaInicial = String(this.fechaInicial.year) + '-' + cero2 + String(this.fechaInicial.month) + '-' +ceroDay+String(this.fechaInicial.day);
+      accionPersonal.fechaInicial = ceroDay + String(this.fechaInicial.day) + '-' + cero2 + String(this.fechaInicial.month) + '-' + String(this.fechaInicial.year) + ' ' + '00:00:00';
     }
 
     if (this.fechaInicioContrato) {
-      accionPersonal.fechaInicioContrato = String(this.fechaInicioContrato.year) + '-' + cero3 + String(this.fechaInicioContrato.month) + '-' + String(this.fechaInicioContrato.day)+ ' ' + '00:00:00';
+      accionPersonal.fechaInicioContrato = String(this.fechaInicioContrato.year) + '-' + cero3 + String(this.fechaInicioContrato.month) + '-' + String(this.fechaInicioContrato.day) + ' ' + '00:00:00';
     }
 
     accionPersonal.accionPersonalPK = new AccionPersonalPK();
@@ -300,7 +293,7 @@ export class PlantillaTresComponent implements OnInit {
     accionPersonal.puestos = new Puestos();
     accionPersonal.puestos.puestosPK = new PuestosPK();
     accionPersonal.puestos.puestosPK.codCia = 3;
-   // accionPersonal.puestos.puestosPK.codPuesto = 127;
+    // accionPersonal.puestos.puestosPK.codPuesto = 127;
 
     if (this.empleado.salario != null) {
       accionPersonal.sueldoAnterior = Number(this.empleado.salario);
@@ -324,11 +317,11 @@ export class PlantillaTresComponent implements OnInit {
     }
 
     if (this.plantillaTresForm.get('puesto').value) {
-      accionPersonal.codPuesto= Number(this.plantillaTresForm.get('puesto').value);
+      accionPersonal.codPuesto = Number(this.depenciaEmpleado?.puesto?.puestosPK?.codPuesto);
       accionPersonal.codNuevoPuesto = Number(this.plantillaTresForm.get('puesto').value);
     } else {
       accionPersonal.codNuevoPuesto = Number(this.depenciaEmpleado?.puesto?.puestosPK?.codPuesto);
-      accionPersonal.codPuesto= Number(this.depenciaEmpleado?.puesto?.puestosPK?.codPuesto);
+      accionPersonal.codPuesto = Number(this.depenciaEmpleado?.puesto?.puestosPK?.codPuesto);
     }
 
 
@@ -346,49 +339,55 @@ export class PlantillaTresComponent implements OnInit {
       accionPersonal.codGerencia = Number(this.plantillaTresForm.get('gerencia').value);
     }
 
-    if(this.criterioSalario){
-      accionPersonal.formaAumento=this.criterioSalario;
+    if (this.criterioSalario) {
+      accionPersonal.formaAumento = this.criterioSalario;
     }
 
-    if(this.programacionSeleccion){
-      accionPersonal.anio=this.programacionSeleccion.anio;
-    }
-
-
-    if(this.programacionSeleccion){
-      accionPersonal.mes=this.programacionSeleccion.mes;
-    }
-
-    if(this.programacionSeleccion){
-      accionPersonal.numPlanilla=this.programacionSeleccion.numPlanilla;
+    if (this.programacionSeleccion) {
+      accionPersonal.anio = this.programacionSeleccion.anio;
     }
 
 
-    if(this.criterioSalario==='V' && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 ||  this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)){
-      accionPersonal.cantidad=this.plantillaTresForm.get('nuevoSalario').value;
+    if (this.programacionSeleccion) {
+      accionPersonal.mes = this.programacionSeleccion.mes;
     }
 
-    if(this.criterioSalario==='P' && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)){
-      accionPersonal.cantidad=this.porcentaje;
-    }
-
-
-    if(this.plantillaTresForm.get('nuevoSalario').value && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)){
-      accionPersonal.porcentaje=Number(this.plantillaTresForm.get('nuevoSalario').value);
+    if (this.programacionSeleccion) {
+      accionPersonal.numPlanilla = this.programacionSeleccion.numPlanilla;
     }
 
 
-    if(this.depenciaEmpleado.bonificacion && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)){
-      accionPersonal.bonificacionAct=Number(this.depenciaEmpleado.bonificacion);
+    if (this.criterioSalario === 'V' && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7) || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 30) {
+      accionPersonal.cantidad = this.plantillaTresForm.get('nuevoSalario').value;
+    }
+
+    if (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 30) {
+      accionPersonal.sueldoAnterior = this.plantillaTresForm.get('nuevoSalario').value;
+      accionPersonal.cantidad = this.depenciaEmpleado?.salario;
     }
 
 
-    if(this.plantillaTresForm.get('nuevaBonificacion').value && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)){
-      accionPersonal.bonificacionAct=Number(this.plantillaTresForm.get('nuevaBonificacion').value);
+    if (this.criterioSalario === 'P' && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)) {
+      accionPersonal.cantidad = this.porcentaje;
+    }
+
+
+    if (this.plantillaTresForm.get('nuevoSalario').value && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)) {
+      accionPersonal.porcentaje = Number(this.plantillaTresForm.get('nuevoSalario').value);
+    }
+
+
+    if (this.depenciaEmpleado.bonificacion && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)) {
+      accionPersonal.bonificacionAct = Number(this.depenciaEmpleado.bonificacion);
+    }
+
+
+    if (this.plantillaTresForm.get('nuevaBonificacion').value && (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 7)) {
+      accionPersonal.bonificacionAct = Number(this.plantillaTresForm.get('nuevaBonificacion').value);
     }
 
     //console.log('---------------------------');
-  console.log('LO QUE MANDO' + JSON.stringify(accionPersonal));
+    console.log('LO QUE MANDO' + JSON.stringify(accionPersonal));
     this.accionPersonalService.guardarAccionPersonal(accionPersonal, 'RH_HUMANOS.3', 47).subscribe(data => {
       if (data.accionPersonalPK) {
         Swal.fire('', 'Datos Guardado con exito', 'success');
@@ -409,17 +408,17 @@ export class PlantillaTresComponent implements OnInit {
     this.plazaSeleccionado = objeto;
     //console.log('Plazas::' + JSON.stringify(this.plazaSeleccionado));
 
-    if(this.plazaSeleccionado.codGerencia){
+    if (this.plazaSeleccionado.codGerencia) {
       this.plantillaTresForm.get('gerencia').setValue(Number(this.plazaSeleccionado.codGerencia));
     }
 
-    if(this.plazaSeleccionado.departamentos){
+    if (this.plazaSeleccionado.departamentos) {
       console.log('HOLA');
       this.planillaService.obtenerDeptoByGerencia(3, Number(this.plazaSeleccionado.codGerencia)).subscribe(depart => this.listaDepartamentos = depart);
       this.plantillaTresForm.get('departamento').setValue(Number(this.plazaSeleccionado.departamentos.departamentosPK.codDepto));
     }
 
-    if(this.plazaSeleccionado.puestos){
+    if (this.plazaSeleccionado.puestos) {
       this.plantillaTresForm.get('puesto').setValue(Number(this.plazaSeleccionado.puestos.puestosPK.codPuesto));
     }
 
@@ -434,28 +433,28 @@ export class PlantillaTresComponent implements OnInit {
   }
 
 
-  aplicarCriterio(valor:number){
-    this.porcentaje=0;
+  aplicarCriterio(valor: number) {
+    this.porcentaje = 0;
     this.plantillaTresForm.get('nuevoSalario').reset();
-    this.criterioSalario='V';
-    if(valor==1){
-      this.criterioSalario='P';
+    this.criterioSalario = 'V';
+    if (valor == 1) {
+      this.criterioSalario = 'P';
     }
 
   }
 
 
-  calculoSalario():void{
-    if(this.criterioSalario=='P' && this.plantillaTresForm.get('nuevoSalario').value && this.depenciaEmpleado.salario){
-      this.porcentaje=this.depenciaEmpleado.salario+((Number(this.plantillaTresForm.get('nuevoSalario').value)/100)* Number(this.depenciaEmpleado.salario));
+  calculoSalario(): void {
+    if (this.criterioSalario == 'P' && this.plantillaTresForm.get('nuevoSalario').value && this.depenciaEmpleado.salario) {
+      this.porcentaje = this.depenciaEmpleado.salario + ((Number(this.plantillaTresForm.get('nuevoSalario').value) / 100) * Number(this.depenciaEmpleado.salario));
     }
   }
 
 
-  obtenerProgramaciones(val){
-    this.planillaService.obtenerProgramacionCloser(3,val.target.value).subscribe(
-      valor=>{
-        this.listadoProgramaciones=valor;
+  obtenerProgramaciones(val) {
+    this.planillaService.obtenerProgramacionCloser(3, val.target.value).subscribe(
+      valor => {
+        this.listadoProgramaciones = valor;
       }
     );
   }

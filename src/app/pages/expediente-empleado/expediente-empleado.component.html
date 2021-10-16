@@ -953,7 +953,7 @@
                         <li class="text-muted">Expediente Digital</li>
                         <li class="list-group-item" data-dismiss="modal"><a (click)="irEmergencias()"><i
                                     class="fa fa-globe text-primary mx-2"></i>Emergencias</a></li>
-                        <li class="list-group-item" data-dismiss="modal"><a (click)="irCapacitaciones()"><i
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irCapacitaciones(empleadoSelecionado.empleadosPK.codCia,empleadoSelecionado.empleadosPK.codEmp)"><i
                                     class="fa fa-globe text-primary mx-2"></i>Capacitaciones</a></li>
                         <li class="list-group-item" data-dismiss="modal"><a (click)="irIdiomas()"><i
                                     class="fa fa-globe text-primary mx-2"></i>Idiomas</a></li>
@@ -983,8 +983,9 @@
                                     class="fa fa-globe text-primary mx-2"></i>Referencias</a></li>
                         <li class="list-group-item" data-dismiss="modal"><a (click)="irDependientes()"><i
                                     class="fa fa-globe text-primary mx-2"></i>Dependientes</a></li>
-                        <li class="list-group-item" data-dismiss="modal"><a (click)="irBeneficiario()"><i
+                        <li class="list-group-item" data-dismiss="modal"><a (click)="irBeneficiario(empleadoSelecionado.empleadosPK.codCia,empleadoSelecionado.empleadosPK.codEmp)"><i
                                     class="fa fa-globe text-primary mx-2"></i>Beneficiarios</a></li>
+
                         <li class="list-group-item" data-dismiss="modal"><a (click)="irPruebas()"><i
                                     class="fa fa-globe text-primary mx-2"></i>Pruebas</a></li>
                         <li class="list-group-item" data-dismiss="modal"><a (click)="irPuestosEntrevistas()"><i

@@ -312,7 +312,12 @@ export class PlantillaCuatroComponent implements OnInit {
     accionPersonal.accionPersonalPK = new AccionPersonalPK();
     accionPersonal.accionPersonalPK.codCia = 3;
     accionPersonal.accionPersonalPK.codEmp = this.empleado.empleadosPK.codEmp;
-    accionPersonal.accionPersonalPK.codTipoaccion = this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion;
+
+    if (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 19) {
+      accionPersonal.accionPersonalPK.codTipoaccion = Number(this.plantillaCuatroForm.get('retiroAccion').value);
+    } else {
+      accionPersonal.accionPersonalPK.codTipoaccion = this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion;
+    }
 
 
 

@@ -1,6 +1,6 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup,Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbCalendar, NgbDate, NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -10,8 +10,6 @@ import { ProgramacionPlaPK } from './modeloPlanilla/ProgramacionPlaPK';
 import { TiposPlanilla } from './modeloPlanilla/TiposPlanilla';
 import { TiposPlanillaPK } from './modeloPlanilla/TiposPlanillaPK';
 import { NgbDateFRParserFormatter } from '../../formatos/ngb-date-fr-parser-formatter';
-
-
 
 
 @Component({
@@ -42,6 +40,7 @@ export class FormPlanillaComponent implements OnInit {
         { codigo: 1, valor: 'Quincena Uno' },
         { codigo: 2, valor: 'Quincena Dos' }
     ];
+    fechaActual: NgbDateStruct;
     fechaInicial: NgbDateStruct;
     fechaFinal: NgbDateStruct;
     fechaPago: NgbDateStruct;
@@ -53,21 +52,25 @@ export class FormPlanillaComponent implements OnInit {
     fechaFinAlimento: NgbDateStruct;
     planillaForm: FormGroup;
 
-    date: { year: number; month: number };
+    date: { year: number; month: number; day: number };
 
     constructor(
         private planillaService: PlanillaService,
         private router: Router,
         private calendar: NgbCalendar,
         private fb: FormBuilder
-    ) {
-        this.fechaInicial = this.calendar.getToday();
+    )
+    {
+        //this.fechaInicial = this.calendar.getToday();
+        this.fechaActual = this.calendar.getToday();
 
         this.planillaForm = this.fb.group({
-            codTipopla: [''],
-            anio: [''],
+            codTipopla: ['', Validators.required],
+            anio: ['', Validators.required],
             mese: [''],
-            periodo: [''],
+            periodo: ['', Validators.required],
+            fechaInicial: ['', Validators.required],
+            fechaFinal: ['', Validators.required],
             proyectar: [''],
             descontar: [''],
             cuota: [''],
@@ -76,7 +79,9 @@ export class FormPlanillaComponent implements OnInit {
             mesPrestamo: [''],
             factorCambiario: [1],
             nota: [''],
-
+            fechaPago: ['', Validators.required],
+            anioIsss: [''],
+            mesIsss: ['']
         });
 
         this.planillaService.obtenerTiposPlanilla(3, 2).subscribe(
@@ -86,6 +91,36 @@ export class FormPlanillaComponent implements OnInit {
         );
     }
 
+    validationMessages: { [x: string]: any; } = {
+      'codTipopla': {
+        'required': 'Seleccione tipo planilla'
+      },
+      'anio': {
+        'required': 'Ingrese Año'
+      },
+      'periodo': {
+        'required': 'Seleccione periodo'
+      },
+      'fechaInicial': {
+        'required': 'Seleccione fecha'
+      },
+      'fechaFinal': {
+        'required': 'Seleccione fecha'
+      },
+      'fechaPago': {
+        'required': 'Seleccione fecha'
+      }
+    };
+
+    formErrors: { [x: string]: any; } = {
+      'codTipopla': '',
+      'anio': '',
+      'periodo': '',
+      'fechaInicial' : '',
+      'fechaFinal' : '',
+      'fechaPago' : ''
+    };
+
     ngOnInit(): void {
         this.planillaService.logueado=true;
         this.datosPordefecto();
@@ -93,17 +128,17 @@ export class FormPlanillaComponent implements OnInit {
 
 
      datosPordefecto(){
-      this.planillaForm.get('anioPrestamo').setValue(Number(this.fechaInicial.year));
-      this.planillaForm.get('anio').setValue(Number(this.fechaInicial.year));
-      this.planillaForm.get('mese').setValue(Number(this.fechaInicial.month));
-      this.planillaForm.get('mesPrestamo').setValue(Number(this.fechaInicial.month));
+      this.planillaForm.get('anioPrestamo').setValue(Number(this.fechaActual.year));
+      this.planillaForm.get('anioIsss').setValue(Number(this.fechaActual.year));
+      this.planillaForm.get('anio').setValue(Number(this.fechaActual.year));
+      this.planillaForm.get('mese').setValue(Number(this.fechaActual.month));
+      this.planillaForm.get('mesPrestamo').setValue(Number(this.fechaActual.month));
+      this.planillaForm.get('mesIsss').setValue(Number(this.fechaActual.month));
       this.planillaForm.get('descontar').setValue(Number(1));
       this.planillaForm.get('cuota').setValue(Number(2));
      }
 
     guardarPlanilla() {
-
-
         let objetoPlanilla = new ProgramacionPla();
         objetoPlanilla.programacionPlaPK = new ProgramacionPlaPK();
         objetoPlanilla.programacionPlaPK.codCia = 3;
@@ -113,18 +148,24 @@ export class FormPlanillaComponent implements OnInit {
         objetoPlanilla.status = 'G';
         objetoPlanilla.anio = Number(this.planillaForm.get('anio').value);
         objetoPlanilla.mes = Number(this.planillaForm.get('mese').value);
+        if(this.fechaPago){
         const fechaConstDate = this.fechaInicial;
         objetoPlanilla.fechaInicial = fechaConstDate.day + '/' + fechaConstDate.month + '/' + fechaConstDate.year;
+        }
+        if(this.fechaPago){
         const fechaFinalConstDate = this.fechaFinal;
         objetoPlanilla.fechaFinal = fechaFinalConstDate.day + '/' + fechaFinalConstDate.month + '/' + fechaFinalConstDate.year;
+        }
         objetoPlanilla.tiposPlanilla = new TiposPlanilla();
         objetoPlanilla.tiposPlanilla.tiposPlanillaPK = new TiposPlanillaPK();
         objetoPlanilla.tiposPlanilla.tiposPlanillaPK.codCia = 3;
         objetoPlanilla.tiposPlanilla.tiposPlanillaPK.codTipopla = Number(this.planillaForm.get('codTipopla').value);
         objetoPlanilla.diasProyectar = Number(this.planillaForm.get('proyectar').value);
-      //////////////////////EMPLEADO
+        objetoPlanilla.anioIsss = Number(this.planillaForm.get('anioIsss').value);
+        objetoPlanilla.mesIsss = Number(this.planillaForm.get('mesIsss').value);
+        //////////////////////EMPLEADO
         objetoPlanilla.codEmpRealiza=394
-///////////////////////////////////
+        ///////////////////////////////////
 
         if(this.fechaInicialNoc){
             const fechaInicialNoc = this.fechaInicialNoc;
@@ -156,17 +197,17 @@ export class FormPlanillaComponent implements OnInit {
 
         }
 
-
         if(this.fechaFinAlimento){
             const fechaFinalAlimento = this.fechaFinAlimento;
             objetoPlanilla.fecEnded = fechaFinalAlimento.day + '/' + fechaFinalAlimento.month + '/' + fechaFinalAlimento.year;
 
         }
 
-        console.log('Ingreso a la fecha paGo:'+this.fechaPago.day);
+        //console.log('Ingreso a la fecha pago:'+this.fechaPago.day);
+        if(this.fechaPago){
         const fechaPaid = this.fechaPago;
         objetoPlanilla.fechaPago = fechaPaid.day + '/' + fechaPaid.month + '/' + fechaPaid.year;
-
+        }
 
 
         objetoPlanilla.comentario = this.planillaForm.get('comentario').value;
@@ -195,24 +236,27 @@ export class FormPlanillaComponent implements OnInit {
 
         console.log('Objeto que se manda a guardar' + JSON.stringify(objetoPlanilla));
 
-        this.planillaService.guardarPlanilla(objetoPlanilla).subscribe(planillaSav => {
-            //console.log(JSON.stringify(planillaSav));
-            Swal.fire({
-                title: 'Registro de planilla',
-                text: 'Planilla Guardada con exito',
-                icon: 'success',
-                allowOutsideClick: false,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Cerrar'
-            }).then((result) => {
-                if (result.value) {
-                    this.router.navigateByUrl('/pages/planilla');
-                }
-            });
-        });
-    }
+        if(this.fechaPago && this.planillaForm.get('codTipopla').value && this.planillaForm.get('anio').value
+              && this.planillaForm.get('periodo').value && this.fechaInicial && this.fechaFinal){
+          this.planillaService.guardarPlanilla(objetoPlanilla).subscribe(planillaSav => {
+              console.log(JSON.stringify(planillaSav));
+              Swal.fire({
+                  title: 'Registro de planilla',
+                  text: 'Planilla Guardada con exito',
+                  icon: 'success',
+                  allowOutsideClick: false,
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'Cerrar'
+              }).then((result) => {
+                  if (result.value) {
+                      this.router.navigateByUrl('/pages/planilla');
+                  }
+              });
 
+          });
+        }else {Swal.fire('Llenar campos obligatorios (marcados con *)');}
+    }
 
 
     irPlanilla() {
@@ -239,7 +283,7 @@ export class FormPlanillaComponent implements OnInit {
             ).subscribe(
 
                 fecha => {
-                    console.log('OBTENER RESPUESTAS FECHAS'+JSON.stringify(fecha));
+                    console.log('OBTENER RESPUESTAS FECHAS '+JSON.stringify(fecha));
                     this.asignarFechas(fecha);
                 }
             );
@@ -320,6 +364,32 @@ export class FormPlanillaComponent implements OnInit {
 
     }
 
+    logValidationError(group: FormGroup = this.planillaForm): void {
+      Object.keys(group.controls).forEach((key: string) => {
+        const abstractControl = group.get(key);
 
+        this.formErrors[key] = '';
+        if (abstractControl && !abstractControl.valid && (abstractControl.touched || abstractControl.dirty )) {
+          for (const errorKey in abstractControl.errors) {
+            const messages = this.validationMessages[key];
+
+            console.log(key + ':' + errorKey);
+            this.formErrors[key] += messages[errorKey] + ' ';
+          }
+        }
+
+        if (abstractControl instanceof FormGroup) {
+          this.logValidationError(abstractControl);
+        }
+
+        if (abstractControl instanceof FormArray) {
+          for (const control of abstractControl.controls) {
+            if (control instanceof FormGroup) {
+              this.logValidationError(control);
+            }
+          }
+        }
+      });
+    }
 
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { PageHeaderModule } from '../../shared';
+//import { PageHeaderModule } from '../../shared';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
@@ -30,12 +30,47 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 
+// @NgModule({
+//     schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+//     imports: [NgxPaginationModule,
+//              NgSelectModule,
+//              NgxMaskModule.forRoot(),
+//              CommonModule, PageHeaderModule,
+//              NgbModule,FormsModule,
+//              ReactiveFormsModule,
+//              ExpedienteRoutingModule,
+//              NgxMaskModule.forRoot(),
+//              CommonModule,
+//              PageHeaderModule,NgbModule,
+//              FormsModule,ReactiveFormsModule,
+//              ExpedienteRoutingModule],
+//     declarations: [ExpedienteEmpleadoComponent, CapacitacionesComponent, EmergenciasComponent, IdiomasComponent, DocumentosComponent, EquipoOficinaComponent, EquipoTrabajoComponent, MotivacionProyeccionComponent, ObservacionesComponent, DatosEconomicosComponent,ExpedienteEmpleadoComponent, PreparacionAcademicaComponent, DependientesComponent, ReferenciasComponent, BeneficiarioComponent, PruebasComponent, PuestosEntrevistasComponent, DatosAfiliacionComponent, GeneralesComponent, ExpedienteDigitalComponent, ExperienciaLaboralComponent]
+// })
+// export class ExpedienteModule {
+
+// }
+
 
 
 @NgModule({
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-    imports: [NgxPaginationModule,NgSelectModule,NgxMaskModule.forRoot(),CommonModule, PageHeaderModule,NgbModule,FormsModule,ReactiveFormsModule,ExpedienteRoutingModule  ,NgxMaskModule.forRoot(),CommonModule, PageHeaderModule,NgbModule,FormsModule,ReactiveFormsModule,ExpedienteRoutingModule],
-    declarations: [ExpedienteEmpleadoComponent, CapacitacionesComponent, EmergenciasComponent, IdiomasComponent, DocumentosComponent, EquipoOficinaComponent, EquipoTrabajoComponent, MotivacionProyeccionComponent, ObservacionesComponent, DatosEconomicosComponent,ExpedienteEmpleadoComponent, PreparacionAcademicaComponent, DependientesComponent, ReferenciasComponent, BeneficiarioComponent, PruebasComponent, PuestosEntrevistasComponent, DatosAfiliacionComponent, GeneralesComponent, ExpedienteDigitalComponent, ExperienciaLaboralComponent]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  imports: [NgxPaginationModule,
+            NgSelectModule,
+            NgxMaskModule.forRoot(),
+            CommonModule,
+//            PageHeaderModule,
+            NgbModule,
+            FormsModule,
+            ReactiveFormsModule,
+            ExpedienteRoutingModule,
+            NgxMaskModule.forRoot(),
+            CommonModule,
+//            PageHeaderModule,
+             NgbModule,
+             FormsModule,
+             ReactiveFormsModule,
+             ExpedienteRoutingModule]
+//  declarations: [ExpedienteEmpleadoComponent, CapacitacionesComponent, EmergenciasComponent, IdiomasComponent, DocumentosComponent, EquipoOficinaComponent, EquipoTrabajoComponent, MotivacionProyeccionComponent, ObservacionesComponent, DatosEconomicosComponent,ExpedienteEmpleadoComponent, PreparacionAcademicaComponent, DependientesComponent, ReferenciasComponent, BeneficiarioComponent, PruebasComponent, PuestosEntrevistasComponent, DatosAfiliacionComponent, GeneralesComponent, ExpedienteDigitalComponent, ExperienciaLaboralComponent]
 })
 export class ExpedienteModule {
 

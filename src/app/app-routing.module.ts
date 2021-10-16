@@ -8,6 +8,7 @@ import {
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
+import { BeneficiarioComponent } from './pages/expediente-empleado/beneficiario/beneficiario.component';
 
 export const routes: Routes = [
   {
@@ -43,6 +44,10 @@ export const routes: Routes = [
         path: 'reset-password',
         component: NbResetPasswordComponent,
       },
+      {
+        path: 'beneficiario/:cia/:codemp',
+        component: BeneficiarioComponent
+      }
     ],
   },
   { path: '', redirectTo: 'pages', pathMatch: 'full' },

@@ -44,6 +44,7 @@ export class AccionPersonal {
   bonificacionAnt:number;
   codTiporetiro:number;
   archivo:string;
+  empleadosAfectados: Array<Empleado>;
 
   constructor(){}
 

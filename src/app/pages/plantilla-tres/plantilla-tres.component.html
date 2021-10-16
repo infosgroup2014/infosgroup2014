@@ -1,307 +1,555 @@
 <div class="row">
-
   <div class="col-xs-12 col-md-12">
     <button type="button" class="btn btn-outline-primary" (click)="regresar()">
       <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Regresar
     </button>
   </div>
 
-
   <div class="col-xs-12 col-md-12 my-2">
     <div class="card shadow-lg bg-light p-3 mb-5">
-      <h5 class="card-header fondoAzul">{{planillaService.leyenda}}</h5>
+      <h5 class="card-header fondoAzul">{{ planillaService.leyenda }}</h5>
       <div class="card-body">
         <div class="alert alert-primary">
           <span>
-            <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Campos Marcados <span style="color: red;">*</span>
+            <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Campos
+            Marcados <span style="color: red">*</span>
             Son Requeridos.
           </span>
         </div>
         <form [formGroup]="plantillaTresForm">
           <div class="row">
-
             <div class="form-group col-xs-4 col-md-4">
               <label for="email">Fecha Solicitud:</label>
               <div class="input-group">
-                <input class="form-control" [(ngModel)]="fechaSolicitud" ngbDatepicker #d2="ngbDatepicker"
-                  [ngModelOptions]="{standalone: true}">
+                <input
+                  class="form-control"
+                  [(ngModel)]="fechaSolicitud"
+                  ngbDatepicker
+                  #d2="ngbDatepicker"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary fa fa-calendar" (click)="d2.toggle()" type="button"></button>
+                  <button
+                    class="btn btn-outline-secondary fa fa-calendar"
+                    (click)="d2.toggle()"
+                    type="button"
+                  ></button>
                 </div>
               </div>
             </div>
 
             <div class="form-group col-xs-6 col-md-6">
-              <label for="email">Empleado:&nbsp;<span style="color: blue;">{{empleado?.empleadosPK?.codEmp}}
-                  {{empleado?.nombres}}
-                  {{empleado?.apellidos}}</span> </label>
+              <label for="email"
+                >Empleado:&nbsp;<span style="color: blue"
+                  >{{ empleado?.empleadosPK?.codEmp }}
+                  {{ empleado?.nombres }}
+                  {{ empleado?.apellidos }}</span
+                >
+              </label>
               <div class="input-group-append">
-                <button *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion !=30" type="button"
-                  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                  data-whatever="@mdo">Seleccionar Empleado</button>
-                <button *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion ===30" type="button"
-                  class="btn btn-primary" data-toggle="modal" data-target="#empleadosInactivosModal"
-                  data-whatever="@mdo">Seleccionar Empleado</button>
+                <button
+                  *ngIf="
+                    planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                      ?.codTipoaccion != 30
+                  "
+                  type="button"
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#exampleModal"
+                  data-whatever="@mdo"
+                >
+                  Seleccionar Empleado
+                </button>
+                <button
+                  *ngIf="
+                    planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                      ?.codTipoaccion === 30
+                  "
+                  type="button"
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#empleadosInactivosModal"
+                  data-whatever="@mdo"
+                >
+                  Seleccionar Empleado
+                </button>
               </div>
-
             </div>
-
 
             <div class="form-group col-xs-4 col-md-4">
               <label for="email">Jefe </label>
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.jefe}}</label>
+                <label style="color: blue">{{ depenciaEmpleado?.jefe }}</label>
               </div>
-
             </div>
-
 
             <div class="form-group col-xs-6 col-md-6">
               <label for="email">Departamento:&nbsp;</label>
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.departamento?.nomDepto}}</label>
+                <label style="color: blue">{{
+                  depenciaEmpleado?.departamento?.nomDepto
+                }}</label>
               </div>
-
             </div>
 
             <div class="form-group col-xs-4 col-md-4">
               <label for="email">Puesto:&nbsp;</label>
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.puesto?.nomPuesto}}</label>
+                <label style="color: blue">{{
+                  depenciaEmpleado?.puesto?.nomPuesto
+                }}</label>
               </div>
-
             </div>
 
             <div class="form-group col-xs-4 col-md-4">
               <label for="email">Plaza:&nbsp;</label>
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.plaza?.nombrePlaza}}</label>
+                <label style="color: blue">{{
+                  depenciaEmpleado?.plaza?.nombrePlaza
+                }}</label>
               </div>
-
             </div>
-
 
             <div class="form-group col-xs-6 col-md-6">
               <label for="email">Detalle Accion:&nbsp;</label>
               <div class="input-group-append">
-                <textarea formControlName="detalle" style="overflow: hidden; resize: none;"
-                  class="form-control"></textarea>
+                <textarea
+                  formControlName="detalle"
+                  style="overflow: hidden; resize: none"
+                  class="form-control"
+                ></textarea>
               </div>
-
             </div>
 
             <div class="form-group col-xs-6 col-md-6">
               <label for="email">Observacion:&nbsp;</label>
               <div class="input-group-append">
-                <textarea formControlName="observacion" style="overflow: hidden; resize: none;"
-                  class="form-control"></textarea>
+                <textarea
+                  formControlName="observacion"
+                  style="overflow: hidden; resize: none"
+                  class="form-control"
+                ></textarea>
               </div>
-
             </div>
 
-            <div class="form-group col-xs-12 col-md-12"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 25">
+            <div
+              class="form-group col-xs-12 col-md-12"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 25 ||
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 7
+              "
+            >
               <label>Criterio:&nbsp;</label>
               <label class="radio-inline">
-                <strong>Aplicar porcentaje:&nbsp;</strong><input class="btn btn-primary "  type="radio" name="criterio"  (click)="aplicarCriterio(1)" />
+                <strong>Aplicar porcentaje:&nbsp;</strong
+                ><input
+                  class="btn btn-primary"
+                  type="radio"
+                  name="criterio"
+                  (click)="aplicarCriterio(1)"
+                />
               </label>
               <label class="radio-inline">
-                <strong>&nbsp;Aplicar valor:&nbsp;</strong><input  class="btn btn-primary " type="radio" name="criterio" checked  (click)="aplicarCriterio(2)" />
+                <strong>&nbsp;Aplicar valor:&nbsp;</strong
+                ><input
+                  class="btn btn-primary"
+                  type="radio"
+                  name="criterio"
+                  checked
+                  (click)="aplicarCriterio(2)"
+                />
               </label>
             </div>
 
-
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion != 36 && planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion != 30 && planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion != 25 && planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion != 7">
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion != 36 &&
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion != 30 &&
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion != 25 &&
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion != 7
+              "
+            >
               <label>Plaza:&nbsp;</label>
               <div class="input-group-append">
-                <button title="Agregar Plaza" class="btn btn-primary" data-toggle="modal" data-target="#plazasModal">
+                <button
+                  title="Agregar Plaza"
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#plazasModal"
+                >
                   <strong>+</strong>
                 </button>
-                <label style="font-weight: bolder;color: blue;"
-                  class="ml-2">{{plazaSeleccionado?.plaza?.plazaPK?.codPlaza}}
-                  {{plazaSeleccionado?.plaza?.nombrePlaza}}</label>
-
+                <label style="font-weight: bolder; color: blue" class="ml-2"
+                  >{{ plazaSeleccionado?.plaza?.plazaPK?.codPlaza }}
+                  {{ plazaSeleccionado?.plaza?.nombrePlaza }}</label
+                >
               </div>
-
             </div>
 
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 30">
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 30
+              "
+            >
               <label for="email">Fecha Ingreso:&nbsp;</label>
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.fechaIngreso | date: 'dd/MM/yyyy' }}</label>
+                <label style="color: blue">{{
+                  depenciaEmpleado?.fechaIngreso | date: "dd/MM/yyyy"
+                }}</label>
               </div>
             </div>
 
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 30">
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 30
+              "
+            >
               <label for="email">Fecha Ultimo Contrato:&nbsp;</label>
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.fechaSalida | date: 'dd/MM/yyyy' }}</label>
+                <label style="color: blue">{{
+                  depenciaEmpleado?.fechaSalida | date: "dd/MM/yyyy"
+                }}</label>
               </div>
             </div>
 
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 30">
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 30
+              "
+            >
               <label for="email">Fecha inicio contrato:&nbsp;</label>
               <div class="input-group-append">
-                <input class="form-control" [(ngModel)]="fechaInicioContrato" ngbDatepicker #d45="ngbDatepicker"
-                  [ngModelOptions]="{standalone: true}">
+                <input
+                  class="form-control"
+                  [(ngModel)]="fechaInicioContrato"
+                  ngbDatepicker
+                  #d45="ngbDatepicker"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <div class="input-group-append">
-                  <button class="btn btn-outline-primary fa fa-calendar" (click)="d45.toggle()" type="button"></button>
+                  <button
+                    class="btn btn-outline-primary fa fa-calendar"
+                    (click)="d45.toggle()"
+                    type="button"
+                  ></button>
                 </div>
               </div>
             </div>
 
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 30">
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 30
+              "
+            >
               <label for="email">Fecha fin contrato:&nbsp;</label>
               <div class="input-group-append">
-                <input class="form-control" [(ngModel)]="fechaFinContrato" ngbDatepicker #d46="ngbDatepicker"
-                  [ngModelOptions]="{standalone: true}">
+                <input
+                  class="form-control"
+                  [(ngModel)]="fechaFinContrato"
+                  ngbDatepicker
+                  #d46="ngbDatepicker"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <div class="input-group-append">
-                  <button class="btn btn-outline-primary fa fa-calendar" (click)="d46.toggle()" type="button"></button>
+                  <button
+                    class="btn btn-outline-primary fa fa-calendar"
+                    (click)="d46.toggle()"
+                    type="button"
+                  ></button>
                 </div>
               </div>
             </div>
 
-            <div class="form-group col-xs-3 col-md-3"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 25">
-              <label for="email"> {{criterioSalario === 'V' ? 'Nuevo Salario:' : 'Porcentaje'}}&nbsp;</label>
+            <div
+              class="form-group col-xs-3 col-md-3"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 25 ||
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 30 ||
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 7
+              "
+            >
+              <label for="email">
+                {{
+                  criterioSalario === "V" ? "Nuevo Salario:" : "Porcentaje"
+                }}&nbsp;</label
+              >
               <div class="input-group-append">
-                <input type="text" class="form-control" formControlName="nuevoSalario" (blur)="calculoSalario()" >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="nuevoSalario"
+                  (blur)="calculoSalario()"
+                />
               </div>
             </div>
 
-
-            <div class="form-group col-xs-3 col-md-3"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 25 && criterioSalario=='P' ">
+            <div
+              class="form-group col-xs-3 col-md-3"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 25 && criterioSalario == 'P'
+              "
+            >
               <label for="email"> Nuevo Valor&nbsp;</label>
               <div class="input-group-append">
-               <label style="color: blue;" >{{porcentaje | number : '1.2-2' }}</label>
+                <label style="color: blue">{{
+                  porcentaje | number: "1.2-2"
+                }}</label>
               </div>
             </div>
 
-
-
-            <div class="form-group col-xs-3 col-md-3"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 30 || planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 25">
-              <label for="email"> {{planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 30 ? 'Salario:' : 'Salario Anterior'}} &nbsp;</label>
+            <div
+              class="form-group col-xs-3 col-md-3"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 30 ||
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 25 ||
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 7
+              "
+            >
+              <label for="email">
+                {{
+                  planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                    ?.codTipoaccion === 30
+                    ? "Salario:"
+                    : "Salario Anterior"
+                }}
+                &nbsp;</label
+              >
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.salario }}</label>
+                <label style="color: blue">{{
+                  depenciaEmpleado?.salario
+                }}</label>
               </div>
             </div>
 
-
-          <div class="form-group col-xs-4 col-md-4"
-               *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 25">
-            <label for="email">Nueva Bonificacion:&nbsp;</label>
-            <div class="input-group-append">
-              <input type="text" class="form-control" formControlName="nuevaBonificacion">
+            <div
+              class="form-group col-xs-4 col-md-4"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 25
+              "
+            >
+              <label for="email">Nueva Bonificacion:&nbsp;</label>
+              <div class="input-group-append">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="nuevaBonificacion"
+                />
+              </div>
             </div>
-          </div>
 
-
-            <div class="form-group col-xs-4 col-md-4"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 25">
+            <div
+              class="form-group col-xs-4 col-md-4"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 25
+              "
+            >
               <label for="email">Bonificacion Anterior:&nbsp;</label>
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.bonificacion}}</label>
+                <label style="color: blue">{{
+                  depenciaEmpleado?.bonificacion
+                }}</label>
               </div>
             </div>
 
-
-
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 30">
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 30
+              "
+            >
               <label for="email">Empresa:&nbsp;</label>
               <div class="input-group-append">
                 <select class="form-control" formControlName="empresa">
-                  <option [value]="item?.codArea" *ngFor="let item of  listadoEmpresas">
-                    {{item?.nomArea}}</option>
+                  <option
+                    [value]="item?.codArea"
+                    *ngFor="let item of listadoEmpresas"
+                  >
+                    {{ item?.nomArea }}
+                  </option>
                 </select>
               </div>
             </div>
 
-
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 36">
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 36
+              "
+            >
               <label for="email">Tipo de Planilla Actual:&nbsp;</label>
               <div class="input-group-append">
-                <label style="color: blue;">{{depenciaEmpleado?.tiposPlanilla?.nomTipopla}}</label>
+                <label style="color: blue">{{
+                  depenciaEmpleado?.tiposPlanilla?.nomTipopla
+                }}</label>
               </div>
             </div>
 
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 36 || planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 25">
-              <label for="email">{{planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 36 ? 'Tipo de Planilla Cambio:' : 'Tipo de Planilla'}}&nbsp;</label>
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 36 ||
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 25
+              "
+            >
+              <label for="email"
+                >{{
+                  planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                    ?.codTipoaccion === 36
+                    ? "Tipo de Planilla Cambio:"
+                    : "Tipo de Planilla"
+                }}&nbsp;</label
+              >
               <div class="input-group-append">
-                <select class="form-control" formControlName="cambioPlanilla" (change)="obtenerProgramaciones($event)">
-                  <option [value]="item?.tiposPlanillaPK?.codTipopla" *ngFor="let item of  listarTiposPlanilla">
-                    {{item?.nomTipopla}}</option>
+                <select
+                  class="form-control"
+                  formControlName="cambioPlanilla"
+                  (change)="obtenerProgramaciones($event)"
+                >
+                  <option
+                    [value]="item?.tiposPlanillaPK?.codTipopla"
+                    *ngFor="let item of listarTiposPlanilla"
+                  >
+                    {{ item?.nomTipopla }}
+                  </option>
                 </select>
               </div>
             </div>
 
-
-            <div class="form-group col-xs-4 col-md-4"
-            *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion === 25">
-            <label for="email">Planilla&nbsp;</label>
-            <div class="input-group-append">
-              <select [(ngModel)]="programacionSeleccion" [ngModelOptions]="{standalone: true}"  class="form-control"  >
-                <option [value]="undefined">Seleccionar</option>
-                <option [ngValue]="item" *ngFor="let item of  listadoProgramaciones" >
-                  {{item?.anio}}---{{item?.mes}}---{{item?.numPlanilla}}
-                </option>
-              </select>
-
+            <div
+              class="form-group col-xs-4 col-md-4"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion === 25
+              "
+            >
+              <label for="email">Planilla&nbsp;</label>
+              <div class="input-group-append">
+                <select
+                  [(ngModel)]="programacionSeleccion"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                >
+                  <option [value]="undefined">Seleccionar</option>
+                  <option
+                    [ngValue]="item"
+                    *ngFor="let item of listadoProgramaciones"
+                  >
+                    {{ item?.anio }}---{{ item?.mes }}---{{ item?.numPlanilla }}
+                  </option>
+                </select>
+              </div>
             </div>
-          </div>
-
-
 
             <div class="form-group col-xs-6 col-md-6">
               <label for="email">Direccion:&nbsp;</label>
               <div class="input-group-append">
-                <select (change)="llenarDepartamentos($event)" class="form-control" formControlName="gerencia">
-                  <option [value]="item?.codGerencia" *ngFor="let item of listaGerencias">{{item?.nomGerencia}}</option>
+                <select
+                  (change)="llenarDepartamentos($event)"
+                  class="form-control"
+                  formControlName="gerencia"
+                >
+                  <option
+                    [value]="item?.codGerencia"
+                    *ngFor="let item of listaGerencias"
+                  >
+                    {{ item?.nomGerencia }}
+                  </option>
                 </select>
               </div>
             </div>
-
 
             <div class="form-group col-xs-6 col-md-6">
               <label for="email">Departamento:&nbsp;</label>
               <div class="input-group-append">
                 <select class="form-control" formControlName="departamento">
-                  <option [value]="item?.codDepto" *ngFor="let item of listaDepartamentos">{{item?.nomDepto}}</option>
+                  <option
+                    [value]="item?.codDepto"
+                    *ngFor="let item of listaDepartamentos"
+                  >
+                    {{ item?.nomDepto }}
+                  </option>
                 </select>
               </div>
             </div>
 
-            <div class="form-group col-xs-6 col-md-6"
-              *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion != 36">
+            <div
+              class="form-group col-xs-6 col-md-6"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion != 36
+              "
+            >
               <label for="puesto">Puesto:&nbsp;</label>
               <div class="input-group-append">
-                <select class="form-control" name="puesto" id="puesto" formControlName="puesto">
-                  <option [value]="item?.codPuesto" *ngFor="let item of listaPuesto">{{item?.nomPuesto}}</option>
+                <select
+                  class="form-control"
+                  name="puesto"
+                  id="puesto"
+                  formControlName="puesto"
+                >
+                  <option
+                    [value]="item?.codPuesto"
+                    *ngFor="let item of listaPuesto"
+                  >
+                    {{ item?.nomPuesto }}
+                  </option>
                 </select>
               </div>
             </div>
 
-
-            <div class="form-group col-xs-4 col-md-4"  *ngIf="planillaService?.tipoAccionSeleccion?.tipoAccionPK?.codTipoaccion != 30">
+            <div
+              class="form-group col-xs-4 col-md-4"
+              *ngIf="
+                planillaService?.tipoAccionSeleccion?.tipoAccionPK
+                  ?.codTipoaccion != 30
+              "
+            >
               <label for="email">Fecha Inicial:</label>
               <div class="input-group">
-                <input class="form-control" [(ngModel)]="fechaInicial" ngbDatepicker #d3="ngbDatepicker"
-                  [ngModelOptions]="{standalone: true}">
+                <input
+                  class="form-control"
+                  [(ngModel)]="fechaInicial"
+                  ngbDatepicker
+                  #d3="ngbDatepicker"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary fa fa-calendar" (click)="d3.toggle()" type="button"></button>
+                  <button
+                    class="btn btn-outline-secondary fa fa-calendar"
+                    (click)="d3.toggle()"
+                    type="button"
+                  ></button>
                 </div>
               </div>
             </div>
-
 
             <div class="form-group col-xs-6 col-md-6">
               <label for="formFileSm" class="form-label">Adjuntar</label>
@@ -315,93 +563,86 @@
               </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <div class="form-group col-xs-12 col-md-12">
-              <button class="btn btn-primary" (click)="guardarAccionTemplate3()">
+              <button
+                class="btn btn-primary"
+                (click)="guardarAccionTemplate3()"
+              >
                 Guardar
               </button>
-
             </div>
-
-
-
-
           </div>
-
         </form>
-
       </div>
     </div>
   </div>
-
-
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!---modal de empleados-->
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog  modal-lg">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">Empleados</h4>
-        <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
-            aria-hidden="true"></i></button>
+        <button type="button" class="close" data-dismiss="modal">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         <div class="container">
           <form class="form-emp" [formGroup]="formEmpleado">
-
             <div class="form-group">
-              <label for="empName" class="col-sm-2 col-form-label">Cod Emp &nbsp;</label>
+              <label for="empName" class="col-sm-2 col-form-label"
+                >Cod Emp &nbsp;</label
+              >
               <div class="col-sm-10">
-                <input type="text" formControlName="codEmp" name="codEmp" class="form-control" id="codEmp">
+                <input
+                  type="text"
+                  formControlName="codEmp"
+                  name="codEmp"
+                  class="form-control"
+                  id="codEmp"
+                />
               </div>
             </div>
             <div class="form-group">
-              <label for="empDesgn" class="col-sm-2 col-form-label">Nombre &nbsp;</label>
+              <label for="empDesgn" class="col-sm-2 col-form-label"
+                >Nombre &nbsp;</label
+              >
               <div class="col-sm-10">
-                <input type="text" formControlName="nombre" name="nombre" class="form-control" id="nombre">
+                <input
+                  type="text"
+                  formControlName="nombre"
+                  name="nombre"
+                  class="form-control"
+                  id="nombre"
+                />
               </div>
             </div>
 
-
             <div class="form-group">
-              <label for="empDesgn" class="col-sm-2 col-form-label">Dui &nbsp;</label>
+              <label for="empDesgn" class="col-sm-2 col-form-label"
+                >Dui &nbsp;</label
+              >
               <div class="col-sm-10">
-                <input type="text" formControlName="numDui" name="numDui" class="form-control" id="numDui">
+                <input
+                  type="text"
+                  formControlName="numDui"
+                  name="numDui"
+                  class="form-control"
+                  id="numDui"
+                />
               </div>
             </div>
 
@@ -413,10 +654,7 @@
               <button class="btn btn-info float-right" (click)="limpiar()">
                 <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Restablecer
               </button>
-
             </div>
-
-
           </form>
         </div>
 
@@ -430,53 +668,70 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let item of listadoEmpleado | paginate: { id: 'pagination1' ,itemsPerPage: 5, currentPage: p }"
-                data-dismiss="modal" data-target="#empleadoModal"
-                (click)="obtenerEmpleado(item.empleadosPK.codCia,item.empleadosPK.codEmp)">
-                <td>{{item.empleadosPK.codEmp}}</td>
-                <td>{{item.nombres}} {{item.apellidos}}</td>
+                *ngFor="
+                  let item of listadoEmpleado
+                    | paginate
+                      : {
+                          id: 'pagination1',
+                          itemsPerPage: 5,
+                          currentPage: pagina
+                        }
+                "
+                data-dismiss="modal"
+                data-target="#empleadoModal"
+                (click)="
+                  obtenerEmpleado(
+                    item.empleadosPK.codCia,
+                    item.empleadosPK.codEmp
+                  )
+                "
+              >
+                <td>{{ item.empleadosPK.codEmp }}</td>
+                <td>{{ item.nombres }} {{ item.apellidos }}</td>
               </tr>
             </tbody>
           </table>
-          <pagination-controls id="pagination1" (pageChange)="p = $event"></pagination-controls>
+          <pagination-controls
+            id="pagination1"
+            (pageChange)="pagina = $event"
+          ></pagination-controls>
         </div>
-
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cerrar
+        </button>
       </div>
-
     </div>
   </div>
 </div>
 
-
-
 <!--fin de empleados-->
-
-
-
 
 <!--LLenado de lista de posiciones-->
 
-<div class="modal fade" id="plazasModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog  modal-lg">
+<div
+  class="modal fade"
+  id="plazasModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">Plazas</h4>
-        <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
-            aria-hidden="true"></i></button>
+        <button type="button" class="close" data-dismiss="modal">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-
-
         <div class="table-responsive">
           <table class="table table-bordered my-4">
             <thead>
@@ -489,78 +744,110 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let item of listaPosiciones | paginate: { id: 'pagination3' ,itemsPerPage: 5, currentPage: p }"
-                data-dismiss="modal" data-target="#plazasModal" (click)="obtenerPosicion(item)">
-                <td>{{item.gerencia.nomGerencia}}</td>
-                <td>{{item.departamentos.nomDepto}}</td>
-                <td>{{item.puestos.nomPuesto}}</td>
-                <td>{{item.plaza.nombrePlaza}}</td>
+                *ngFor="
+                  let item of listaPosiciones
+                    | paginate
+                      : {
+                          id: 'pagination3',
+                          itemsPerPage: 5,
+                          currentPage: pagina2
+                        }
+                "
+                data-dismiss="modal"
+                data-target="#plazasModal"
+                (click)="obtenerPosicion(item)"
+              >
+                <td>{{ item.gerencia.nomGerencia }}</td>
+                <td>{{ item.departamentos.nomDepto }}</td>
+                <td>{{ item.puestos.nomPuesto }}</td>
+                <td>{{ item.plaza.nombrePlaza }}</td>
               </tr>
             </tbody>
           </table>
-          <pagination-controls id="pagination3" (pageChange)="p = $event"></pagination-controls>
+          <pagination-controls
+            id="pagination3"
+            (pageChange)="pagina2 = $event"
+          ></pagination-controls>
         </div>
-
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cerrar
+        </button>
       </div>
-
     </div>
   </div>
 </div>
 
-
-
-
-
 <!--fin de llenado de lista de posiones-->
-
-
-
-
-
-
 
 <!---modal de empleados inactivos-->
 
-<div class="modal fade" id="empleadosInactivosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog  modal-lg">
+<div
+  class="modal fade"
+  id="empleadosInactivosModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Empleados </h4>
-        <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"
-            aria-hidden="true"></i></button>
+        <h4 class="modal-title">Empleados</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         <div class="container">
           <form class="form-emp" [formGroup]="formEmpleado">
-
             <div class="form-group">
-              <label for="empName" class="col-sm-2 col-form-label">Cod Emp &nbsp;</label>
+              <label for="empName" class="col-sm-2 col-form-label"
+                >Cod Emp &nbsp;</label
+              >
               <div class="col-sm-10">
-                <input type="text" formControlName="codEmp" name="codEmp" class="form-control" id="codEmp">
+                <input
+                  type="text"
+                  formControlName="codEmp"
+                  name="codEmp"
+                  class="form-control"
+                  id="codEmp"
+                />
               </div>
             </div>
             <div class="form-group">
-              <label for="empDesgn" class="col-sm-2 col-form-label">Nombre &nbsp;</label>
+              <label for="empDesgn" class="col-sm-2 col-form-label"
+                >Nombre &nbsp;</label
+              >
               <div class="col-sm-10">
-                <input type="text" formControlName="nombre" name="nombre" class="form-control" id="nombre">
+                <input
+                  type="text"
+                  formControlName="nombre"
+                  name="nombre"
+                  class="form-control"
+                  id="nombre"
+                />
               </div>
             </div>
 
-
             <div class="form-group">
-              <label for="empDesgn" class="col-sm-2 col-form-label">Dui &nbsp;</label>
+              <label for="empDesgn" class="col-sm-2 col-form-label"
+                >Dui &nbsp;</label
+              >
               <div class="col-sm-10">
-                <input type="text" formControlName="numDui" name="numDui" class="form-control" id="numDui">
+                <input
+                  type="text"
+                  formControlName="numDui"
+                  name="numDui"
+                  class="form-control"
+                  id="numDui"
+                />
               </div>
             </div>
 
@@ -572,10 +859,7 @@
               <button class="btn btn-info float-right" (click)="limpiar()">
                 <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Restablecer
               </button>
-
             </div>
-
-
           </form>
         </div>
 
@@ -589,28 +873,44 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let item of listaEmpleadosInactivos | paginate: { id: 'pagination1' ,itemsPerPage: 5, currentPage: p }"
-                data-dismiss="modal" data-target="#empleadoModal"
-                (click)="obtenerEmpleado(item.empleadosPK.codCia,item.empleadosPK.codEmp)">
-                <td>{{item.empleadosPK.codEmp}}</td>
-                <td>{{item.nombres}} {{item.apellidos}}</td>
+                *ngFor="
+                  let item of listaEmpleadosInactivos
+                    | paginate
+                      : {
+                          id: 'pagination1',
+                          itemsPerPage: 5,
+                          currentPage: pagina
+                        }
+                "
+                data-dismiss="modal"
+                data-target="#empleadoModal"
+                (click)="
+                  obtenerEmpleado(
+                    item.empleadosPK.codCia,
+                    item.empleadosPK.codEmp
+                  )
+                "
+              >
+                <td>{{ item.empleadosPK.codEmp }}</td>
+                <td>{{ item.nombres }} {{ item.apellidos }}</td>
               </tr>
             </tbody>
           </table>
-          <pagination-controls id="pagination1" (pageChange)="p = $event"></pagination-controls>
+          <pagination-controls
+            id="pagination1"
+            (pageChange)="pagina = $event"
+          ></pagination-controls>
         </div>
-
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cerrar
+        </button>
       </div>
-
     </div>
   </div>
 </div>
-
-
 
 <!--fin de empleados inactivos-->
