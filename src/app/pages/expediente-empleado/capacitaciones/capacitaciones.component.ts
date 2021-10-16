@@ -34,6 +34,8 @@ export class CapacitacionesComponent implements OnInit {
       console.log('Empleado:'+CodCia+'-'+CodEmp);
 
       this.serviciosExpediente.obtenerCapacitaciones(CodCia, CodEmp).subscribe((data) => {
+        console.log('regreso del servicio');
+        console.log(data);
        this.listaCapacitaciones = data;
     //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
        });
