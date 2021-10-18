@@ -45,7 +45,7 @@ export const routes: Routes = [
         component: NbResetPasswordComponent,
       },
       {
-        path: 'beneficiario/:cia/:codemp',
+        path: 'beneficiario/:codCia/:codEmp',
         component: BeneficiarioComponent
       }
     ],
