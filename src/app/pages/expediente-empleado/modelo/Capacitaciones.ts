@@ -1,8 +1,8 @@
-import { CapacitacionPK } from './CapacitacionPK';
+import { capacitacionXEmpPK } from './CapacitacionPK';
 
 export class Capacitaciones {
 
-    capacitacionPK: CapacitacionPK;
+    capacitacionXEmpPK: capacitacionXEmpPK;
     descripcion: string;
     fecha: string;
     fechaCapacitacion: string;

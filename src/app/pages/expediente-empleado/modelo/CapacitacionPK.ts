@@ -1,9 +1,9 @@
-export class CapacitacionPK
+export class capacitacionXEmpPK
 
 {
      codCia:number;
      codEmp:number;
-     codCandidato:number;
+     codCapacitacion:number;
 
         constructor(){}
 

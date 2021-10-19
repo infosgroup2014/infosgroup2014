@@ -3,7 +3,7 @@ import { JsonpInterceptor } from '@angular/common/http';
 import { Component, forwardRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { combineAll } from 'rxjs/operators';
 import { error } from 'selenium-webdriver';
@@ -121,6 +121,7 @@ export class ExpedienteEmpleadoComponent implements OnInit {
 
     constructor(
         private router: Router,
+        private _router: ActivatedRoute,
         private servicioPlanilla: PlanillaService,
         private fb: FormBuilder,
         private _reporteService: ReportesService,
@@ -132,6 +133,18 @@ export class ExpedienteEmpleadoComponent implements OnInit {
         this.createForm();
         this.crearFormularioReporteExp();
         this.servicioPlanilla.logueado=true;
+
+        this._router.paramMap.subscribe( params => {
+          console.log('Parametros que llegan.');
+          console.log(params);
+          const CodCia = +params.get('codCia');
+          const CodEmp = +params.get('codEmp');
+          console.log('Empleado:'+CodCia+'-'+CodEmp);
+
+           this.obtenerEmpleado(CodCia,CodEmp);
+           });
+
+
     }
 
     ngOnInit(): void {

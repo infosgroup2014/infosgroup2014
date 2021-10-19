@@ -56,6 +56,10 @@ const routes: Routes = [{
       component:ExpedienteEmpleadoComponent, canActivate: [AuthGuard]
     },
     {
+      path:'expediente_editado/:codCia/:codEmp',
+      component:ExpedienteEmpleadoComponent, canActivate: [AuthGuard]
+    },
+    {
       path:'accion-no-afecta-planilla',
       component:AccionNoAfectaPlanillaComponent, canActivate: [AuthGuard]
     },

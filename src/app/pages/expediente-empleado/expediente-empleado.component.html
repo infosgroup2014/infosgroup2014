@@ -23,7 +23,10 @@
                 <strong><i class="fa fa-male" aria-hidden="true"></i> &nbsp; Editar Empleado</strong>
             </button>
 
-            <button class="btn btn-primary float-right mx-2 btn-round-lg " data-toggle="modal" data-target="#menuModal">
+            <button class="btn btn-primary float-right mx-2 btn-round-lg "
+               data-toggle="modal"
+               [disabled]="!empleadoSelecionado?.empleadosPK"
+               data-target="#menuModal">
                 <strong><i class="fa fa-list-ol" aria-hidden="true"></i> &nbsp; Menu</strong>
             </button>
 
