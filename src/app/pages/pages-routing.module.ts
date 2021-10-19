@@ -26,6 +26,7 @@ import { PlantillaCincoComponent } from './plantilla-cinco/plantilla-cinco.compo
 import { DeduccionesComponent } from './deduccion/deducciones.component';
 import { BeneficiarioComponent } from './expediente-empleado/beneficiario/beneficiario.component';
 import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/capacitaciones.component';
+import { DependientesComponent } from './expediente-empleado/dependientes/dependientes.component';
 
 const routes: Routes = [{
   path: '',
@@ -118,6 +119,10 @@ const routes: Routes = [{
     {
       path: 'capacitaciones/:codCia/:codEmp',
       component:CapacitacionesComponent, canActivate: [AuthGuard]
+    },
+    {
+      path: 'dependientes/:codCia/:codEmp',
+      component: DependientesComponent, canActivate: [AuthGuard]
     },
     {
       path: 'iot-dashboard',

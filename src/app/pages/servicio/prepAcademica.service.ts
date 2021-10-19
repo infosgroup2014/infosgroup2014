@@ -2,8 +2,11 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { DependientesComponent } from '../expediente-empleado/dependientes/dependientes.component';
 import { Capacitaciones } from '../expediente-empleado/modelo/Capacitaciones';
 import { capacitacionXEmpPK } from '../expediente-empleado/modelo/CapacitacionPK';
+import { dependienteXEmpPK } from '../expediente-empleado/modelo/DependientesPK';
+import { Dependientes } from '../expediente-empleado/modelo/Dependietnes';
 
 @Injectable({
     providedIn: 'root'
@@ -60,6 +63,34 @@ export class AcademicaService {
      }
       ).pipe(catchError(this.handleError));
 }
+
+
+obtenerDependientes(cia: number, emp : number): Observable<any> {
+  return this.http.get(this.baseUrlEmpleados + 'find-dependientes-x-emp/' + cia+'/'+emp).pipe(catchError(this.handleError));
+}
+
+guardarDependiente(dependiente : Dependientes ): Observable<Dependientes> {
+console.log(dependiente);
+return this.http.post<Dependientes>(this.baseUrlEmpleados + 'create-dependiente-x-emp', dependiente).pipe(catchError(this.handleError));
+}
+
+eliminarDependiente(DependientesPK : dependienteXEmpPK) : Observable <any> {
+
+let tdependiente : Dependientes = new Dependientes();
+
+tdependiente.dependienteXEmpPK  = DependientesPK;
+console.log('eliminar dependendiente');
+console.log(tdependiente);
+
+
+return this.http.delete<any> (this.baseUrlEmpleados + 'delete-dependiente-x-emp',
+{
+    body: tdependiente
+ }
+  ).pipe(catchError(this.handleError));
+}
+
+
 
 
 

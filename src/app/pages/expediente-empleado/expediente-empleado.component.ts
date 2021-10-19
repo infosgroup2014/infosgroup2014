@@ -385,8 +385,9 @@ export class ExpedienteEmpleadoComponent implements OnInit {
         this.router.navigate(['observaciones']);
     }
 
-    irDependientes() {
-        this.router.navigate(['dependientes']);
+    irDependientes(cia : number, codemp : number) {
+
+      this.router.navigate(['/pages/dependientes', cia, codemp]);
     }
 
     irBeneficiario(cia : number, codemp : number) {

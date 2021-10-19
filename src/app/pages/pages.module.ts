@@ -36,6 +36,7 @@ import { PlantillaSeisComponent } from './plantilla-seis/plantilla-seis.componen
 import { PlantillaCincoComponent } from './plantilla-cinco/plantilla-cinco.component';
 import { BeneficiarioComponent } from './expediente-empleado/beneficiario/beneficiario.component';
 import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/capacitaciones.component';
+import { DependientesComponent } from './expediente-empleado/dependientes/dependientes.component';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/ca
       uncheckedLabel: 'off'
     })
   ],
+
   declarations: [LoginComponent,
     PagesComponent,
     PlanillaComponent,
@@ -67,6 +69,7 @@ import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/ca
     FormPlanillaComponent,
     CandidatoComponent,
     CapacitacionesComponent,
+    DependientesComponent,
     ContratacionDirectaComponent,
     ExpedienteEmpleadoComponent,
     BeneficiarioComponent,

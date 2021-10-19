@@ -1,17 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, EmailValidator, FormArray } from '@angular/forms';
-import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AcademicaService } from '../../servicio/prepAcademica.service';
+import { dependienteXEmpPK } from '../modelo/DependientesPK';
+import { Dependientes } from '../modelo/Dependietnes';
+import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { CustomDateParserFormatter } from "../../candidato/form-candidato/modelo/FormatFecha";
+import Swal from "sweetalert2";
+
 @Component({
   selector: 'app-dependientes',
   templateUrl: './dependientes.component.html',
-  styleUrls: ['./dependientes.component.css']
+  styleUrls: ['./dependientes.component.css'],
+  providers: [
+    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
+  ]
+
 })
 export class DependientesComponent implements OnInit {
   dependienteForm!: FormGroup;
   nacimiento: NgbDateStruct;
-  listaDependientes = [{ nombreDependiente: 'Francisco Gonzalez', edadDependiente: '48', sexoDependiente: 'Masculino', parentescoDependiente: 'Padre' },
-  { nombreDependiente: 'Maria Gonzalez', edadDependiente: '45', sexoDependiente: 'Femenino', parentescoDependiente: 'Madre' },
-  ];
+
+  listaDependientes = [];
+
+  EmpleadoSelec : dependienteXEmpPK = new dependienteXEmpPK;
 
   listaParentescos = [
     { nombreParentesco: '--Seleccione--', codigoParentesco: '' },
@@ -29,7 +41,36 @@ export class DependientesComponent implements OnInit {
     { sexoParentesco: 'Masculino', codigoSexo: 'M' }
   ];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: ActivatedRoute,
+    private _router : Router,
+    private serviciosExpediente : AcademicaService
+    ) {
+
+    this.router.paramMap.subscribe( params => {
+      console.log('Parametros que llegan.');
+      console.log(params);
+      const CodCia = +params.get('codCia');
+      const CodEmp = +params.get('codEmp');
+      console.log('Empleado:'+CodCia+'-'+CodEmp);
+        this.EmpleadoSelec.codCia = CodCia;
+        this.EmpleadoSelec.codEmp = CodEmp;
+//        console.log('Empselect:'+this.EmpleadoSelec.codCia);
+
+
+      this.serviciosExpediente.obtenerDependientes (CodCia, CodEmp).subscribe((data) => {
+        console.log('regreso del servicio');
+        console.log(data);
+       this.listaDependientes = data;
+    //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
+       });
+
+    });
+
+
+
+  }
 
   validationMessages: { [x: string]: any; } = {
     'nombre': {
@@ -111,5 +152,104 @@ export class DependientesComponent implements OnInit {
     });
   }
 
+  agregarDependiente ()
+  {
+    console.log('agregar dependiente');
+
+    console.log(this.dependienteForm);
+
+
+    let dependiente : Dependientes = new Dependientes();
+      dependiente.dependienteXEmpPK = new dependienteXEmpPK();
+
+
+        dependiente.dependienteXEmpPK.codCia = this.EmpleadoSelec.codCia;
+        dependiente.dependienteXEmpPK.codEmp = this.EmpleadoSelec.codEmp;
+
+        dependiente.nombre = this.dependienteForm.get('nombre').value;
+        dependiente.codParentesco = this.dependienteForm.get('codParentesco').value;
+        dependiente.sexo = this.dependienteForm.get('sexo').value;
+
+        let fechaNac = this.dependienteForm.get('fechaNacimiento').value;
+
+        dependiente.fechaNacimiento =
+         String(
+          fechaNac.day + '/' + fechaNac.month + '/' + fechaNac.year
+        );
+
+
+       this.serviciosExpediente.guardarDependiente(dependiente).subscribe(
+        datos => {
+          if (datos.dependienteXEmpPK.codDependiente) {
+
+
+            Swal.fire('Guardar Candidato',
+              'Datos Guardados con exito!',
+              'success');
+
+              this.limpiar();
+
+
+          } else {
+            Swal.fire('Guardar Candidato',
+              'Error al Guardar',
+              'error');
+          }
+        }
+      );
+
+
+
+  }
+
+  limpiar() {
+    this.dependienteForm.reset();
+
+    this.listaDependientes = [];
+
+    this.serviciosExpediente.obtenerDependientes(this.EmpleadoSelec.codCia,
+      this.EmpleadoSelec.codEmp
+      ).subscribe((data: Dependientes[]) => {
+      this.listaDependientes = data;
+      console.log('dependientes');
+      console.log(this.listaDependientes);
+    });
+
+  }
+
+  eliminarContacto (dependienteIcndex : dependienteXEmpPK) : void {
+
+    // obtengo los datos actuales antes de eliminar
+  //      let tCapacitacion  =  this.capacitacionForm.get('codCapacitacion');
+
+  // con el indice voy a buscar el codContacto eliminado
+  //      let tcodContacto =  tContacto.value[contactoIndex].codContacto;
+
+  //      console.log('Elimino:'+ tcodContacto );
+
+  // lo guardo para poder eliminarlo de bd despues
+  //      this.ContactosEliminados.push(tcodContacto);
+
+  //      console.log( this.ContactosEliminados );
+
+      this.serviciosExpediente.eliminarDependiente(
+        dependienteIcndex
+      ).subscribe(res=>{
+           this.limpiar();
+      });
+
+
+    }
+
+
+
+
+
+  regresoexpediente ()
+  {
+//    this.router.navigate(['/pages/capacitaciones', codCia, codEmp]);
+    this._router.navigate(['/pages/expediente_editado', this.EmpleadoSelec.codCia,
+    this.EmpleadoSelec.codEmp]);
+  }
 
 }

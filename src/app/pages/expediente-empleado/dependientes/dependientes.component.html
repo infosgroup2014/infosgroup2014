@@ -3,6 +3,10 @@
   <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
     Agregar
   </button>
+  <button class="btn btn-primary margin-left" (click)="regresoexpediente()">
+    Cancelar
+  </button>
+
 </div>
 
 
@@ -19,12 +23,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of listaDependientes">
-        <th scope="row">{{item.nombreDependiente}}</th>
-        <td>{{item.edadDependiente}}</td>
-        <td>{{item.sexoDependiente}}</td>
-        <td>{{item.parentescoDependiente}}</td>
+        <th scope="row">{{item.nombre}}</th>
+        <td>{{item.fechaNacimiento}}</td>
+        <td>{{item.sexo}}</td>
+        <td>{{item.codParentesco}}</td>
+
         <td>
-          <button class="btn btn-danger">
+          <button class="btn btn-danger"
+          (click)="eliminarContacto(item.dependienteXEmpPK)"
+          >
             Eliminar
           </button>
         </td>
@@ -46,7 +53,7 @@
         <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="dependienteForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+        <form [formGroup]="dependienteForm"  class="form-horizontal">
 
           <div class="form-group" [ngClass]="{'has-error' :formErrors.nombre}">
             <label class="col-sm-2 control-label" for="nombre">Nombre</label>
@@ -60,18 +67,27 @@
             </div>
           </div>
 
-
-          <div class="form-group">
-            <div class="col-sm-8">
-              <label>Fecha Nacimiento</label>
-
-
-              <input id="fechaNacimiento" formControlName="fechaNacimiento" type="date" class="form-control "
-                (blur)="logValidationError()">
-
+          <div class="form-group col-md-4 col-sm-4" [ngClass]="{'has-error' :formErrors.fechaNacimiento}">
+            <label for="fechaCapacitacion">Fecha Nacimiento</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                formControlName="fechaNacimiento"
+                name="fechaNacimiento"
+                ngbDatepicker
+                #d11="ngbDatepicker"
+                [ngModelOptions]="{ standalone: true }"
+                (blur)="logValidationError()"
+              />
               <div *ngIf="formErrors.fechaNacimiento" class="alert alert-danger">{{ formErrors.fechaNacimiento}}
               </div>
-
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-primary fa fa-calendar"
+                  (click)="d11.toggle()"
+                  type="button"
+                ></button>
+              </div>
             </div>
           </div>
 
@@ -98,7 +114,13 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="submit" class="btn btn-primary"
+          (click)="agregarDependiente()"
+
+          data-dismiss="modal"
+          [disabled]="dependienteForm.invalid"
+          class="btn btn-primary"
+          >Guardar</button>
         </form>
       </div>
     </div>
