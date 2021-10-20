@@ -406,8 +406,9 @@ export class ExpedienteEmpleadoComponent implements OnInit {
         this.router.navigate(['expediente-digital']);
     }
 
-    irExperienciaLaboral() {
-        this.router.navigate(['experiencia-laboral']);
+    irExperienciaLaboral(cia : number, codemp : number) {
+
+        this.router.navigate(['/pages/experiencia', cia, codemp]);
     }
 
     irGenerales() {

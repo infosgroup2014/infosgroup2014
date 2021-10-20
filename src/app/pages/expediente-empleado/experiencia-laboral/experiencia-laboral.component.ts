@@ -1,12 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, EmailValidator, FormArray } from '@angular/forms';
-import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { max } from 'rxjs/operators';
+
+import { ActivatedRoute, Router } from '@angular/router';
+import { AcademicaService } from '../../servicio/prepAcademica.service';
+import { dependienteXEmpPK } from '../modelo/DependientesPK';
+import { Dependientes } from '../modelo/Dependietnes';
+import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { CustomDateParserFormatter } from "../../candidato/form-candidato/modelo/FormatFecha";
+import Swal from "sweetalert2";
+import { Experiencias } from '../modelo/Experiencia';
+import { expLaboralEmpleadoPK } from '../modelo/ExperenciaPK';
+
+
 
 @Component({
   selector: 'app-experiencia-laboral',
   templateUrl: './experiencia-laboral.component.html',
-  styleUrls: ['./experiencia-laboral.component.css']
+  styleUrls: ['./experiencia-laboral.component.css'],
+  providers: [
+    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
+  ]
+
 })
 
 export class ExperienciaLaboralComponent implements OnInit {
@@ -15,34 +30,54 @@ export class ExperienciaLaboralComponent implements OnInit {
   listaSexo=[];
   dependienteForm:FormGroup;
 
-  listaExperiencia = [{ lugarTraExp: 'Lugar de trabajo 1',
-  puestoExp: 'Puesto 1', sueldoIniExp: '1000', sueldoFinExp: '1200', fechaIniExp:'01/01/2019',
-  fechaFinExp:'01/12/2020',motivoRetExp:'',empleoActExp:'',extranjeroExp:'',paisExt:'',
-  ocupacionExp:'' },
-  { lugarTraExp: 'Lugar de trabajo 2',
-  puestoExp: 'Puesto 2', sueldoIniExp: '900', sueldoFinExp: '1100', fechaIniExp:'01/01/2017',
-  fechaFinExp:'01/12/2020',motivoRetExp:'',empleoActExp:'',extranjeroExp:'',paisExt:'',
-  ocupacionExp:'' }
-  ];
+  EmpleadoSelec : dependienteXEmpPK = new dependienteXEmpPK;
 
-  listaPuestos = [
-    { nombrePuesto: '--Seleccione--', codigoPuesto: '' },
-    { nombrePuesto: 'Administrador de cartera', codigoPuesto: '1' },
-    { nombrePuesto: 'Analista de nomina', codigoPuesto: '2' },
-    { nombrePuesto: 'Auxiliar', codigoPuesto: '3' },
-    { nombrePuesto: 'Director de finanzas', codigoPuesto: '4' },
-    { nombrePuesto: 'Cobrador', codigoPuesto: '5' }
-  ];
+  listaExperiencia = [];
+
+  listaPuestos = [];
+
+  listaOcupaciones = [];
 
 
 
 
 
-  constructor(private fb: FormBuilder) { }
+  constructor(  private fb: FormBuilder,
+    private router: ActivatedRoute,
+    private _router : Router,
+    private serviciosExpediente : AcademicaService
+    )
+    {
+
+    this.router.paramMap.subscribe( params => {
+      console.log('Parametros que llegan.');
+      console.log(params);
+      const CodCia = +params.get('codCia');
+      const CodEmp = +params.get('codEmp');
+      console.log('Empleado:'+CodCia+'-'+CodEmp);
+        this.EmpleadoSelec.codCia = CodCia;
+        this.EmpleadoSelec.codEmp = CodEmp;
+//        console.log('Empselect:'+this.EmpleadoSelec.codCia);
+
+
+      this.serviciosExpediente.obtenerExperiencias (CodCia, CodEmp).subscribe((data) => {
+        console.log('regreso del servicio');
+        console.log(data);
+       this.listaExperiencia = data;
+       console.log(this.listaExperiencia);
+    //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
+       });
+
+    });
+
+
+
+
+   }
 
   validationMessages: { [x: string]: any; } = {
     'lugarTrabajo': {
-      'required': 'El nombre es requerido',
+      'required': 'El campo es requerido',
       'maxlength': 'Solo se permiten 50 caracteres para el campo nombre'
     },
     'fechaInicio': {
@@ -51,12 +86,16 @@ export class ExperienciaLaboralComponent implements OnInit {
     'fechaFin': {
       'required': 'El campo parentesco es requerido',
     },
+    'motivoRetiro': {
+      'required': 'El campo es requerido',
+    }
   };
 
   formErrors: { [x: string]: any; } = {
     'lugarTrabajo': '',
     'fechaInicio': '',
-    'fechaFin': ''
+    'fechaFin': '',
+    'motivoRetiro': ''
   };
 
   ngOnInit(): void {
@@ -64,12 +103,11 @@ export class ExperienciaLaboralComponent implements OnInit {
       codCia: [''],
       codEmp: [''],
       codExpLaboral: [''],
-      lugarTrabajo: ['', Validators.required,Validators.maxLength(50)],
+      lugarTrabajo: ['', [Validators.required,Validators.maxLength(50)]],
       codPuesto: [''],
-      fechaInicio: ['', Validators.required],
-      fechaFin: ['', Validators.required],
-      motivoRetiro: [''],
-      posicionPuesto: [''],
+      fechaInicio: ['', [Validators.required]],
+      fechaFin: ['', [Validators.required]],
+      motivoRetiro: ['', [Validators.required]],
       jefeInmediato: [''],
       autorizoInfo: [''],
       currentJob: [''],
@@ -77,29 +115,26 @@ export class ExperienciaLaboralComponent implements OnInit {
       sueldoFinal: [''],
       trabajoExtranjero: [''],
       paisExtrajero: [''],
-      ocupacion: ['']
-    })
+      codOcupacion: ['']
+    });
+
+    this.serviciosExpediente.obtenerPuestos (this.EmpleadoSelec.codCia).subscribe((data) => {
+
+      this.listaPuestos = data;
+  //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
+     });
+
+
+     this.serviciosExpediente.obtenerOcupaciones (this.EmpleadoSelec.codCia).subscribe((data) => {
+
+      this.listaOcupaciones = data;
+      console.log('ocupaciones');
+      console.log(this.listaOcupaciones);
+  //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
+     });
   }
 
 
-
-  get codCia() { return this.experienciaLaboralForm.get('codCia'); }
-  get codEmp() { return this.experienciaLaboralForm.get('codEmp'); }
-  get codExpLaboral() { return this.experienciaLaboralForm.get('codExpLaboral'); }
-  get lugarTrabajo() { return this.experienciaLaboralForm.get('lugarTrabajo'); }
-  get codPuesto() { return this.experienciaLaboralForm.get('codPuesto'); }
-  get fechaInicio() { return this.experienciaLaboralForm.get('fechaInicio'); }
-  get fechaFin() { return this.experienciaLaboralForm.get('fechaFin'); }
-  get motivoRetiro() { return this.experienciaLaboralForm.get('motivoRetiro'); }
-  get posicionPuesto() { return this.experienciaLaboralForm.get('posicionPuesto'); }
-  get jefeInmediato() { return this.experienciaLaboralForm.get('jefeInmediato'); }
-  get autorizoInfo() { return this.experienciaLaboralForm.get('autorizoInfo'); }
-  get currentJob() { return this.experienciaLaboralForm.get('currentJob'); }
-  get sueldoInicial() { return this.experienciaLaboralForm.get('sueldoInicial'); }
-  get sueldoFinal() { return this.experienciaLaboralForm.get('sueldoFinal'); }
-  get trabajoExtranjero() { return this.experienciaLaboralForm.get('trabajoExtranjero'); }
-  get paisExtrajero() { return this.experienciaLaboralForm.get('paisExtrajero'); }
-  get ocupacion() { return this.experienciaLaboralForm.get('ocupacion'); }
 
   onSubmit(): void {
     console.log(this.experienciaLaboralForm);
@@ -140,6 +175,120 @@ export class ExperienciaLaboralComponent implements OnInit {
       }
 
     });
+  }
+
+
+
+  agregarExperiencia ()
+  {
+    console.log('agregar experiencia');
+
+    console.log(this.experienciaLaboralForm);
+
+
+    let experiencia : Experiencias = new Experiencias();
+       experiencia.expLaboralEmpleadoPK = new expLaboralEmpleadoPK();
+
+
+        experiencia.expLaboralEmpleadoPK.codCia = this.EmpleadoSelec.codCia;
+        experiencia.expLaboralEmpleadoPK.codEmp = this.EmpleadoSelec.codEmp;
+
+        experiencia.lugarTrabajo = this.experienciaLaboralForm.get('lugarTrabajo').value;
+        experiencia.motivoRetiro = this.experienciaLaboralForm.get('motivoRetiro').value;
+        experiencia.codPuesto = this.experienciaLaboralForm.get('codPuesto').value;
+        experiencia.codOcupacion = this.experienciaLaboralForm.get('codOcupacion').value;
+
+
+
+        experiencia.sueldoInicial = this.experienciaLaboralForm.get('sueldoInicial').value;
+        experiencia.sueldoFinal = this.experienciaLaboralForm.get('sueldoFinal').value;
+
+
+        let fechainicio = this.experienciaLaboralForm.get('fechaInicio').value
+
+        experiencia.fechaInicio =
+         String(
+          fechainicio.day + '/' + fechainicio.month + '/' + fechainicio.year
+        );
+
+
+        let fechaFin = this.experienciaLaboralForm.get('fechaFin').value;
+
+        experiencia.fechaFin =
+         String(
+          fechaFin.day + '/' + fechaFin.month + '/' + fechaFin.year
+        );
+
+       this.serviciosExpediente.guardarExperiencia(experiencia).subscribe(
+        datos => {
+          if (datos.expLaboralEmpleadoPK.codExpLaboral) {
+
+
+            Swal.fire('Guardar Candidato',
+              'Datos Guardados con exito!',
+              'success');
+
+              this.limpiar();
+
+
+          } else {
+            Swal.fire('Guardar Candidato',
+              'Error al Guardar',
+              'error');
+          }
+        }
+      );
+
+
+
+  }
+
+  limpiar() {
+    this.experienciaLaboralForm.reset();
+
+    this.listaExperiencia = [];
+
+    this.serviciosExpediente.obtenerExperiencias(this.EmpleadoSelec.codCia,
+      this.EmpleadoSelec.codEmp
+      ).subscribe((data: Experiencias[]) => {
+      this.listaExperiencia = data;
+      console.log('experienciaes');
+      console.log(this.listaExperiencia);
+    });
+
+  }
+
+  eliminarExperiencia (experienciaIcndex : expLaboralEmpleadoPK) : void {
+
+    // obtengo los datos actuales antes de eliminar
+  //      let tCapacitacion  =  this.experienciaForm.get('codCapacitacion');
+
+  // con el indice voy a buscar el codContacto eliminado
+  //      let tcodContacto =  tContacto.value[contactoIndex].codContacto;
+
+  //      console.log('Elimino:'+ tcodContacto );
+
+  // lo guardo para poder eliminarlo de bd despues
+  //      this.ContactosEliminados.push(tcodContacto);
+
+  //      console.log( this.ContactosEliminados );
+
+      this.serviciosExpediente.eliminarExperiencia(
+        experienciaIcndex
+      ).subscribe(res=>{
+           this.limpiar();
+      });
+
+
+    }
+
+
+
+  regresoexpediente ()
+  {
+//    this.router.navigate(['/pages/experienciaes', codCia, codEmp]);
+    this._router.navigate(['/pages/expediente_editado', this.EmpleadoSelec.codCia,
+    this.EmpleadoSelec.codEmp]);
   }
 
 }

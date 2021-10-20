@@ -1,122 +1,257 @@
-
 <div class="row my-4">
-    <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
-      Agregar
-    </button>
-  </div>
-  
-  
-  <div class="row my-2">
-    <table class="table">
-      <thead style="background-color: blue; color: white;">
-        <tr>
-          <th scope="col">Lugar de trabajo</th>
-          <th scope="col">Puesto/posición</th>
-          <th scope="col">Sueldo inicial</th>
-          <th scope="col">Sueldo final</th>
-          <th scope="col">Fecha inicio</th>
-          <th scope="col">Fecha fin</th>
-          <th scope="col">Motivo del retiro</th>
-          <th scope="col">Empleo Actual</th>
-          <th scope="col">Extrangero</th>
-          <th scope="col">Pais Ext</th>
-          <th scope="col">Ocup.</th>
-          <th scope="col">Acción</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of listaExperiencia">
-          <th scope="row">{{item.lugarTraExp}}</th>
-          <td>{{item.puestoExp}}</td>
-          <td>{{item.sueldoIniExp}}</td>
-          <td>{{item.sueldoFinExp}}</td>
-          <td>{{item.fechaIniExp}}</td>
-          <td>{{item.fechaFinExp}}</td>
-          <td>{{item.motivoRetExp}}</td>
-          <td>{{item.empleoActExp}}</td>
-          <td>{{item.extranjeroExp}}</td>
-          <td>{{item.paisExt}}</td>
-          <td>{{item.ocupacionExp}}</td>
-          <td>
-            <button class="btn btn-danger">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  
-  
-  
-  <!-- modal de agregar -->
-  <div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title">Datos del dependiente</h6>
-          <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="dependienteForm" (ngSubmit)="onSubmit()" class="form-horizontal">
-  
-            <div class="form-group" [ngClass]="{'has-error' :formErrors.nombre}">
-              <label class="col-sm-2 control-label" for="nombre">Nombre</label>
-              <div class="col-sm-8">
-                <input id="nombre" formControlName="nombre" type="text" class="form-control "
-                  (blur)="logValidationError()">
-  
-                <div *ngIf="formErrors.nombre" class="alert alert-danger">{{ formErrors.nombre}}
+  <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
+    Agregar
+  </button>
+  <button class="btn btn-primary margin-left" (click)="regresoexpediente()">
+    Cancelar
+  </button>
+</div>
+
+<div class="row my-2">
+  <table class="table">
+    <thead style="background-color: blue; color: white">
+      <tr>
+        <th scope="col">Lugar de trabajo</th>
+        <th scope="col">Puesto/posición</th>
+        <th scope="col">Sueldo inicial</th>
+        <th scope="col">Sueldo final</th>
+        <th scope="col">Fecha inicio</th>
+        <th scope="col">Fecha fin</th>
+        <th scope="col">Motivo del retiro</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listaExperiencia">
+        <th scope="row">{{ item.lugarTrabajo }}</th>
+        <td>{{ item.posicion }}</td>
+        <td>{{ item.sueldoInicial }}</td>
+        <td>{{ item.sueldoFinal }}</td>
+        <td>{{ item.fechaInicio }}</td>
+        <td>{{ item.fechaFin }}</td>
+        <td>{{ item.motivoRetiro }}</td>
+        <td>
+          <button class="btn btn-danger"  (click)= "eliminarExperiencia(item.expLaboralEmpleadoPK)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- modal de agregar -->
+<div
+  id="modal"
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Experiencia Laboral</h6>
+        <button
+          type="button"
+          class="btn btn-outline-danger btn-sm"
+          data-dismiss="modal"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="experienciaLaboralForm" class="form-horizontal">
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-error': formErrors.lugarTrabajo }"
+          >
+            <label class="col-sm-2 control-label" for="nombre"
+              >Lugar de Trabajo</label
+            >
+            <div class="col-sm-8">
+              <input
+                id="lugarTrabajo"
+                formControlName="lugarTrabajo"
+                type="text"
+                class="form-control"
+                (blur)="logValidationError()"
+              />
+
+              <div *ngIf="formErrors.lugarTrabajo" class="alert alert-danger">
+                {{ formErrors.lugarTrabajo }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4 col-sm-4">
+            <label for="tipo">Ocupación</label>
+            <div class="input-group">
+              <select
+                formControlName="codOcupacion"
+                class="form-control"
+                id="codOcupacion"
+                name="codOcupacion"
+              >
+                <option value="1" disabled>
+                  Selecccione&hellip;
+                </option>
+                <option
+                  *ngFor="let item of listaOcupaciones"
+                  [value]="item.codOcupacionMintrab"
+                >
+                  {{ item.nomOcupacion }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div
+              class="form-group col-md-4 col-sm-4"
+              [ngClass]="{ 'has-error': formErrors.fechaInicio }"
+            >
+              <label for="fechaInicio">Fecha Inicio</label>
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  formControlName="fechaInicio"
+                  name="fechaInicio"
+                  ngbDatepicker
+                  #d11="ngbDatepicker"
+                  [ngModelOptions]="{ standalone: true }"
+                  (blur)="logValidationError()"
+                />
+                <div *ngIf="formErrors.fechaInicio" class="alert alert-danger">
+                  {{ formErrors.fechaInicio }}
                 </div>
-  
-              </div>
-            </div>
-  
-  
-            <div class="form-group">
-              <div class="col-sm-8">
-                <label>Fecha Nacimiento</label>
-  
-  
-                <input id="fechaNacimiento" formControlName="fechaNacimiento" type="date" class="form-control "
-                  (blur)="logValidationError()">
-  
-                <div *ngIf="formErrors.fechaNacimiento" class="alert alert-danger">{{ formErrors.fechaNacimiento}}
-                </div>
-  
-              </div>
-            </div>
-  
-            <div class="form-group">
-              <div class="col-sm-8">
-                <label for="parentescoDependiente">Parentesco</label>
-                <select class="form-control" formControlName="codParentesco" (blur)="logValidationError()">
-                  <option value="{{item.codigoParentesco}}" *ngFor="let item of listaParentescos">
-                    {{item.nombreParentesco}}
-                  </option>
-  
-                </select>
-                <div *ngIf="formErrors.codParentesco" class="alert alert-danger">{{ formErrors.codParentesco}}
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-primary fa fa-calendar"
+                    (click)="d11.toggle()"
+                    type="button"
+                  ></button>
                 </div>
               </div>
             </div>
-  
-            <div class="form-group">
-              <div class="col-sm-8">
-                <label for="sexoDependiente">Sexo</label>
-                <select class="form-control" formControlName="sexo">
-                  <option value="{{item.codigoSexo}}" *ngFor="let item of listaSexo">{{item.sexoParentesco}}</option>
-                </select>
+
+            <div
+              class="form-group col-md-4 col-sm-4"
+              [ngClass]="{ 'has-error': formErrors.fechaFin}"
+            >
+              <label for="fechaInicio">Fecha Final</label>
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  formControlName="fechaFin"
+                  name="fechaFin"
+                  ngbDatepicker
+                  #d12="ngbDatepicker"
+                  [ngModelOptions]="{ standalone: true }"
+                  (blur)="logValidationError()"
+                />
+                <div *ngIf="formErrors.fechaFin" class="alert alert-danger">
+                  {{ formErrors.fechaFin }}
+                </div>
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-primary fa fa-calendar"
+                    (click)="d12.toggle()"
+                    type="button"
+                  ></button>
+                </div>
               </div>
             </div>
-  
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </form>
-        </div>
+          </div>
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-error': formErrors.motivoRetiro }"
+          >
+            <label class="col-sm-2 control-label" for="motivoRetiro"
+              >Motivo Retiro</label
+            >
+            <div class="col-sm-8">
+              <input
+                id="motivoRetiro"
+                formControlName="motivoRetiro"
+                type="text"
+                class="form-control"
+                (blur)="logValidationError()"
+              />
+
+              <div *ngIf="formErrors.motivoRetiro" class="alert alert-danger">
+                {{ formErrors.motivoRetiro }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4 col-sm-4">
+            <label for="tipo">Puesto</label>
+            <div class="input-group">
+              <select
+                formControlName="codPuesto"
+                class="form-control"
+                id="codPuesto"
+                name="codPuesto"
+              >
+                <option value="1" disabled>
+                  Selecccione&hellip;
+                </option>
+                <option
+                  *ngFor="let item of listaPuestos"
+                  [value]="item.codPuesto"
+                >
+                  {{ item.nomPuesto }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="sueldoInicial"
+                >Salario Inicial</label
+              >
+              <div class="col-sm-8">
+                <input
+                  type="text"
+                  formControlName="sueldoInicial"
+                  class="form-control"
+                  id="sueldoInicial"
+                  name="sueldoInicial"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="sueldoFinal"
+                >Salario final
+              </label>
+              <div class="col-sm-8">
+                <input
+                  type="text"
+                  formControlName="sueldoFinal"
+                  class="form-control"
+                  id="sueldoFinal"
+                  name="sueldoFinal"
+                />
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary"
+          (click)="agregarExperiencia()"
+
+          data-dismiss="modal"
+          [disabled]="experienciaLaboralForm.invalid"
+          class="btn btn-primary"
+          >Guardar</button>
+
+        </form>
       </div>
     </div>
   </div>
-  
-  <!--fin modal agregar-->
+</div>
+
+<!--fin modal agregar-->

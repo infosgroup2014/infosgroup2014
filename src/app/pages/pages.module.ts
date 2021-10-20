@@ -37,6 +37,7 @@ import { PlantillaCincoComponent } from './plantilla-cinco/plantilla-cinco.compo
 import { BeneficiarioComponent } from './expediente-empleado/beneficiario/beneficiario.component';
 import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/capacitaciones.component';
 import { DependientesComponent } from './expediente-empleado/dependientes/dependientes.component';
+import { ExperienciaLaboralComponent } from './expediente-empleado/experiencia-laboral/experiencia-laboral.component';
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { DependientesComponent } from './expediente-empleado/dependientes/depend
     CandidatoComponent,
     CapacitacionesComponent,
     DependientesComponent,
+    ExperienciaLaboralComponent,
     ContratacionDirectaComponent,
     ExpedienteEmpleadoComponent,
     BeneficiarioComponent,
