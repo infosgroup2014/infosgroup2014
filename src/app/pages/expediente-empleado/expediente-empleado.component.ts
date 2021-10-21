@@ -423,8 +423,8 @@ export class ExpedienteEmpleadoComponent implements OnInit {
         this.router.navigate(['puestos-entrevistas']);
     }
 
-    irReferencias() {
-        this.router.navigate(['referencias']);
+    irReferencias(cia : number, codemp : number) {
+      this.router.navigate(['/pages/referencias', cia, codemp]);
     }
 
     Buscar() {

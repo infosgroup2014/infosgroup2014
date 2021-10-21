@@ -15,6 +15,7 @@ import { equipoXEmpPK } from "../expediente-empleado/modelo/EquipoPK";
 import { Equipos } from "../expediente-empleado/modelo/Equipos";
 import { expLaboralEmpleadoPK } from "../expediente-empleado/modelo/ExperenciaPK";
 import { Experiencias } from "../expediente-empleado/modelo/Experiencia";
+import { referenciaEmpPK, Referencias } from "../expediente-empleado/modelo/Referencias";
 
 @Injectable({
   providedIn: "root",
@@ -197,6 +198,38 @@ export class AcademicaService {
   }
 
 
+  obtenerReferencias(cia: number, emp: number, tipo : any): Observable<any> {
+    return this.http
+      .get(this.baseUrlEmpleados + "find-referencia-x-emp/" + cia + "/" + emp + '/'+tipo)
+      .pipe(catchError(this.handleError));
+  }
+
+  guardarReferencia(referencia: Referencias): Observable<Referencias> {
+    console.log(referencia);
+    return this.http
+      .post<Referencias>(
+        this.baseUrlEmpleados + "create-referencia-x-emp",
+        referencia
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  eliminarReferencia(refenciaPK : referenciaEmpPK): Observable<any> {
+    let treferencia: Referencias = new Referencias();
+    console.log("eliminar llego referencia");
+    console.log(refenciaPK);
+
+    treferencia.referenciaEmpPK  = refenciaPK;
+    console.log("eliminar  referencia");
+    console.log(treferencia);
+
+    return this.http
+      .delete<any>(this.baseUrlEmpleados + "delete-referencia-x-emp", {
+        body: treferencia,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
 
   obtenerProfesionAcadem(cia: any): Observable<any> {
     return this.http
@@ -210,6 +243,8 @@ export class AcademicaService {
     );
   }
 
+
+
   /*
     obtenerMuniDeptoPais(pais: number, deptop: number): Observable<any> {
         console.log('lo que mando:'+pais);
@@ -220,6 +255,7 @@ export class AcademicaService {
 
     obtenerDeptoPais(pais: number): Observable<any> {
         return this.http.get(this.baseUrlParametros + 'obtener-deptos-by-pais' + '/' + pais).pipe(catchError(this.handleError));
+
 
     }
 

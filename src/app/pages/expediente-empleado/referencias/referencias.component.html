@@ -1,1 +1,195 @@
-<p>referencias works!</p>
+<div class="row my-4">
+  <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
+    Agregar
+  </button>
+  <button class="btn btn-primary margin-left" (click)="regresoexpediente()">
+    Cancelar
+  </button>
+</div>
+
+<div class="row my-2">
+  <table class="table">
+    <thead style="background-color: blue; color: white">
+      <tr>
+        <th scope="col">Tipo</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Lugar</th>
+        <th scope="col">Puesto</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listaTipo">
+        <td>
+          <span *ngIf="item.tipo == 'L'">Laboral</span>
+          <span *ngIf="item.tipo == 'P'">Personal</span>
+        </td>
+        <td>{{ item.nomReferencia }}</td>
+        <td>{{ item.telefono }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.lugar }}</td>
+        <td>{{ item.puesto }}</td>
+        <td>
+          <button
+            class="btn btn-danger"
+            (click)="eliminarExperiencia(item.equipoXEmpPK)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- modal de agregar -->
+<div
+  id="modal"
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Referencia</h6>
+        <button
+          type="button"
+          class="btn btn-outline-danger btn-sm"
+          data-dismiss="modal"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="referenciaForm" class="form-horizontal">
+          <div class="form-group col-md-8 col-sm-8">
+            <label for="tipo">Tipo</label>
+            <div class="input-group">
+              <select
+                formControlName="tipo"
+                class="form-control"
+                id="tipo"
+                name="tipo"
+              >
+                <option value="1" disabled>Selecccione&hellip;</option>
+                <option *ngFor="let item of listaTipo" [value]="item.valor">
+                  {{ item.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="nomReferencia"
+              >Nombre Rereferencia</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                formControlName="nomReferencia"
+                class="form-control"
+                id="nomReferencia"
+                name="nomReferencia"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="telefono"
+              >Teléfono</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                formControlName="telefono"
+                class="form-control"
+                id="telefono"
+                name="telefono"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="email"
+              >Correo Electrónico</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                formControlName="email"
+                class="form-control"
+                id="email"
+                name="email"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="lugar"
+              >lugar</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                formControlName="lugar"
+                class="form-control"
+                id="lugar"
+                name="lugar"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="puesto"
+              >Puesto</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                formControlName="puesto"
+                class="form-control"
+                id="puesto"
+                name="puesto"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="sueldo"
+              >Salario</label
+            >
+            <div class="col-sm-8">
+              <input
+                type="text"
+                formControlName="sueldo"
+                class="form-control"
+                id="sueldo"
+                name="sueldo"
+              />
+            </div>
+          </div>
+
+
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="agregarReferencia()"
+            data-dismiss="modal"
+            [disabled]="referenciaForm.invalid"
+            class="btn btn-primary"
+          >
+            Guardar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--fin modal agregar-->

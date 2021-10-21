@@ -41,6 +41,7 @@ import { ExperienciaLaboralComponent } from './expediente-empleado/experiencia-l
 import { EnviarBoletasComponent } from './planilla/enviar-boletas/enviar-boletas.component';
 import { ProgramarDeduccionesComponent } from './planilla/programar-deducciones/programar-deducciones.component';
 import { EquipoOficinaComponent } from './expediente-empleado/equipo-oficina/equipo-oficina.component';
+import { ReferenciasComponent } from './expediente-empleado/referencias/referencias.component';
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { EquipoOficinaComponent } from './expediente-empleado/equipo-oficina/equ
     DependientesComponent,
     ExperienciaLaboralComponent,
     EquipoOficinaComponent,
+    ReferenciasComponent,
     ContratacionDirectaComponent,
     ExpedienteEmpleadoComponent,
     BeneficiarioComponent,
