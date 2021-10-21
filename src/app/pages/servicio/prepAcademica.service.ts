@@ -11,6 +11,8 @@ import { Capacitaciones } from "../expediente-empleado/modelo/Capacitaciones";
 import { capacitacionXEmpPK } from "../expediente-empleado/modelo/CapacitacionPK";
 import { dependienteXEmpPK } from "../expediente-empleado/modelo/DependientesPK";
 import { Dependientes } from "../expediente-empleado/modelo/Dependietnes";
+import { equipoXEmpPK } from "../expediente-empleado/modelo/EquipoPK";
+import { Equipos } from "../expediente-empleado/modelo/Equipos";
 import { expLaboralEmpleadoPK } from "../expediente-empleado/modelo/ExperenciaPK";
 import { Experiencias } from "../expediente-empleado/modelo/Experiencia";
 
@@ -55,6 +57,12 @@ export class AcademicaService {
   obtenerOcupaciones(cia: any): Observable<any> {
     return this.http
       .get(this.baseUrlCatalogosAcadem + "listar-ocupaciones/" + cia)
+      .pipe(catchError(this.handleError));
+  }
+
+  obtenerTiposEquipos(cia: any): Observable<any> {
+    return this.http
+      .get(this.baseUrlCatalogosAcadem + "listar-tipo-equipos/" + cia)
       .pipe(catchError(this.handleError));
   }
 
@@ -154,6 +162,41 @@ export class AcademicaService {
       })
       .pipe(catchError(this.handleError));
   }
+
+  obtenerEquipos(cia: number, emp: number): Observable<any> {
+    return this.http
+      .get(this.baseUrlEmpleados + "find-equipo-x-emp-puesto-trabajo/" + cia + "/" + emp)
+      .pipe(catchError(this.handleError));
+  }
+
+
+  guardarEquipo(equipo: Equipos): Observable<Equipos> {
+    console.log(equipo);
+    return this.http
+      .post<Equipos>(
+        this.baseUrlEmpleados + "create-equipo-x-emp",
+        equipo
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  eliminarEquipo(EquipoPK : equipoXEmpPK): Observable<any> {
+    let tequipo: Equipos = new Equipos();
+    console.log("eliminar llego equipo");
+    console.log(EquipoPK);
+
+    tequipo.equipoXEmpPK = EquipoPK;
+    console.log("eliminar equipo");
+    console.log(tequipo);
+
+    return this.http
+      .delete<any>(this.baseUrlEmpleados + "delete-equipo-x-emp", {
+        body: tequipo,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+
 
   obtenerProfesionAcadem(cia: any): Observable<any> {
     return this.http

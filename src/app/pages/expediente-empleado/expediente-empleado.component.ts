@@ -369,8 +369,8 @@ export class ExpedienteEmpleadoComponent implements OnInit {
     irDocumentos() {
         this.router.navigate(['documentos']);
     }
-    irEquipoOficina() {
-        this.router.navigate(['equipo-oficina']);
+    irEquipoOficina(cia : number, codemp : number) {
+        this.router.navigate(['/pages/equipoOficina', cia, codemp]);
     }
     irEquipoTrabajo() {
         this.router.navigate(['equipo-trabajo']);

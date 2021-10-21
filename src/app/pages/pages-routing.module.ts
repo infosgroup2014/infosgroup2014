@@ -30,6 +30,7 @@ import { DependientesComponent } from './expediente-empleado/dependientes/depend
 import { ExperienciaLaboralComponent } from './expediente-empleado/experiencia-laboral/experiencia-laboral.component';
 import { ProgramarDeduccionesComponent } from './planilla/programar-deducciones/programar-deducciones.component';
 import { EnviarBoletasComponent } from './planilla/enviar-boletas/enviar-boletas.component';
+import { EquipoOficinaComponent } from './expediente-empleado/equipo-oficina/equipo-oficina.component';
 
 const routes: Routes = [{
   path: '',
@@ -130,6 +131,10 @@ const routes: Routes = [{
     {
       path: 'experiencia/:codCia/:codEmp',
       component: ExperienciaLaboralComponent , canActivate: [AuthGuard]
+    },
+    {
+      path: 'equipoOficina/:codCia/:codEmp',
+      component: EquipoOficinaComponent , canActivate: [AuthGuard]
     },
     {
       path: 'iot-dashboard',
