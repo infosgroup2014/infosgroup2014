@@ -207,7 +207,7 @@ export class PlantillaCincoComponent implements OnInit {
     accionPersonal.accionPersonalPK.codTipoaccion = this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion;
     // accionPersonal.puestos.puestosPK.codPuesto = 127;
 
-    if (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 36 || this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 25) {
+    if (this.planillaService.tipoAccionSeleccion.tipoAccionPK.codTipoaccion == 18) {
       accionPersonal.codTipopla = Number(this.plantillaCincoForm.get('cambioPlanilla').value);
     }
 

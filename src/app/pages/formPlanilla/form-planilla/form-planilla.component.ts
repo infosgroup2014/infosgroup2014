@@ -255,7 +255,7 @@ export class FormPlanillaComponent implements OnInit {
               });
 
           });
-        }else {Swal.fire('Llenar campos obligatorios (marcados con *)');}
+        }else {Swal.fire('Llenar campos obligatorios');}
     }
 
 

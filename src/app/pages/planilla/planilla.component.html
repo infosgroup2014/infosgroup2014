@@ -68,6 +68,12 @@
         <button class="dropdown-item" type="button" (click)="cargaManual()">
           <i class="fa fa-circle-o" aria-hidden="true"></i> &nbsp;Cargar Manual
         </button>
+        <button class="dropdown-item" type="button" (click)="prestamosProg()">
+          <i class="fa fa-circle-o" aria-hidden="true"></i> &nbsp;Prestamos Programados
+        </button>
+        <button class="dropdown-item" type="button" (click)="enviarBoletas()">
+          <i class="fa fa-circle-o" aria-hidden="true"></i> &nbsp;Enviar Boletas de Pago
+        </button>
       </div>
     </div>
 
@@ -458,7 +464,7 @@
                 (click)="obtenerDetalleDeducPresta(itemSuma.codDp)"
                 (click)="llenarValor(itemSuma.descripcion)"
               >
-                <strong>{{ itemSuma.descripcion }}:</strong>
+                <strong>{{ itemSuma.descripcion }}:<br><i>Empleados: {{ itemSuma.cantidad }}</i></strong>
                 <p style="width: auto">{{ itemSuma.monto | currency }}</p>
               </li>
             </ul>
@@ -492,7 +498,7 @@
                 (click)="obtenerDetalleDeducPresta(itemResta.codDp)"
                 (click)="llenarValor(itemResta.descripcion)"
               >
-                <strong>{{ itemResta.descripcion }}:</strong>
+                <strong>{{ itemResta.descripcion }}:<br><i>Empleados: {{ itemResta.cantidad }}</i></strong>
                 <p>{{ itemResta.monto | currency }}</p>
               </li>
             </ul>

@@ -1087,6 +1087,11 @@ export class PlanillaComponent implements OnInit {
     });
   }
 
-
+  prestamosProg() {
+    this.router.navigate(['/pages/programar-deducciones']);
+  }
+  enviarBoletas() {
+    this.router.navigate(['/pages/enviar-boletas']);
+  }
 
 }

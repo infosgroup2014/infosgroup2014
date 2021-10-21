@@ -38,6 +38,8 @@ import { BeneficiarioComponent } from './expediente-empleado/beneficiario/benefi
 import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/capacitaciones.component';
 import { DependientesComponent } from './expediente-empleado/dependientes/dependientes.component';
 import { ExperienciaLaboralComponent } from './expediente-empleado/experiencia-laboral/experiencia-laboral.component';
+import { EnviarBoletasComponent } from './planilla/enviar-boletas/enviar-boletas.component';
+import { ProgramarDeduccionesComponent } from './planilla/programar-deducciones/programar-deducciones.component';
 
 @NgModule({
   imports: [
@@ -87,7 +89,9 @@ import { ExperienciaLaboralComponent } from './expediente-empleado/experiencia-l
     PlantillaSieteComponent,
     PlantillaCuatroComponent,
     PlantillaSeisComponent,
-    PlantillaCincoComponent
+    PlantillaCincoComponent,
+    EnviarBoletasComponent,
+    ProgramarDeduccionesComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

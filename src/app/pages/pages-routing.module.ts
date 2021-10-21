@@ -28,6 +28,8 @@ import { BeneficiarioComponent } from './expediente-empleado/beneficiario/benefi
 import { CapacitacionesComponent } from './expediente-empleado/capacitaciones/capacitaciones.component';
 import { DependientesComponent } from './expediente-empleado/dependientes/dependientes.component';
 import { ExperienciaLaboralComponent } from './expediente-empleado/experiencia-laboral/experiencia-laboral.component';
+import { ProgramarDeduccionesComponent } from './planilla/programar-deducciones/programar-deducciones.component';
+import { EnviarBoletasComponent } from './planilla/enviar-boletas/enviar-boletas.component';
 
 const routes: Routes = [{
   path: '',
@@ -182,6 +184,14 @@ const routes: Routes = [{
       path: 'miscellaneous',
       loadChildren: () => import('./miscellaneous/miscellaneous.module')
         .then(m => m.MiscellaneousModule),
+    },
+    {
+      path:'programar-deducciones',
+      component:ProgramarDeduccionesComponent, canActivate: [AuthGuard]
+    },
+    {
+      path:'enviar-boletas',
+      component:EnviarBoletasComponent, canActivate: [AuthGuard]
     },
     {
       path: '',
