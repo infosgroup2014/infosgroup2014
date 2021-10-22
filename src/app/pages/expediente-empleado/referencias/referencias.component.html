@@ -21,10 +21,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of listaTipo">
+      <tr *ngFor="let item of listaReferencia">
         <td>
-          <span *ngIf="item.tipo == 'L'">Laboral</span>
-          <span *ngIf="item.tipo == 'P'">Personal</span>
+          <span *ngIf="item.tipoReferencia == 'L'">Laboral</span>
+          <span *ngIf="item.tipoReferencia == 'P'">Personal</span>
         </td>
         <td>{{ item.nomReferencia }}</td>
         <td>{{ item.telefono }}</td>
@@ -34,7 +34,7 @@
         <td>
           <button
             class="btn btn-danger"
-            (click)="eliminarExperiencia(item.equipoXEmpPK)"
+            (click)="eliminarExperiencia(item.referenciaEmpPK)"
           >
             Eliminar
           </button>
@@ -67,14 +67,14 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="referenciaForm" class="form-horizontal">
-          <div class="form-group col-md-8 col-sm-8">
+          <div class="form-group col-md-4 col-sm-4">
             <label for="tipo">Tipo</label>
             <div class="input-group">
               <select
-                formControlName="tipo"
+                formControlName="tipoReferencia"
                 class="form-control"
-                id="tipo"
-                name="tipo"
+                id="tipoReferencia"
+                name="tipoReferencia"
               >
                 <option value="1" disabled>Selecccione&hellip;</option>
                 <option *ngFor="let item of listaTipo" [value]="item.valor">
@@ -99,11 +99,12 @@
             </div>
           </div>
 
+          <div class="row">
           <div class="form-group">
-            <label class="control-label col-sm-4" for="telefono"
+            <label class="control-label col" for="telefono"
               >Teléfono</label
             >
-            <div class="col-sm-8">
+            <div class="col">
               <input
                 type="text"
                 formControlName="telefono"
@@ -115,10 +116,10 @@
           </div>
 
           <div class="form-group">
-            <label class="control-label col-sm-4" for="email"
+            <label class="control-label col" for="email"
               >Correo Electrónico</label
             >
-            <div class="col-sm-8">
+            <div class="col">
               <input
                 type="text"
                 formControlName="email"
@@ -128,9 +129,10 @@
               />
             </div>
           </div>
+        </div>
 
           <div class="form-group">
-            <label class="control-label col-sm-4" for="lugar"
+            <label class="control-label col-sm-8" for="lugar"
               >lugar</label
             >
             <div class="col-sm-8">
@@ -144,11 +146,12 @@
             </div>
           </div>
 
+          <div class="row" >
           <div class="form-group">
-            <label class="control-label col-sm-4" for="puesto"
+            <label class="control-label col-sm-8" for="puesto"
               >Puesto</label
             >
-            <div class="col-sm-8">
+            <div class="col">
               <input
                 type="text"
                 formControlName="puesto"
@@ -173,16 +176,14 @@
               />
             </div>
           </div>
-
+        </div>
 
 
           <button
-            type="submit"
             class="btn btn-primary"
             (click)="agregarReferencia()"
             data-dismiss="modal"
             [disabled]="referenciaForm.invalid"
-            class="btn btn-primary"
           >
             Guardar
           </button>

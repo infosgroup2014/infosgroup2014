@@ -83,7 +83,7 @@ export class ReferenciasComponent implements OnInit {
        this.serviciosExpediente.obtenerReferencias (CodCia, CodEmp, this.listaTipo[1].valor).subscribe((data) => {
         console.log('regreso del servicio');
         console.log(data);
-       this.listaReferencia += data;
+       this.listaReferencia = this.listaReferencia.concat(data);
        console.log(this.listaReferencia);
     //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
        });
@@ -235,20 +235,22 @@ export class ReferenciasComponent implements OnInit {
 
     this.listaReferencia = [];
 
-    this.serviciosExpediente.obtenerReferencias(this.EmpleadoSelec.codCia,
-      this.EmpleadoSelec.codEmp,
-      this.listaTipo[0].valor
-      ).subscribe((data: Referencias[]) => {
-      this.listaReferencia = data;
-      console.log('equipos');
-      console.log(this.listaReferencia);
-    });
 
-    this.serviciosExpediente.obtenerReferencias (this.EmpleadoSelec.codCia,
-      this.EmpleadoSelec.codEmp, this.listaTipo[1].valor).subscribe((data) => {
+    let CodCia = this.EmpleadoSelec.codCia  ;
+    let CodEmp = this.EmpleadoSelec.codEmp  ;
+
+    this.serviciosExpediente.obtenerReferencias (CodCia, CodEmp, this.listaTipo[0].valor).subscribe((data) => {
       console.log('regreso del servicio');
       console.log(data);
-     this.listaReferencia += data;
+     this.listaReferencia = data;
+     console.log(this.listaReferencia);
+  //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
+     });
+
+     this.serviciosExpediente.obtenerReferencias (CodCia, CodEmp, this.listaTipo[1].valor).subscribe((data) => {
+      console.log('regreso del servicio');
+      console.log(data);
+     this.listaReferencia = this.listaReferencia.concat(data);
      console.log(this.listaReferencia);
   //console.log('LO QUE Retorna el Servicio.......>'+JSON.stringify(data));
      });
