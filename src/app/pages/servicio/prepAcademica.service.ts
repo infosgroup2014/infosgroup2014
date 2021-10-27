@@ -7,6 +7,7 @@ import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { retry, catchError } from "rxjs/operators";
 import { DependientesComponent } from "../expediente-empleado/dependientes/dependientes.component";
+import { Beneficiarios, beneficiarioXEmpPK } from "../expediente-empleado/modelo/Beneficiarios";
 import { Capacitaciones } from "../expediente-empleado/modelo/Capacitaciones";
 import { capacitacionXEmpPK } from "../expediente-empleado/modelo/CapacitacionPK";
 import { dependienteXEmpPK } from "../expediente-empleado/modelo/DependientesPK";
@@ -230,12 +231,51 @@ export class AcademicaService {
       .pipe(catchError(this.handleError));
   }
 
+obtenerBeneficiarios(cia: number, emp: number): Observable<any> {
+    return this.http
+      .get(this.baseUrlEmpleados + "find-beneficiario-emp/" + cia + "/" + emp )
+      .pipe(catchError(this.handleError));
+  }
+
+  guardarBeneficiario(beneficiario: Beneficiarios): Observable<Beneficiarios> {
+    console.log(beneficiario);
+    return this.http
+      .post<Beneficiarios>(
+        this.baseUrlEmpleados + "create-beneficiario-emp",
+        beneficiario
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  eliminarBeneficiario(beneficiarioXEmpPK : beneficiarioXEmpPK ): Observable<any> {
+    let tbeneficiario: Beneficiarios = new Beneficiarios();
+    console.log("eliminar llego beneficirio");
+    console.log(beneficiarioXEmpPK);
+
+    tbeneficiario.beneficiarioXEmpPK  = beneficiarioXEmpPK;
+    console.log("eliminar  beneficiario");
+    console.log(tbeneficiario);
+
+    return this.http
+      .delete<any>(this.baseUrlEmpleados + "delete-beneficiario-emp", {
+        body: tbeneficiario,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
 
   obtenerProfesionAcadem(cia: any): Observable<any> {
     return this.http
       .get(this.baseUrlCatalogosAcadem + "listar-profesion/" + cia)
       .pipe(catchError(this.handleError));
   }
+
+  obtenerParentesco(cia: any): Observable<any> {
+    return this.http
+      .get(this.baseUrlCatalogosAcadem + "listar-parentesco/" + cia)
+      .pipe(catchError(this.handleError));
+  }
+
 
   obtenerPrepAcademica(cia: any, emp: any): Observable<any> {
     return this.http.get(

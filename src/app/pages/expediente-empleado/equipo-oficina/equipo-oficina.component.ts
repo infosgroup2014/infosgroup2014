@@ -83,9 +83,6 @@ export class EquipoOficinaComponent implements OnInit {
 
     });
 
-
-
-
    }
 
   validationMessages: { [x: string]: any; } = {

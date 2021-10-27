@@ -118,7 +118,7 @@ const routes: Routes = [{
       component:ContratacionDirectaComponent, canActivate: [AuthGuard]
     },
     {
-      path: 'beneficiario/:ciaCia/:codEmp',
+      path: 'beneficiario/:codCia/:codEmp',
       component:BeneficiarioComponent, canActivate: [AuthGuard]
     },
     {

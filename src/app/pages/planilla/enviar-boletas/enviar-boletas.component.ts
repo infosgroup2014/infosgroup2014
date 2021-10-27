@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlanillaService } from '../../servicio/planilla.service';
+import { Empleado } from '../../modelo/Empleado';
 
 @Component({
   selector: 'ngx-enviar-boletas',
@@ -8,6 +9,7 @@ import { PlanillaService } from '../../servicio/planilla.service';
 })
 export class EnviarBoletasComponent implements OnInit {
   listaTipoPlanilla: any;
+  listaEmpleadosNoEncontrados : Empleado[] = [];
 
   constructor(
     private planillaService: PlanillaService,

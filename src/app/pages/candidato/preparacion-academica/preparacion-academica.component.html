@@ -1,0 +1,157 @@
+<div class="btn-toolbar text-center well">
+
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
+                Agregar
+            </button>
+
+            <button class="btn btn-primary margin-left" (click)="regresoCandidato()">
+                Cancelar
+            </button>
+
+
+
+</div>
+
+
+
+
+<div class="row my-2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre institución</th>
+                <th scope="col">Título/Nivel obtenido</th>
+                <th scope="col">Año ingreso</th>
+                <th scope="col">Año egreso</th>
+                <th scope="col">No.Colegiado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of listadoPrepAcademica">
+                <th scope="row">{{item.nomInstitucion}}</th>
+                <td>{{item.nivelAcademico.nomNivelAcademico}}<br>{{item.profesion.nomProfesion}}</td>
+                <td>{{item.anioIngreso}}</td>
+                <td>{{item.anioEgreso}}</td>
+                <td>{{item.noColegiado}}</td>
+                <td>
+                    <button class="btn btn-danger" (click)="eliminarPreparacion(item.nivelesXCandidatoPK)">
+                        Eliminar
+                    </button>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<!-- modal de agregar -->
+<div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Preparacion académica </h6>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="preparacionAcademicaCForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="academica">Nombre Institución<span style="color: red">*</span></label>
+                        <input class="form-control" id="nomInstitucion" name="nomInstitucion" type="text"
+                            placeholder="Ingresar institución" formControlName="nomInstitucion"
+                            (blur)="logValidationErrors()">
+                        <div class="alert alert-danger" *ngIf="formErrors.nomInstitucion">
+                            {{ formErrors.nomInstitucion }}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="academica">País<span style="color: red">*</span></label>
+                            <ng-select style="width: 300px;" [items]="listadoPaises" bindLabel="nombPais"
+                                bindValue="codPais" formControlName="codPais" name="codPais"
+                                (change)="obtenerDeptoPrepAcademica($event)" (blur)="logValidationErrors()">
+                            </ng-select>
+                            <div class="alert alert-danger" *ngIf="formErrors.codPais">
+                                {{ formErrors.codPais }}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="academica">Departamento<span style="color: red">*</span></label>
+                            <ng-select style="width: 300px;" [items]="listaDeptoPrepAcamedica" bindLabel="nomDepto"
+                                bindValue="deptosPK.codDepto" formControlName="codDepto" name="codDepto"
+                                (blur)="logValidationErrors()">
+                            </ng-select>
+                            <div class="alert alert-danger" *ngIf="formErrors.codDepto">
+                                {{ formErrors.codDepto }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group  col-md-4 mb-3">
+                            <label for="academica">Nivel Academico<span style="color: red">*</span></label>
+                            <ng-select style="width: 250px;" [items]="listarNiveles" bindLabel="nomNivelAcademico"
+                                bindValue="nivelAcademicoPK.codNivelAcademico" formControlName="codNivel"
+                                name="codNivel" (blur)="logValidationErrors()">
+                            </ng-select>
+                            <div class="alert alert-danger" *ngIf="formErrors.codNivel">
+                                {{ formErrors.codNivel }}
+                            </div>
+                        </div>
+                        <div class="form-group  col-md-8 mb-3">
+                            <label for="academica">Profesiones<span style="color: red">*</span></label>
+                            <ng-select [items]="listarProfesiones" bindLabel="nomProfesion"
+                                bindValue="profesionPK.codProfesion" formControlName="subNivel" name="subNivel"
+                                (blur)="logValidationErrors()">
+                            </ng-select>
+                            <div class="alert alert-danger" *ngIf="formErrors.subNivel">
+                                {{ formErrors.subNivel }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group">
+                                <label for="academica">Año Ingreso</label>
+                                <input class="form-control" type="number" placeholder="Año ingreso" id="anioIngreso"
+                                    name="anioIngreso" formControlName="anioIngreso">
+                            </div>
+                            <div class="alert alert-danger" *ngIf="formErrors.anioIngreso">
+                                {{ formErrors.anioIngreso }}
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group">
+                                <label for="academica">Año Egreso</label>
+                                <input class="form-control" type="number" placeholder="Año egreso" id="anioEgreso"
+                                    name="anioEgreso" formControlName="anioEgreso">
+                            </div>
+                            <div class="alert alert-danger" *ngIf="formErrors.anioEgreso">
+                                {{ formErrors.anioEgreso }}
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group">
+                                <label for="academica">No. Colegiado</label>
+                                <input class="form-control" type="number" placeholder="ingrese colegiado"
+                                    id="noColegiado" name="noColegiado" formControlName="noColegiado">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button (click)="agregarPreparacion()" data-dismiss="modal"
+                        [disabled]="preparacionAcademicaCForm.invalid" class="btn btn-primary">
+                        Agregar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--fin modal agregar-->

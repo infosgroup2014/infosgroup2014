@@ -1,5 +1,6 @@
 <div class="container">
   <div id="style-7" class="row my-2 expendiente">
+    <h5 class="alert alert-primary drawer__name">Registro de Candidato</h5>
     <div class="col-md-12">
       <div class="float-left mx-2 my-2">
         <img
@@ -20,6 +21,7 @@
               type="file"
               class="float-right"
               accept="image/png"
+              [disabled]="!candidatoSeleccionado?.candidatoPK"
             />
           </label>
         </div>
@@ -36,6 +38,13 @@
           Candidato</strong
         >
       </button>
+
+      <button class="btn btn-primary float-right mx-2 btn-round-lg my-2 " data-toggle="modal" data-target="#menuModal" [disabled]="!candidatoSeleccionado?.candidatoPK">
+        <strong>
+          <i class="fa fa-list-ol" aria-hidden="true"></i> &nbsp; Menu
+        </strong>
+      </button>
+
     </div>
 
     <div id="pills" style="margin-left: 0px" class="container my-2">
@@ -920,5 +929,77 @@
     </div>
   </div>
 </div>
+
+
+<!--menu -->
+
+<!-- Modal -->
+<div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: blue;">
+        <h5 class="modal-title" id="exampleModalLabel" style="color: white;">MENU CANDIDATO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="style-8" class="modal-body menuLateral">
+
+        <!--Grid column-->
+        <div class="col-md-9">
+          <ul class="list-group list-group-hover" style="list-style-type:none;">
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irPreparacionAcademicaCandidato(candidatoSeleccionado.candidatoPK.codCia,candidatoSeleccionado.candidatoPK.codCandidato)"><i
+                  class="fa fa-globe text-primary mx-2"></i>Preparacion Academica</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irExpedienteDigital()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Expediente Digital</a></li>
+            <li class="list-group-item" data-dismiss="modal">
+              <a (click)="irEmergencias()"><i class="fa fa-globe text-primary mx-2"></i>Emergencias</a>
+            </li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irExperienciaLaboral()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Experiencia Laboral</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irReferencias()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Referencias</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irDocumentos()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Documentos</a></li>
+            <li class="list-group-item" data-dismiss="modal">
+              <a (click)="irEmergencias()"><i class="fa fa-globe text-primary mx-2"></i>Capacitaciones</a>
+            </li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irDependientes()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Dependientes</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irIdiomas()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Idiomas</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irEmergencias()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Beneficiarios</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irEquipoOficina()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Equipo de Oficina</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irPruebas()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Pruebas</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irPuestosEntrevistas()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Puestos/entrevistas</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irObservaciones()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Observaciones</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irDatosEconomicos()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Datos Economicos</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irDatosAfiliacion()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Datos Afiliacion</a></li>
+            <li class="list-group-item" data-dismiss="modal"><a (click)="irMotivaciones()"><i
+                  class="fa fa-globe text-primary mx-2"></i>Motivaciones y Proyecciones</a></li>
+        
+          </ul>
+        
+        </div>
+        <!--Grid column-->
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!--Fin Reporte Deduccion-->

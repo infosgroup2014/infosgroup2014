@@ -1,8 +1,12 @@
+import { JsonPipe } from '@angular/common';
+import { JsonpInterceptor } from '@angular/common/http';
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, AbstractControl, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, AbstractControl, Validators, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute  } from "@angular/router";
 import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { combineAll } from 'rxjs/operators';
+import { error } from 'selenium-webdriver';
 import Swal from "sweetalert2";
 import { CustomValidators } from "../../../shared/custom.validator";
 import { BuscarCandidatoModel } from "../../modelo/BuscarCandidato";
@@ -155,6 +159,7 @@ export class CandidatoComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private _router: ActivatedRoute,
     private servicioPlanilla: PlanillaService,
     private fb: FormBuilder,
     private _reporteService: ReportesService,
@@ -166,6 +171,20 @@ export class CandidatoComponent implements OnInit {
     this.createForm();
     this.crearFormularioReporteExp();
     this.servicioPlanilla.logueado = true;
+
+    this._router.paramMap.subscribe( params => {
+      let candidatoE: Candidato = new Candidato();
+
+      candidatoE.candidatoPK = new CandidatoPK();
+      console.log('Parametros que llegan.');
+      console.log(params);
+      const CodCia = +params.get('codCia');
+      const CodEmp = +params.get('codCandidato');
+      console.log('Empleado:'+CodCia+'-'+CodEmp);
+      candidatoE.candidatoPK.codCia =  +params.get('codCia');
+      candidatoE.candidatoPK.codCandidato =  +params.get('codCandidato');
+       this.obtenerCandidato(candidatoE.candidatoPK);
+       });
   }
 
 
@@ -412,9 +431,12 @@ export class CandidatoComponent implements OnInit {
 
   }
 
-  irPreparacionAcademica() {
-    this.router.navigate(['preparacion-academica']);
-  }
+  irPreparacionAcademicaCandidato(codCia : number, codCandidato : number) {
+    console.log('va a preparacion academica candidato..');
+    console.log('cia:'+codCia);
+    console.log('emp:'+codCandidato);
+    this.router.navigate(['/pages/preparacion-academica-candidato', codCia, codCandidato]);
+}
   irCapacitaciones() {
     this.router.navigate(['capacitaciones']);
   }
