@@ -42,6 +42,7 @@ import { EnviarBoletasComponent } from './planilla/enviar-boletas/enviar-boletas
 import { ProgramarDeduccionesComponent } from './planilla/programar-deducciones/programar-deducciones.component';
 import { EquipoOficinaComponent } from './expediente-empleado/equipo-oficina/equipo-oficina.component';
 import { ReferenciasComponent } from './expediente-empleado/referencias/referencias.component';
+import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion-academica/preparacion-academica.component';
 
 @NgModule({
   imports: [
@@ -81,6 +82,7 @@ import { ReferenciasComponent } from './expediente-empleado/referencias/referenc
     ContratacionDirectaComponent,
     ExpedienteEmpleadoComponent,
     BeneficiarioComponent,
+    PreparacionAcademicaComponent,
     ArchivoAfpComponent,
     AccionCrearComponent,
     AccionNoAfectaPlanillaComponent,

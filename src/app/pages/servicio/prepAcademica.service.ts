@@ -7,7 +7,7 @@ import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { retry, catchError } from "rxjs/operators";
 import { DependientesComponent } from "../expediente-empleado/dependientes/dependientes.component";
-import { Beneficiarios, beneficiarioXEmpPK } from "../expediente-empleado/modelo/Beneficiarios";
+import { Beneficiarios } from "../expediente-empleado/modelo/Beneficiarios";
 import { Capacitaciones } from "../expediente-empleado/modelo/Capacitaciones";
 import { capacitacionXEmpPK } from "../expediente-empleado/modelo/CapacitacionPK";
 import { dependienteXEmpPK } from "../expediente-empleado/modelo/DependientesPK";
@@ -16,6 +16,8 @@ import { equipoXEmpPK } from "../expediente-empleado/modelo/EquipoPK";
 import { Equipos } from "../expediente-empleado/modelo/Equipos";
 import { expLaboralEmpleadoPK } from "../expediente-empleado/modelo/ExperenciaPK";
 import { Experiencias } from "../expediente-empleado/modelo/Experiencia";
+import { nivelAcademico } from "../expediente-empleado/modelo/NivelAcademico";
+import { nivelesXEmpPK } from "../expediente-empleado/modelo/NivelAcademicoPK";
 import { referenciaEmpPK, Referencias } from "../expediente-empleado/modelo/Referencias";
 
 @Injectable({
@@ -231,7 +233,48 @@ export class AcademicaService {
       .pipe(catchError(this.handleError));
   }
 
-obtenerBeneficiarios(cia: number, emp: number): Observable<any> {
+
+  obtenerProfesionAcadem(cia: any): Observable<any> {
+    return this.http
+      .get(this.baseUrlCatalogosAcadem + "listar-profesion/" + cia)
+      .pipe(catchError(this.handleError));
+  }
+
+  obtenerPrepAcademica(cia: any, emp: any): Observable<any> {
+    return this.http.get(
+      this.baseUrlEmpleados + "find-nivel-x-emp/" + cia + "/" + emp
+    );
+  }
+
+  guardarPreparacionAcademica(prepracionAcademica: nivelAcademico): Observable<nivelAcademico> {
+    console.log(prepracionAcademica);
+    return this.http
+      .post<nivelAcademico>(
+        this.baseUrlEmpleados + "create-nivel-x-emp",
+        prepracionAcademica
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  eliminarPreparacionAcademica(nivelesXEmpPK : nivelesXEmpPK): Observable<any> {
+    let tnivelAcademico: nivelAcademico = new nivelAcademico();
+    console.log("eliminar llego nivel academico");
+    console.log(nivelesXEmpPK);
+
+    tnivelAcademico.nivelesXEmpPK  = nivelesXEmpPK;
+    console.log("eliminar  nivel academico");
+    console.log(tnivelAcademico);
+
+    return this.http
+      .delete<any>(this.baseUrlEmpleados + "delete-nivel-x-emp", {
+        body: tnivelAcademico,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+
+
+  obtenerBeneficiarios(cia: number, emp: number): Observable<any> {
     return this.http
       .get(this.baseUrlEmpleados + "find-beneficiario-emp/" + cia + "/" + emp )
       .pipe(catchError(this.handleError));
@@ -247,7 +290,7 @@ obtenerBeneficiarios(cia: number, emp: number): Observable<any> {
       .pipe(catchError(this.handleError));
   }
 
-  eliminarBeneficiario(beneficiarioXEmpPK : beneficiarioXEmpPK ): Observable<any> {
+  eliminarBeneficiario(beneficiarioXEmpPK : any ): Observable<any> {
     let tbeneficiario: Beneficiarios = new Beneficiarios();
     console.log("eliminar llego beneficirio");
     console.log(beneficiarioXEmpPK);
@@ -264,23 +307,10 @@ obtenerBeneficiarios(cia: number, emp: number): Observable<any> {
   }
 
 
-  obtenerProfesionAcadem(cia: any): Observable<any> {
-    return this.http
-      .get(this.baseUrlCatalogosAcadem + "listar-profesion/" + cia)
-      .pipe(catchError(this.handleError));
-  }
-
   obtenerParentesco(cia: any): Observable<any> {
     return this.http
       .get(this.baseUrlCatalogosAcadem + "listar-parentesco/" + cia)
       .pipe(catchError(this.handleError));
-  }
-
-
-  obtenerPrepAcademica(cia: any, emp: any): Observable<any> {
-    return this.http.get(
-      this.baseUrlEmpleados + "find-nivel-x-emp/" + cia + "/" + emp
-    );
   }
 
 

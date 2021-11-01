@@ -350,9 +350,10 @@ export class ExpedienteEmpleadoComponent implements OnInit {
 
     }
 
-    irPreparacionAcademica() {
-        this.router.navigate(['preparacion-academica']);
+    irPreparacionAcademica(codCia : number, codEmp : number) {
+      this.router.navigate(['/pages/nivelacademico', codCia, codEmp]);
     }
+
     irCapacitaciones(codCia : number, codEmp : number) {
       console.log('va a capacitaciones..');
       console.log('cia:'+codCia);

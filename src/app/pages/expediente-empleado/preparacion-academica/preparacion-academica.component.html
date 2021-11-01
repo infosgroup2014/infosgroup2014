@@ -2,6 +2,10 @@
 <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
 Agregar
 </button>
+<button class="btn btn-primary margin-left" (click)="regresoexpediente()">
+  Cancelar
+</button>
+
 </div>
 
 <div class="row my-2">
@@ -23,7 +27,9 @@ Agregar
             <td>{{item.anioEgreso}}</td>
             <td>{{item.noColegiado}}</td>
         <td>
-            <button class="btn btn-danger">
+            <button class="btn btn-danger"
+            (click)="eliminarNivelAcademico(item.nivelesXEmpPK)"
+            >
                 Eliminar
             </button>
         </td>
@@ -36,33 +42,47 @@ Agregar
 
 
 <!-- modal de agregar -->
-<div id="modal"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div
+id="modal"
+class="modal fade bd-example-modal-lg"
+tabindex="-1"
+role="dialog"
+aria-labelledby="myLargeModalLabel"
+aria-hidden="true"
+>
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-            <h6 class="modal-title">Preparacion académica </h6>
+            <h6 class="modal-title">Preparacion Académica </h6>
             <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
         </div>
         <div class="modal-body">
-            <form>
+            <form [formGroup]="nivelAcademicoForm" class="form-horizontal">
                 <div class="form-group">
                     <label for="academica">Nombre Institución</label>
-                    <input class="form-control" type="text" placeholder="Ingresar institución">
+                    <input class="form-control"
+                           formControlName="nomInstitucion"
+                           id="nomInstitucion"
+                          name="nomInstitucion"
+                          type="text"
+                          placeholder="Ingresar institución">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6 mb-3" >
-                        <label for="academica">País</label>
+                        <label for="codPais">País</label>
                             <ng-select style="width: 300px;" [items]="listadoPaises"
                                 bindLabel="nombPais" bindValue="codPais"
-                                formControlName="paises" name="paises"
+                                formControlName="codPais" name="codPais"
                                 (change)="obtenerDeptoPrepAcademica($event)">
                             </ng-select>
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <label for="academica">Departamento</label>
-                        <ng-select style="width: 300px;" [items]="listaDeptoPrepAcamedica"
-                            bindLabel="nomDepto" bindValue="deptosPK.codDepto"
-                            formControlName="departamento" name="departamento" >
+                        <ng-select style="width: 300px;"
+                            [items]="listaDeptoPrepAcamedica"
+                            bindLabel="nomDepto"
+                            bindValue="deptosPK.codDepto"
+                            formControlName="codDepto" name="codDepto" >
                         </ng-select>
                     </div>
                 </div>
@@ -70,37 +90,53 @@ Agregar
                 <div class="form-group  col-md-4 mb-3">
                     <label for="academica">Nivel Academico</label>
                         <ng-select style="width: 250px;" [items]="listarNiveles"
-                            bindLabel="nomNivelAcademico" bindValue="codNivelAcademico"
-                            formControlName="niveles" name="niveles" >
+                            bindLabel="nomNivelAcademico"
+                            bindValue="nivelAcademicoPK.codNivelAcademico"
+                            formControlName="codNivel"
+                            name="codNivel" >
                         </ng-select>
                 </div>
                 <div class="form-group  col-md-8 mb-3">
                     <label for="academica">Profesiones</label>
                         <ng-select  [items]="listarProfesiones"
-                            bindLabel="nomProfesion" bindValue="codProfesion"
-                            formControlName="profesiones" name="profesiones" >
+                            bindLabel="nomProfesion"
+                            bindValue="profesionPK.codProfesion"
+                            formControlName="codProfesion"
+                            name="profesiones" >
                         </ng-select>
                 </div>
                 </div>
                 <div class="form-row"><div class="col-md-4 mb-3">
                     <div class="form-group">
                         <label for="academica">Año Ingreso</label>
-                        <input class="form-control" type="number" placeholder="Año ingreso">
+                        <input class="form-control"
+                              formControlName="anioIngreso"
+                              type="number" placeholder="Año ingreso">
                     </div></div>
                     <div class="col-md-4 mb-3">
                     <div class="form-group">
                         <label for="academica">Año Egreso</label>
-                        <input class="form-control" type="number" placeholder="Año egreso">
+                        <input class="form-control"
+                        formControlName="anioEgreso"
+                         type="number" placeholder="Año egreso">
                     </div></div>
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
                             <label for="academica">No. Colegiado</label>
-                            <input class="form-control" type="number" placeholder="ingrese colegiado">
+                            <input class="form-control"
+                            formControlName="noColegiado"
+                            type="number" placeholder="ingrese colegiado">
                     </div></div>
                 </div>
 
-
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button
+                class="btn btn-primary"
+                (click)="agregarNivelAcademico()"
+                data-dismiss="modal"
+                [disabled]="nivelAcademicoForm.invalid"
+              >
+                Guardar
+               </button>
               </form>
         </div>
       </div>

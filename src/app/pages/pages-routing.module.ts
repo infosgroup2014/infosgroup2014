@@ -32,6 +32,8 @@ import { ProgramarDeduccionesComponent } from './planilla/programar-deducciones/
 import { EnviarBoletasComponent } from './planilla/enviar-boletas/enviar-boletas.component';
 import { EquipoOficinaComponent } from './expediente-empleado/equipo-oficina/equipo-oficina.component';
 import { ReferenciasComponent } from './expediente-empleado/referencias/referencias.component';
+import { nivelAcademico } from './expediente-empleado/modelo/NivelAcademico';
+import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion-academica/preparacion-academica.component';
 
 const routes: Routes = [{
   path: '',
@@ -140,6 +142,10 @@ const routes: Routes = [{
     {
       path: 'referencias/:codCia/:codEmp',
       component: ReferenciasComponent , canActivate: [AuthGuard]
+    },
+    {
+      path: 'nivelacademico/:codCia/:codEmp',
+      component: PreparacionAcademicaComponent , canActivate: [AuthGuard]
     },
     {
       path: 'iot-dashboard',
