@@ -34,6 +34,8 @@ import { EquipoOficinaComponent } from './expediente-empleado/equipo-oficina/equ
 import { ReferenciasComponent } from './expediente-empleado/referencias/referencias.component';
 import { nivelAcademico } from './expediente-empleado/modelo/NivelAcademico';
 import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion-academica/preparacion-academica.component';
+import { IdiomasComponent } from './expediente-empleado/idiomas/idiomas.component';
+import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.component';
 
 const routes: Routes = [{
   path: '',
@@ -146,6 +148,14 @@ const routes: Routes = [{
     {
       path: 'nivelacademico/:codCia/:codEmp',
       component: PreparacionAcademicaComponent , canActivate: [AuthGuard]
+    },
+    {
+      path: 'idiomas/:codCia/:codEmp',
+      component: IdiomasComponent , canActivate: [AuthGuard]
+    },
+    {
+      path: 'pruebas/:codCia/:codEmp',
+      component: PruebasComponent , canActivate: [AuthGuard]
     },
     {
       path: 'iot-dashboard',

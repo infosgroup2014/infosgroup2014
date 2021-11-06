@@ -376,8 +376,8 @@ export class ExpedienteEmpleadoComponent implements OnInit {
     irEquipoTrabajo() {
         this.router.navigate(['equipo-trabajo']);
     }
-    irIdiomas() {
-        this.router.navigate(['idiomas']);
+    irIdiomas(cia : number, codemp : number) {
+      this.router.navigate(['/pages/idiomas', cia, codemp]);
     }
     irMotivaciones() {
         this.router.navigate(['motivaciones']);
@@ -416,8 +416,8 @@ export class ExpedienteEmpleadoComponent implements OnInit {
         this.router.navigate(['generales']);
     }
 
-    irPruebas() {
-        this.router.navigate(['pruebas']);
+    irPruebas(cia : number, codemp : number) {
+      this.router.navigate(['/pages/pruebas', cia, codemp]);
     }
 
     irPuestosEntrevistas() {

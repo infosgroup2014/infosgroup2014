@@ -1,79 +1,123 @@
 <div class="row my-4">
-    <button class="btn btn-primary" data-toggle="modal" data-target="#modalIdiomas">
+  <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
     Agregar
-    </button>
-    </div>
+  </button>
+  <button class="btn btn-primary margin-left" (click)="regresoexpediente()">
+    Cancelar
+  </button>
+</div>
 
-    <div class="row my-2">
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Idioma</th>
-                <th scope="col">Lee</th>
-                <th scope="col">Escribe</th>
-                <th scope="col">Nivel</th>
-                <th scope="col">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of listaIdiomas">
-                <th scope="row">{{item.idioma}}</th>
-                <td>{{item.lee}}</td>
-                <td>{{item.escribe}}</td>
-                <td>{{item.nivel}}</td>
-            <td>
-                <button class="btn btn-danger">
-                    Eliminar
-                </button>
-            </td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
+<div class="row my-2">
+  <table class="table">
+    <thead style="background-color: blue; color: white">
+      <tr>
+        <th scope="col">Idioma</th>
+        <th scope="col">Lee</th>
+        <th scope="col">Escribe</th>
+        <th scope="col">Nivel</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listaIdiomasEmp">
+        <th scope="row">{{item.idioma.nomIdioma}}</th>
+        <td>
+          <span *ngIf="item.lee == 'N'">No</span>
+          <span *ngIf="item.lee == 'S'">Si</span>
+        </td>
+        <td>
+          <span *ngIf="item.escribe == 'N'">No</span>
+          <span *ngIf="item.escribe == 'S'">Si</span>
+        </td>
+        <td>{{item.nivel}}</td>
+        <td>
+          <button class="btn btn-danger" (click)="eliminarIdiomaEmp(item.idiomaXEmpPK)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 
 
 
-    <!-- modal de agregar -->
-    <div id="modalIdiomas"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Agregar Idiomas </h6>
-                <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+<!-- modal de agregar -->
+<div
+  id="modal"
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+  >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Agregar Idioma</h6>
+        <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="idiomaEmpForm" class="form-horizontal">
+          <div class="form-group">
+            <div class="form-group col-md-6 mb-6">
+              <label for="academica">Idioma</label>
+              <ng-select style="width: 300px;" [items]="listadoIdiomas" bindLabel="nomIdioma"
+                bindValue="idiomaPK.codIdioma" formControlName="codIdioma" name="codIdioma">
+              </ng-select>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="emergencias">Idioma</label>
-                            <input class="form-control" type="text" placeholder="Ingresar idioma">
-                        </div>
-                        <div class="form-row"><div class="col-md-4 mb-3">
-                        <div class="form-group">
-                            <label for="emergencias">Lee</label>
-                            <input class="form-control" type="text" placeholder="">
-                        </div>
-                        </div><div class="col-md-4 mb-3">
-                        <div class="form-group">
-                            <label for="emergencias">Escribe</label>
-                            <input class="form-control" type="text" placeholder="">
-                        </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="form-group">
-                                <label for="emergencias">Nivel</label>
-                                <input class="form-control" type="text" placeholder="">
-                            </div>
-                        </div>
-                    </div>
-                    </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
+
+          </div>
+
+          <div class="form-group">
+            <label for="lee">Leé</label>
+            <div class="form-control">
+              <label class="radio-inline margin-left"  >
+                <input type="radio" value="S" name="lee" formControlName="lee"> Si
+              </label>
+              <label class="radio-inline margin-left">
+                <input type="radio" value="N" name="lee" formControlName="lee"> No
+              </label>
+
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label for="escribe">Escribé</label>
+            <div class="form-control">
+              <label class="radio-inline margin-left"  >
+                <input type="radio" value="S" name="escribe" formControlName="escribe"> Si
+              </label>
+              <label class="radio-inline margin-left">
+                <input type="radio" value="N" name="escribe" formControlName="escribe"> No
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <div class="col-md-4 mb-3">
+            <div class="form-group">
+              <label for="emergencias">Nivel</label>
+              <input class="form-control" formControlName="nivel" type="text" placeholder="nivel de dominio">
             </div>
           </div>
-        </div>
-      </div>
 
-    <!--fin modal agregar-->
+          <button
+          class="btn btn-primary"
+          (click)="agregarIdiomaEmp()"
+          data-dismiss="modal"
+          [disabled]="idiomaEmpForm.invalid"
+        >
+          Guardar
+         </button>
+
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<!--fin modal agregar-->

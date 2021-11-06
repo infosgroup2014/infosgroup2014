@@ -1,1 +1,151 @@
-<p>pruebas works!</p>
+<div class="row my-4">
+  <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
+    Agregar
+  </button>
+  <button class="btn btn-primary margin-left" (click)="regresoexpediente()">
+    Cancelar
+  </button>
+</div>
+
+<div class="row my-2">
+  <table class="table">
+    <thead style="background-color: blue; color: white">
+      <tr>
+        <th scope="col">Tipo</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Nota</th>
+        <th scope="col">Resultado</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listaPruebas">
+        <td>{{ item.tipoPrueba.nomTipoPrueba }}</td>
+        <td>{{ item.fecha }}</td>
+        <td>{{ item.costo }}</td>
+        <td>{{ item.resultado }}</td>
+        <td>
+          <button
+            class="btn btn-danger"
+            (click)="eliminarPruebaEmp(item.tipoPruebaXEmpPK)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- modal de agregar -->
+<div
+  id="modal"
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Prueba por Empleado</h6>
+        <button
+          type="button"
+          class="btn btn-outline-danger btn-sm"
+          data-dismiss="modal"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="pruebasEmpForm" class="form-horizontal">
+          <div class="form-group col-md-4 col-sm-4">
+            <label for="tipo">Tipo Prueba</label>
+            <div class="input-group">
+              <select
+                formControlName="codTipoPrueba"
+                class="form-control"
+                id="codTipoPrueba"
+                name="codTipoPrueba"
+              >
+                <option value="1" disabled>Selecccione&hellip;</option>
+                <option
+                  *ngFor="let item of listadoPruebas"
+                  [value]="item.tipoPruebaPK.codTipoPrueba"
+                >
+                  {{ item.nomTipoPrueba }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div
+            class="form-group col-md-4 col-sm-4"
+            [ngClass]="{ 'has-error': formErrors.fecha }"
+          >
+            <label for="fecha">Fecha de la Prueba</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                formControlName="fecha"
+                name="fecha"
+                ngbDatepicker
+                #d11="ngbDatepicker"
+                [ngModelOptions]="{ standalone: true }"
+                (blur)="logValidationError()"
+              />
+              <div *ngIf="formErrors.fecha" class="alert alert-danger">
+                {{ formErrors.fecha }}
+              </div>
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-primary fa fa-calendar"
+                  (click)="d11.toggle()"
+                  type="button"
+                ></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="nota">Nota</label>
+            <div class="col-sm-2">
+              <input
+                type="text"
+                formControlName="nota"
+                class="form-control"
+                id="nota"
+                name="nota"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col" for="resultado">Resultado</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                formControlName="resultado"
+                class="form-control"
+                id="resultado"
+                name="resultado"
+              />
+            </div>
+          </div>
+
+          <button
+            class="btn btn-primary"
+            (click)="agregarPruebaEmp()"
+            data-dismiss="modal"
+            [disabled]="pruebasEmpForm.invalid"
+          >
+            Guardar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--fin modal agregar-->

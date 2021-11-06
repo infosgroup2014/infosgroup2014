@@ -16,8 +16,10 @@ import { equipoXEmpPK } from "../expediente-empleado/modelo/EquipoPK";
 import { Equipos } from "../expediente-empleado/modelo/Equipos";
 import { expLaboralEmpleadoPK } from "../expediente-empleado/modelo/ExperenciaPK";
 import { Experiencias } from "../expediente-empleado/modelo/Experiencia";
+import { IdiomasEmp, idiomaXEmpPK } from "../expediente-empleado/modelo/IdiomasEmp";
 import { nivelAcademico } from "../expediente-empleado/modelo/NivelAcademico";
 import { nivelesXEmpPK } from "../expediente-empleado/modelo/NivelAcademicoPK";
+import { PruebasEmp, tipoPruebaXEmpPK } from "../expediente-empleado/modelo/Pruebas";
 import { referenciaEmpPK, Referencias } from "../expediente-empleado/modelo/Referencias";
 
 @Injectable({
@@ -52,6 +54,14 @@ export class AcademicaService {
       .pipe(catchError(this.handleError));
   }
 
+  obtenerListadoIdiomas(cia: any): Observable<any> {
+    return this.http
+      .get(this.baseUrlCatalogosAcadem + "listar-tipo-idiomas/" + cia)
+      .pipe(catchError(this.handleError));
+  }
+
+
+
   obtenerPuestos(cia: any): Observable<any> {
     return this.http
       .get(this.baseUrlCatalogosAcadem + "listar-puestos/" + cia)
@@ -67,6 +77,12 @@ export class AcademicaService {
   obtenerTiposEquipos(cia: any): Observable<any> {
     return this.http
       .get(this.baseUrlCatalogosAcadem + "listar-tipo-equipos/" + cia)
+      .pipe(catchError(this.handleError));
+  }
+
+  obtenerListadoPruebas(cia: any): Observable<any> {
+    return this.http
+      .get(this.baseUrlCatalogosAcadem + "listar-tipo-prueba/" + cia)
       .pipe(catchError(this.handleError));
   }
 
@@ -310,6 +326,73 @@ export class AcademicaService {
   obtenerParentesco(cia: any): Observable<any> {
     return this.http
       .get(this.baseUrlCatalogosAcadem + "listar-parentesco/" + cia)
+      .pipe(catchError(this.handleError));
+  }
+
+
+  obtenerIdiomasEmp(cia: number, emp: number): Observable<any> {
+    return this.http
+      .get(this.baseUrlEmpleados + "find-idioma-x-emp/" + cia + "/" + emp )
+      .pipe(catchError(this.handleError));
+  }
+
+ guardarIdiomaEmp (IdiomasEmp: IdiomasEmp ): Observable<IdiomasEmp> {
+    console.log(IdiomasEmp);
+    return this.http
+      .post<IdiomasEmp>(
+        this.baseUrlEmpleados + "create-idioma-x-emp",
+        IdiomasEmp
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+
+  eliminarIdiomaEmp(idiomaXEmpPK : idiomaXEmpPK ): Observable<any> {
+    let tidiomaEmp: IdiomasEmp = new IdiomasEmp();
+    console.log("eliminar llego idioma");
+    console.log(idiomaXEmpPK);
+
+    tidiomaEmp.idiomaXEmpPK  = idiomaXEmpPK;
+    console.log("eliminar  idioma");
+    console.log(tidiomaEmp);
+
+    return this.http
+      .delete<any>(this.baseUrlEmpleados + "delete-idioma-x-emp", {
+        body: tidiomaEmp,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+
+  obtenerPruebasEmp(cia: number, emp: number): Observable<any> {
+    return this.http
+      .get(this.baseUrlEmpleados + "find-tipo-prueba-emp/" + cia + "/" + emp )
+      .pipe(catchError(this.handleError));
+  }
+
+  guardarPruebaEmp (pruebaEmp: PruebasEmp ): Observable<PruebasEmp> {
+    console.log(pruebaEmp);
+    return this.http
+      .post<PruebasEmp>(
+        this.baseUrlEmpleados + "create-tipo-pruebas-x-emp",
+        pruebaEmp
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  eliminarPruebaEmp(pruebaPK : tipoPruebaXEmpPK): Observable<any> {
+    let tpruebaEmp: PruebasEmp = new PruebasEmp();
+    console.log("eliminar llego pruebaEmp");
+    console.log(pruebaPK);
+
+    tpruebaEmp.tipoPruebaXEmpPK  = pruebaPK;
+    console.log("eliminar  pruebaEmp");
+    console.log(tpruebaEmp);
+
+    return this.http
+      .delete<any>(this.baseUrlEmpleados + "delete-referencia-x-emp", {
+        body: tpruebaEmp,
+      })
       .pipe(catchError(this.handleError));
   }
 

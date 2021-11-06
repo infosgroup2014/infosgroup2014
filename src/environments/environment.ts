@@ -13,8 +13,10 @@ export const environment = {
   keycloakConfig: {
 
     clientId: 'frontend',
-    realm: 'Demo-Realm',
-    url: 'http://192.168.1.16:8080',
+    realm: 'master',
+//    realm : 'Demo-Realm',
+    url: 'http://127.0.0.1:8085'
+//     url: 'http://192.168.1.16:8080',
 
   }
 };

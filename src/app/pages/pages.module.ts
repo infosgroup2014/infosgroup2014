@@ -43,6 +43,8 @@ import { ProgramarDeduccionesComponent } from './planilla/programar-deducciones/
 import { EquipoOficinaComponent } from './expediente-empleado/equipo-oficina/equipo-oficina.component';
 import { ReferenciasComponent } from './expediente-empleado/referencias/referencias.component';
 import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion-academica/preparacion-academica.component';
+import { IdiomasComponent } from './expediente-empleado/idiomas/idiomas.component';
+import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.component';
 
 @NgModule({
   imports: [
@@ -83,6 +85,8 @@ import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion
     ExpedienteEmpleadoComponent,
     BeneficiarioComponent,
     PreparacionAcademicaComponent,
+    IdiomasComponent,
+    PruebasComponent,
     ArchivoAfpComponent,
     AccionCrearComponent,
     AccionNoAfectaPlanillaComponent,
