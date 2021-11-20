@@ -45,6 +45,7 @@ import { ReferenciasComponent } from './expediente-empleado/referencias/referenc
 import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion-academica/preparacion-academica.component';
 import { IdiomasComponent } from './expediente-empleado/idiomas/idiomas.component';
 import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.component';
+import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
 
 @NgModule({
   imports: [
@@ -87,6 +88,7 @@ import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.componen
     PreparacionAcademicaComponent,
     IdiomasComponent,
     PruebasComponent,
+    EmergenciasComponent,
     ArchivoAfpComponent,
     AccionCrearComponent,
     AccionNoAfectaPlanillaComponent,

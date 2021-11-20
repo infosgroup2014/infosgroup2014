@@ -361,8 +361,8 @@ export class ExpedienteEmpleadoComponent implements OnInit {
 
       this.router.navigate(['/pages/capacitaciones', codCia, codEmp]);
     }
-    irEmergencias() {
-        this.router.navigate(['emergencias']);
+    irEmergencias(codCia : number, codEmp : number) {
+      this.router.navigate(['/pages/emergencias', codCia, codEmp]);
     }
     irDatosEconomicos() {
         this.router.navigate(['datos-economicos']);

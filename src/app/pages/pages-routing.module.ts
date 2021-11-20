@@ -36,6 +36,7 @@ import { nivelAcademico } from './expediente-empleado/modelo/NivelAcademico';
 import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion-academica/preparacion-academica.component';
 import { IdiomasComponent } from './expediente-empleado/idiomas/idiomas.component';
 import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.component';
+import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
 
 const routes: Routes = [{
   path: '',
@@ -156,6 +157,10 @@ const routes: Routes = [{
     {
       path: 'pruebas/:codCia/:codEmp',
       component: PruebasComponent , canActivate: [AuthGuard]
+    },
+    {
+      path: 'emergencias/:codCia/:codEmp',
+      component: EmergenciasComponent , canActivate: [AuthGuard]
     },
     {
       path: 'iot-dashboard',

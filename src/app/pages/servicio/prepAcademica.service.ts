@@ -12,6 +12,8 @@ import { Capacitaciones } from "../expediente-empleado/modelo/Capacitaciones";
 import { capacitacionXEmpPK } from "../expediente-empleado/modelo/CapacitacionPK";
 import { dependienteXEmpPK } from "../expediente-empleado/modelo/DependientesPK";
 import { Dependientes } from "../expediente-empleado/modelo/Dependietnes";
+import { EmergenciaEmp } from "../expediente-empleado/modelo/EmergenciaEmp";
+import { Emergencias, emergenciaXEmpPK } from "../expediente-empleado/modelo/Emergencias";
 import { equipoXEmpPK } from "../expediente-empleado/modelo/EquipoPK";
 import { Equipos } from "../expediente-empleado/modelo/Equipos";
 import { expLaboralEmpleadoPK } from "../expediente-empleado/modelo/ExperenciaPK";
@@ -397,22 +399,52 @@ export class AcademicaService {
   }
 
 
+  obtenerEmergecias(cia: number, emp: number): Observable<any> {
+    return this.http
+      .get(this.baseUrlEmpleados + "find-emergencia-x-emp/" + cia + "/" + emp )
+      .pipe(catchError(this.handleError));
+  }
 
-  /*
-    obtenerMuniDeptoPais(pais: number, deptop: number): Observable<any> {
-        console.log('lo que mando:'+pais);
-        console.log('lo que mando'+deptop);
-        return this.http.get(this.baseUrlParametros + 'obtener-municipio-by-pais-depto' + '/' + pais + '/' + deptop).pipe(catchError(this.handleError));
+  guardarEmergencia (Emergencia: Emergencias ): Observable<Emergencias> {
+    console.log(Emergencia);
+    return this.http
+      .post<Emergencias>(
+        this.baseUrlEmpleados + "create-emergencia-x-emp",
+        Emergencia
+      )
+      .pipe(catchError(this.handleError));
+  }
 
-    }
+  eliminarEmergencia(emergenciaPK : emergenciaXEmpPK): Observable<any> {
+    let tEmergencia: Emergencias = new Emergencias();
+    console.log("eliminar llego emergencia");
+    console.log(emergenciaPK);
 
-    obtenerDeptoPais(pais: number): Observable<any> {
-        return this.http.get(this.baseUrlParametros + 'obtener-deptos-by-pais' + '/' + pais).pipe(catchError(this.handleError));
+    tEmergencia.emergenciaXEmpPK  = emergenciaPK;
+    console.log("eliminar  tEmergencia");
+    console.log(tEmergencia);
+
+    return this.http
+      .delete<any>(this.baseUrlEmpleados + "delete-emergencia-x-emp", {
+        body: tEmergencia,
+      })
+      .pipe(catchError(this.handleError));
+  }
 
 
-    }
+  obtenerDatosEmergencia(cia: number, emp: number): Observable<any> {
+    return this.http
+      .get(this.baseUrlEmpleados + "find-emp-emergencias/" + cia + "/" + emp )
+      .pipe(catchError(this.handleError));
+  }
 
-    obtenerPaises(): Observable<any> {
-        return this.http.get(this.baseUrlParametros + 'obtener-paises').pipe(catchError(this.handleError));
-    }*/
+  updateDatosEmergencia(cia: number, emp: number, datosEmergencia: EmergenciaEmp): Observable<EmergenciaEmp> {
+    console.log('LLego a servicio a actualizar.')
+    console.log(datosEmergencia);
+
+    return this.http.post<any>(this.baseUrlEmpleados + "edit-emp-emergencias/" + cia + "/" + emp
+    , datosEmergencia).pipe(catchError(this.handleError));
+  }
+
+
 }

@@ -1,71 +1,528 @@
-<div class="row my-4">
-    <button class="btn btn-primary" data-toggle="modal" data-target="#modalEmergencias">
-    Agregar
-    </button>
-    </div>
+<form [formGroup]="datosEmergenciaForm" class="form-horizontal">
+  <div class="container"  class= "fondo">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">En Caso de Emergencia</h3>
+      </div>
+      <div class="panel-body">
+        <div
+          class="form-group"
+          [ngClass]="{ 'has-error': formErrors.nombreConyuge }"
+        >
+          <label class="control-label col-sm-2" for="nombreProspecto"
+            >Conyuge</label
+          >
+          <div class="col-sm-8">
+            <input
+              type="text"
+              formControlName="nombreConyuge"
+              class="form-control"
+              id="nombreConyuge"
+              placeholder="nombre del conyuge"
+              name="nombreConyuge"
+              (blur)="logValidationErrorE()"
+            />
+            <span class="alert alert-danger" *ngIf="formErrors.nombreConyuge">
+              {{ formErrors.nombreConyuge }}
+            </span>
+          </div>
+        </div>
 
-    <div class="row my-2">
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Teléfono</th>
-                <th scope="col">Parentesco</th>
-                <th scope="col">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of listaEmergencias">
-                <th scope="row">{{item.nombre}}</th>
-                <td>{{item.telefono}}</td>
-                <td>{{item.parentesco}}</td>
-            <td>
-                <button class="btn btn-danger">
-                    Eliminar
-                </button>
-            </td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
+        <div class="form-group">
+          <label for="trabajoConyuge" class="control-label col-sm-4" >Lugar de Trabajo Conyuge</label>
+          <div class="col-sm-8">
+            <input
+              class="form-control"
+              formControlName="trabajoConyuge"
+              id="trabajoConyuge"
+              type="text"
+              placeholder="lugar de trabajo"
+            />
+          </div>
+        </div>
 
+        <div
+          class="form-group"
+          [ngClass]="{ 'has-error': formErrors.telefonoConyuge }"
+        >
+          <label class="control-label col-sm-4" for="telProspecto"
+            >Teléfono Conyuge</label
+          >
+          <div class="col-sm-2">
+            <input
+              type="text"
+              formControlName="telefonoConyuge"
+              class="form-control"
+              id="telefonoConyuge"
+              placeholder="teléfono de contacto"
+              name="telefonoConyuge"
+            />
+            <span class="help-block" *ngIf="formErrors.telefonoConyuge">
+              {{ formErrors.telefonoConyuge }}
+            </span>
+          </div>
+        </div>
 
+        <div class="row">
+          <div>
+            <label for="condicinoSalud" class="control-label margin-left">Condición de salud general</label>
+            <select
+              formControlName="condicionSalud"
+              class="custom-select margin-left"
+              id="condicionSalud"
+            >
+              <option
+                *ngFor="let item of listaCondicionSalud"
+                [value]="item.valor"
+              >
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+          <div class="form-check">
+            <label class="margin-left">Tiene actividad limitada
+            </label>
+              <input
+                type="checkbox"
+                formControlName="actividadLimitada"
+                class="form-control"
+                id="actividadLimitada"
+                ng-true-value="'S'"
+                ng-false-value=""
+              />
 
+          </div>
 
-    <!-- modal de agregar -->
-    <div id="modalEmergencias"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Formulario </h6>
-                <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+          <div>
+            <label class="margin-left">
+              Ha sufrido accidentes
+              </label>
+
+              <input
+                type="checkbox"
+                formControlName="tieneAccidente"
+                class="form-control"
+                id="tieneAccidente"
+                ng-true-value="'S'"
+                ng-false-value=""
+              />
+          </div>
+
+          <div>
+            <label for="tipoAccidente" class="margin-left"
+              >Tipo de Accidente
+            </label>
+            <br />
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="tipoAccidente"
+                type="radio"
+                name="tipoAccidente"
+                id="tipoAccidente"
+                value="C"
+              />
+              <label class="form-check-label" for="inlineRadio1">Común</label>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="emergencias">Nombre</label>
-                            <input class="form-control" type="text" placeholder="Ingresar nombre">
-                        </div>
-                        <div class="form-row"><div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="emergencias">Telefono</label>
-                            <input class="form-control" type="text" placeholder="Ingresar telefono">
-                        </div>
-                        </div><div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="emergencias">Parentesco</label>
-                            <input class="form-control" type="text" placeholder="Seleccione">
-                        </div>
-                        </div></div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="tipoAccidente"
+                type="radio"
+                name="tipoAccidente"
+                id="tipoAccidente"
+                value="T"
+              />
+              <label class="form-check-label" for="inlineRadio2"
+                >Tránsito</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="tipoAccidente"
+                type="radio"
+                name="tipoAccidente"
+                id="tipoAccidente"
+                value="L"
+              />
+              <label class="form-check-label" for="inlineRadio3">Laboral</label>
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="peso" class="margin-left">Peso</label>
+            <div class="col-sm-8">
+              <input
+                class="form-control"
+                formControlName="peso"
+                id="peso"
+                type="text"
+                placeholder="en libras"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="peso">Estatura</label>
+            <div class="col-sm-8">
+              <input
+                class="form-control"
+                formControlName="estatura"
+                id="estatura"
+                type="text"
+                placeholder="en metros"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label>Señale Si ha padecido de</label>
+            <br />
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="padeceAlergia"
+                type="checkbox"
+                id="padeceAlergia"
+                ng-true-value="'A'"
+                ng-false-value=""
+                [value]="datosEmergenciaForm.get('padeceAlergia').value"
+                [checked]="'A'"
+              />
+              <label class="form-check-label" for="padeceAlergia"
+                >Alergias</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="padeceVista"
+                type="checkbox"
+                id="padeceVista"
+                ng-true-value="'V'"
+                ng-false-value=""
+              />
+              <label class="form-check-label" for="padeceVista">La Vista</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="padeceOidos"
+                type="checkbox"
+                id="padeceOidos"
+                ng-true-value="'O'"
+                ng-false-value=""
+              />
+              <label class="form-check-label" for="padeceOidos">Oidos</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="padeceEpilepsias"
+                type="checkbox"
+                id="padeceEpilepsias"
+                ng-true-value="'E'"
+                ng-false-value=""
+              />
+              <label class="form-check-label" for="padeceEpilepsias"
+                >Epilepsias</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="padeceNervios"
+                type="checkbox"
+                id="padeceNervios"
+                ng-true-value="'S'"
+                ng-false-value=""
+              />
+              <label class="form-check-label" for="padeceNervios"
+                >Sistema Nervioso</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <label for="esAlergico" class="margin-left"
+              >Es alergico a algun medicamento
+            </label>
+            <br />
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input margin-left"
+                formControlName="esAlergico"
+                type="radio"
+                name="esAlergico"
+                id="esAlergico"
+                value="S"
+              />
+              <label class="form-check-label" for="esAlergico">Si</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="esAlergico"
+                type="radio"
+                name="esAlergico"
+                id="esAlergico"
+                value="N"
+              />
+              <label class="form-check-label" for="inlineRadio2">No</label>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label for="peso">Medicamento</label>
+            <div>
+              <input
+                class="form-control"
+                formControlName="medicina"
+                id="medicina"
+                type="text"
+              />
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <label for="tieneSeguroVida" class="margin-left"
+              >Tiene Seguro de vida?
+            </label>
+            <br />
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="tieneSeguroVida"
+                type="radio"
+                name="tieneSeguroVida"
+                id="tieneSeguroVida"
+                value="S"
+              />
+              <label class="form-check-label" for="tieneSeguroVida">Si</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="tieneSeguroVida"
+                type="radio"
+                name="tieneSeguroVida"
+                id="tieneSeguroVida"
+                value="N"
+              />
+              <label class="form-check-label" for="tieneSeguroVida">No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-8">
+            <label for="frecuenciaConsumoBebidas" class="margin-left"
+              >Con que frecuencia consume bebidas alcholicas
+            </label>
+            <br />
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="frecuenciaConsumoBebidas"
+                type="radio"
+                name="frecuenciaConsumoBebidas"
+                id="frecuenciaConsumoBebidas"
+                value="N"
+              />
+              <label class="form-check-label" for="frecuenciaConsumoBebidas"
+                >Nunca</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="frecuenciaConsumoBebidas"
+                type="radio"
+                name="frecuenciaConsumoBebidas"
+                id="frecuenciaConsumoBebidas"
+                value="OE"
+              />
+              <label class="form-check-label" for="frecuenciaConsumoBebidas"
+                >En Ocasiones Especiales</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="frecuenciaConsumoBebidas"
+                type="radio"
+                name="frecuenciaConsumoBebidas"
+                id="frecuenciaConsumoBebidas"
+                value="1S"
+              />
+              <label class="form-check-label" for="frecuenciaConsumoBebidas"
+                >1 Vez por Semana</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="frecuenciaConsumoBebidas"
+                type="radio"
+                name="frecuenciaConsumoBebidas"
+                id="frecuenciaConsumoBebidas"
+                value="2S"
+              />
+              <label class="form-check-label" for="frecuenciaConsumoBebidas"
+                >2 ó Mas Veces por Semana</label
+              >
+            </div>
+          </div>
+        </div>
+
       </div>
+    </div>
+  </div>
+</form>
 
-    <!--fin modal agregar-->
+<div class="row my-4">
 
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="actualizoDatosEmergencia()"
+      [disabled]="datosEmergenciaForm.invalid"
+    >
+      Actualizar Datos Emergencia
+    </button>
+
+  <button
+    class="btn btn-primary margin-left"
+    data-toggle="modal"
+    data-target="#modalEmergencias"
+  >
+    Agregar Contacto Emergencia
+  </button>
+  <button class="btn btn-primary margin-left" (click)="regresoexpediente()">
+    Cancelar
+  </button>
+</div>
+
+<div class="row my-2">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Parentesco</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listaEmergencias">
+        <th scope="row">{{ item.nombre }}</th>
+        <td>{{ item.telefono }}</td>
+        <td>{{ item.parentesco.nomParentesco }}</td>
+        <td>
+          <button
+            class="btn btn-danger"
+            (click)="eliminarEmergencia(item.emergenciaXEmpPK)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- modal de agregar -->
+<div
+  id="modalEmergencias"
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Emergencia</h6>
+        <button
+          type="button"
+          class="btn btn-outline-danger btn-sm"
+          data-dismiss="modal"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="emergenciaForm" class="form-horizontal">
+          <div class="form-group">
+            <div class="form-group">
+              <label for="emergencias">Nombre</label>
+              <input
+                class="form-control"
+                formControlName="nombre"
+                id="nombre"
+                type="text"
+                placeholder="Ingresar nombre"
+              />
+            </div>
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <div class="form-group">
+                  <label for="emergencias">Telefono</label>
+                  <input
+                    class="form-control"
+                    formControlName="telefono"
+                    id="telefono"
+                    type="text"
+                    placeholder="Ingresar telefono"
+                  />
+                </div>
+
+                <div class="input-group mb-3">
+                  <label class="col-12">Parentesco</label>
+
+                  <div class="input-group-append">
+                    <label class="input-group-text" for="codParentesco"
+                      >Opciones</label
+                    >
+                  </div>
+
+                  <select
+                    formControlName="codParentesco"
+                    class="custom-select"
+                    id="codParentesco"
+                  >
+                    <option
+                      *ngFor="let item of listaParentescos"
+                      [value]="item.parentescoPK.codParentesco"
+                    >
+                      {{ item.nomParentesco }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="agregarEmergencia()"
+            data-dismiss="modal"
+            [disabled]="emergenciaForm.invalid"
+            class="btn btn-primary"
+          >
+            Guardar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--fin modal agregar-->
