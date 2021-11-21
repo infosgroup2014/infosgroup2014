@@ -1,0 +1,97 @@
+<div class="btn-toolbar text-center well">
+
+
+    <button class="btn btn-primary" data-toggle="modal" data-target="#modal">
+        Agregar
+    </button>
+
+    <button class="btn btn-primary margin-left" (click)="regresoCandidato()">
+        Cancelar
+    </button>
+
+
+
+</div>
+
+
+
+
+<div class="row my-2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col">Folio</th>
+                <th scope="col">Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of listaDocumentosCandidato">
+                <th scope="row">{{item.tipo}}</th>
+                <td>{{item.folio}}</td>
+                <td>{{item.nombre}}</td>
+                <td>
+                    <button class="btn btn-info" (click)="verDocumentos(item.documentosCandidatoPK)">
+                        <i class="far fa-file-alt"> Ver</i>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-info" (click)="descargarDocumentos(item.documentosCandidatoPK)">
+                        <i class="fa fa-download" aria-hidden="true"> Descargar</i>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" (click)="eliminarDocumentos(item.documentosCandidatoPK)">
+                        Eliminar
+                    </button>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- modal de agregar -->
+<div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Expediente Digital </h6>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="documentosCandidatoForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="custom-file float-right">
+                            <label class="upload"> Archivo/Documento &nbsp;<i class="fa fa-upload" aria-hidden="true"></i>
+                                <input (change)="cargarDocumento($event)" style="width: 50px;" type="file"
+                                class="float-right" accept="document/.pdf" >
+                            </label>
+        
+                        </div>
+                    </div>
+                  
+                    <div class="form-group">
+                        <label for="academica">Descripción<span style="color: red">*</span></label>
+                        <input class="form-control" id="descripcion" name="descripcion" type="text"
+                            placeholder="Ingresar descripción" formControlName="descripcion"
+                            (blur)="logValidationErrors()">
+                        <div class="alert alert-danger" *ngIf="formErrors.descripcion">
+                            {{ formErrors.descripcion }}
+                        </div>
+                    </div>
+
+                    <button (click)="agregarDocumentosCandidato()" data-dismiss="modal"
+                        [disabled]="  documentosCandidatoForm.invalid" class="btn btn-primary">
+                        Agregar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--fin modal agregar-->

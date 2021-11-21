@@ -1,1 +1,387 @@
-<p>programar-deducciones works!</p>
+<!--<div class="card">
+
+<div class="card-body">
+<h6 class="card-title text-uppercase">Programacion de deducciones</h6>-->
+<div class="container-fluid">
+  <div id="style-7" class="row my-2 expendiente">
+    <h6 class="card-title text-uppercase">Programacion de deducciones</h6>
+    <div id="pills" style=" margin-left: 0px;" class="container my-2">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a style="text-decoration:none" class="nav-link" href="#A" data-toggle="pill">Consultar&nbsp;</a></li>
+        <li class="nav-item"><a style="text-decoration:none" class="nav-link" href="#B" data-toggle="pill">Programar Deducción&nbsp;</a></li>
+      </ul>
+
+      <div class="tab-pane fade show active" id="A">
+        <div class="row my-2 " id="style-8">
+
+          <div class="col-xl-3 text-xs-center">
+            <label><strong>Filtro</strong></label>
+            <input class="form-control" />
+          </div>
+
+          <div class="col-xl-6 text-xs-center">
+            <button class="btn btn-outline-primary my-4" (click)="filtroPrestamo()">
+              Buscar&nbsp;<i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </div>
+
+        </div>
+
+
+        <div class="row my-2 " id="style-8">
+          <div class="col-xl-12 col-md-12 table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <th class="autollenado">Fecha</th>
+                <th class="autollenado">Cod.Deduc</th>
+                <th class="autollenado">Cod.Emp</th>
+                <th class="autollenado">Nombre</th>
+                <th class="autollenado">Referencia</th>
+                <th class="autollenado">Monto Deduc.</th>
+                <th class="autollenado">Num.Cuotas</th>
+                <th class="autollenado">Cuotas Pagadas</th>
+                <th class="autollenado">Saldo</th>
+                <th class="autollenado">Desc. Quincena</th>
+                <th class="autollenado">Fecha Inicio</th>
+              </thead>
+              <tbody>
+                <tr>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="B">
+        <div class="col-xl-12 text-xs-center">
+          <form [formGroup]="ProgramarDeduccionesForm" class="form">
+            <fieldset class="field_set">
+              <legend class="the-legend text-left">
+                Datos del Empleado
+              </legend>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-xl-6 text-xs-center">
+                  <label for="empleado">Empleado
+                    <span style="color: blue">
+                      {{ empleado?.empleadosPK?.codEmp }}
+                      {{ empleado?.nombres }}
+                      {{ empleado?.apellidos }}</span>
+                  </label>
+                  </div>
+                  <div class="input-group-append">
+                    <button type="button" class="btn btn-primary"
+                      data-toggle="modal" data-target="#filtrarEmpleado" data-whatever="@mdo">
+                      Seleccionar Empleado
+                    </button>
+                  </div>
+                  <div class="col-xl-12 text-xs-center">
+                    <label for="planilla">Planilla
+                      <span style="color: blue">{{ depenciaEmpleado?.nomTipopla }}</span>
+                    </label>
+                  </div>
+                  <div class="col-xl-6 text-xs-center">
+                    <label>Prestacion</label>
+                    <input class="form-control" />
+                  </div>
+                  <div class="col-xl-6 text-xs-center">
+                    <label>Deduccion</label>
+                    <input class="form-control" />
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>N° Prestamo</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='noPrestamo' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>No. Voucher</label>
+                    <input class="form-control" />
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>No. Factura</label>
+                    <input class="form-control" />
+                  </div>
+                  <div class="col-xl-12 text-xs-center">
+                    <label>Descripción</label>
+                    <div class="input-group">
+                      <textarea
+                        type="text"
+                        formControlName="description"
+                        class="form-control float-right"
+                        cols="12"
+                        rows="2"></textarea>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 text-xs-center">
+                    <label>Proveedor</label>
+                    <input class="form-control" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="field_set">
+              <legend class="the-legend text-left">
+                Condiciones de la Deducción
+              </legend>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-xl-4 text-xs-center">
+                  <label>Monto Deducción	</label>
+                  <div class="input-group">
+                    <input type="text"
+                        onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                        formControlName='montoDeduccion' class="form-control float-right" />
+                  </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Gasto empresa</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='gastoEmpresa' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Fecha Inicio</label>
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        [(ngModel)]="fechaInicio"
+                        ngbDatepicker
+                        #d1="ngbDatepicker"
+                        [ngModelOptions]="{ standalone: true }"
+                      />
+                      <div class="input-group-append">
+                        <button
+                          class="btn btn-outline-secondary fa fa-calendar"
+                          (click)="d1.toggle()"
+                          type="button"
+                        ></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Num. Cuotas</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='numCuotas' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Referencia</label>
+                    <input class="form-control" />
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Descontar en Quinc.</label>
+                    <input class="form-control" />
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Primer Cuota</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='primerCuota' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Cuota</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='cuota' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Ultima Cuota</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='ultimaCuota' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Saldo Actual</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='saldoActual' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Cuotas Pagadas</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='cuotasPagadas' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>En Liquidacion</label>
+                    <input class="form-control" />
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Pago especial</label>
+                    <div class="input-group">
+                      <input type="text"
+                          onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                          formControlName='pagoEspecial' class="form-control float-right" />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 text-xs-center">
+                    <label>Fecha Cancelación	</label>
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        [(ngModel)]="fechaCancelacion"
+                        ngbDatepicker
+                        #d2="ngbDatepicker"
+                        [ngModelOptions]="{ standalone: true }"
+                      />
+                      <div class="input-group-append">
+                        <button
+                          class="btn btn-outline-secondary fa fa-calendar"
+                          (click)="d2.toggle()"
+                          type="button"
+                        ></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="field_set">
+              <legend class="the-legend text-left">
+                Forma de liquidar el anticipo
+              </legend>
+
+                <div class="row my-2 " id="style-8">
+                  <div class="col-xl-12 col-md-12 table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th class="autollenado">Año</th>
+                        <th class="autollenado">Tipo</th>
+                        <th class="autollenado">Mes</th>
+                        <th class="autollenado">Monto</th>
+                        <th class="autollenado">Estado</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+            </fieldset>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--</div>-->
+
+<!---modal de empleados-->
+
+<div
+  class="modal fade"
+  id="filtrarEmpleado"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Empleados</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="container">
+          <form class="form-emp" [formGroup]="BuscarEmpleadoForm">
+            <div class="form-group">
+              <label for="empName" class="col-sm-2 col-form-label">Cod Emp &nbsp;</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="codEmp"
+                  name="codEmp" class="form-control" id="codEmp"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="empDesgn" class="col-sm-2 col-form-label">Nombre &nbsp;</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="nombre"
+                  name="nombre" class="form-control" id="nombre"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="empDesgn" class="col-sm-2 col-form-label">Dui &nbsp;</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="numDui"
+                  name="numDui" class="form-control" id="numDui"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-primary float-left" (click)="Buscar()">
+                <i class="fa fa-eye" aria-hidden="true"></i> &nbsp; Buscar
+              </button>
+
+              <button class="btn btn-info float-right" (click)="limpiar()">
+                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Restablecer
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered my-4">
+            <thead>
+              <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Empleado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listadoEmpleado | paginate
+                      : { id: 'pagination1', itemsPerPage: 5, currentPage: p }"
+                data-dismiss="modal"
+                data-target="#empleadoModal"
+                (click)="obtenerEmpleado(
+                    item.empleadosPK.codCia,
+                    item.empleadosPK.codEmp)">
+                <td>{{ item.empleadosPK.codEmp }}</td>
+                <td>{{ item.nombres }} {{ item.apellidos }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            id="pagination1"
+            (pageChange)="p = $event"
+          ></pagination-controls>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--fin de empleados-->

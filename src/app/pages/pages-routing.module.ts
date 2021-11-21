@@ -36,7 +36,9 @@ import { nivelAcademico } from './expediente-empleado/modelo/NivelAcademico';
 import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion-academica/preparacion-academica.component';
 import { IdiomasComponent } from './expediente-empleado/idiomas/idiomas.component';
 import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.component';
-import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
+import { PreparacionAcademicaCanComponent } from './candidato/preparacion-academica/preparacion-academica.component';
++import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
+import { ExpedienteDigitalCandidatoComponent } from './candidato/expediente-digital-candidato/expediente-digital-candidato.component';
 
 const routes: Routes = [{
   path: '',
@@ -165,6 +167,18 @@ const routes: Routes = [{
     {
       path: 'iot-dashboard',
       component: DashboardComponent,
+    },
+    {
+      path: 'preparacion-academica-candidato/:codCia/:codCandidato',
+      component:PreparacionAcademicaCanComponent, canActivate: [AuthGuard]
+    },
+    {
+      path:'preparacion-academica-candidato-editado/:codCia/:codCandidato',
+      component:CandidatoComponent, canActivate: [AuthGuard]
+    },
+    {
+      path: 'expediente-digital-candidato/:codCia/:codCandidato',
+      component: ExpedienteDigitalCandidatoComponent , canActivate: [AuthGuard]
     },
     {
       path: 'layout',

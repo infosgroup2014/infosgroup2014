@@ -45,7 +45,9 @@ import { ReferenciasComponent } from './expediente-empleado/referencias/referenc
 import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion-academica/preparacion-academica.component';
 import { IdiomasComponent } from './expediente-empleado/idiomas/idiomas.component';
 import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.component';
-import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
+import { PreparacionAcademicaCanComponent } from './candidato/preparacion-academica/preparacion-academica.component';
+import { ExpedienteDigitalCandidatoComponent } from './candidato/expediente-digital-candidato/expediente-digital-candidato.component';
++import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
 
 @NgModule({
   imports: [
@@ -103,7 +105,9 @@ import { EmergenciasComponent } from './expediente-empleado/emergencias/emergenc
     PlantillaSeisComponent,
     PlantillaCincoComponent,
     EnviarBoletasComponent,
-    ProgramarDeduccionesComponent
+    ProgramarDeduccionesComponent,
+    PreparacionAcademicaCanComponent,
+    ExpedienteDigitalCandidatoComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

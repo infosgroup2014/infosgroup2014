@@ -14,9 +14,7 @@ export const environment = {
 
     clientId: 'frontend',
     realm: 'Demo-Realm',
-//    realm: 'master',
     url: 'http://192.168.1.16:8080',
-//    url: 'http://localhost:8085',
 
   }
 };
