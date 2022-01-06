@@ -17,6 +17,9 @@ export class ReportesService {
 
   baseUrlPlanilla:any='http://138.128.245.244:8445/infosweb/api/v1/rrhh/planilla/';
 
+  baseUrlRepReclutamiento: any = 'http://138.128.245.244:8452/infosweb/api/v1/rrhh/reclutamiento/';
+
+
   constructor(private http:HttpClient) { }
 
 
@@ -50,6 +53,8 @@ export class ReportesService {
   }
 
 
+
+
   generarReportePagoEfectivo(cia:any,anio:any,secuencia:any,tipo:any):Observable<any>{
     return this.http.get(this.baseUrl+'reportes/generar-reporte-pago-efectivo/'+cia+'/'+anio+'/'+secuencia+'/'+tipo).pipe(catchError(this.handleError));
   }
@@ -69,7 +74,7 @@ export class ReportesService {
 
 
   generarReporteSolicitud(cia:any,candidato:any):Observable<any>{
-    return this.http.get(this.baseUrl+'reportes/generar-rep-solicitud/'+cia+'/'+candidato).pipe(catchError(this.handleError));
+    return this.http.get(this.baseUrlRepReclutamiento+'reportes/generar-reporte-candidato/'+cia+'/'+candidato).pipe(catchError(this.handleError));
   }
 
 

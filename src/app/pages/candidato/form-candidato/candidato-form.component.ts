@@ -1554,7 +1554,7 @@ export class CandidatoComponent implements OnInit {
   imprimirSolicitud() {
 
 
-    this.servicioReportes.generarReporteSolicitud(this.candidatoSeleccionado.candidatoPK.codCia,
+    this._reporteService.generarReporteSolicitud(this.candidatoSeleccionado.candidatoPK.codCia,
                                                   this.candidatoSeleccionado.candidatoPK.codCandidato).subscribe(
         data => {
           console.log('Respuesta blobUrl:' + JSON.stringify(data));
@@ -1563,6 +1563,7 @@ export class CandidatoComponent implements OnInit {
       );
 
   }
+
   mostrarSolicitud(datos: string) {
     this.certificado = datos;
     let resultado: string = datos;
@@ -1597,6 +1598,8 @@ export class CandidatoComponent implements OnInit {
     const b64Data = resultado;
 
     const blob = b64toBlob(b64Data, contentType);
+
+
     const blobUrl = URL.createObjectURL(blob);
     this.pdfSolicitud = this.domSanitizer.bypassSecurityTrustResourceUrl(
       blobUrl

@@ -47,7 +47,7 @@ import { IdiomasComponent } from './expediente-empleado/idiomas/idiomas.componen
 import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.component';
 import { PreparacionAcademicaCanComponent } from './candidato/preparacion-academica/preparacion-academica.component';
 import { ExpedienteDigitalCandidatoComponent } from './candidato/expediente-digital-candidato/expediente-digital-candidato.component';
-+import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
+import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
 
 @NgModule({
   imports: [

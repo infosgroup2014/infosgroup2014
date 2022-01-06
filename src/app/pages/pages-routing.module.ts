@@ -37,7 +37,7 @@ import { PreparacionAcademicaComponent } from './expediente-empleado/preparacion
 import { IdiomasComponent } from './expediente-empleado/idiomas/idiomas.component';
 import { PruebasComponent } from './expediente-empleado/pruebas/pruebas.component';
 import { PreparacionAcademicaCanComponent } from './candidato/preparacion-academica/preparacion-academica.component';
-+import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
+import { EmergenciasComponent } from './expediente-empleado/emergencias/emergencias.component';
 import { ExpedienteDigitalCandidatoComponent } from './candidato/expediente-digital-candidato/expediente-digital-candidato.component';
 
 const routes: Routes = [{
